@@ -35,8 +35,8 @@ export default function ThemeToggle({ className }: { className?: string }) {
           className={cn(
             'p-1.5 rounded-md transition-colors cursor-pointer',
             theme === mode
-              ? 'bg-surface-800 text-foreground'
-              : 'text-surface-500 hover:text-surface-300 hover:bg-surface-850'
+              ? 'bg-surface-800 text-foreground shadow-sm'
+              : 'text-surface-500 hover:text-foreground hover:bg-surface-850'
           )}
         >
           <Icon className="h-3.5 w-3.5" />

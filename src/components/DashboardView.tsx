@@ -331,13 +331,13 @@ export default function DashboardView({ orders, products, onNavigate, onSelectOr
             <div className="flex items-center gap-1 text-2xs font-bold bg-surface-950 border border-surface-850 rounded-xl p-1 self-start sm:self-center">
               <button
                 onClick={() => setActiveMetricTab('sales')}
-                className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${activeMetricTab === 'sales' ? 'bg-white text-surface-950' : 'text-surface-400 hover:text-white'}`}
+                className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${activeMetricTab === 'sales' ? 'bg-white text-surface-950' : 'text-surface-500 hover:text-foreground'}`}
               >
                 Ventas
               </button>
               <button
                 onClick={() => setActiveMetricTab('recipes')}
-                className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${activeMetricTab === 'recipes' ? 'bg-white text-surface-950' : 'text-surface-400 hover:text-white'}`}
+                className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${activeMetricTab === 'recipes' ? 'bg-white text-surface-950' : 'text-surface-500 hover:text-foreground'}`}
               >
                 Récipes Emitidos
               </button>

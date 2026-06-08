@@ -230,7 +230,8 @@ export default function OrderDetailModal({ order, onClose, onUpdateStatus }: Ord
                       const colors: Record<string, string> = {
                         'En Preparación': 'bg-surface-700 hover:bg-surface-600 text-white border border-surface-600',
                         'Enviado': 'bg-surface-700 hover:bg-surface-600 text-white border border-surface-600',
-                        'Entregado': 'bg-white hover:bg-surface-100 text-surface-950 border border-white/90',
+                        'Entregado':
+                          'bg-[var(--zenith-btn-solid-bg)] hover:bg-[var(--zenith-btn-solid-hover)] text-[var(--zenith-btn-solid-fg)] border border-[var(--zenith-btn-solid-border)]',
                         'Cancelado': 'bg-surface-900 hover:bg-surface-800 text-surface-400 border border-surface-700',
                       };
                       return (
@@ -266,7 +267,7 @@ export default function OrderDetailModal({ order, onClose, onUpdateStatus }: Ord
                     />
                     <button
                       onClick={submitStatusChange}
-                      className="px-4 py-2 text-xs font-semibold bg-white hover:bg-surface-100 text-surface-950 rounded-lg transition-colors cursor-pointer"
+                      className="px-4 py-2 text-xs font-semibold bg-[var(--zenith-btn-solid-bg)] hover:bg-[var(--zenith-btn-solid-hover)] text-[var(--zenith-btn-solid-fg)] border border-[var(--zenith-btn-solid-border)] rounded-lg transition-colors cursor-pointer"
                     >
                       Confirmar Cambio de Estado
                     </button>

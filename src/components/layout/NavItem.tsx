@@ -20,18 +20,20 @@ interface NavItemProps {
 }
 
 const accentActiveClasses: Record<AccentVariant, string> = {
-  primary: 'bg-white/8 text-foreground border-l-2 border-white/70',
-  secondary: 'bg-white/8 text-foreground border-l-2 border-white/70',
+  primary:
+    'bg-[var(--zenith-nav-active-bg)] text-foreground border-l-2 border-[var(--zenith-nav-active-border)]',
+  secondary:
+    'bg-[var(--zenith-nav-active-bg)] text-foreground border-l-2 border-[var(--zenith-nav-active-border)]',
 };
 
 const accentIconClasses: Record<AccentVariant, string> = {
-  primary: 'text-surface-200',
-  secondary: 'text-surface-200',
+  primary: 'text-foreground',
+  secondary: 'text-foreground',
 };
 
 const accentDotClasses: Record<AccentVariant, string> = {
-  primary: 'bg-white/80',
-  secondary: 'bg-white/80',
+  primary: 'bg-[var(--zenith-nav-active-dot)]',
+  secondary: 'bg-[var(--zenith-nav-active-dot)]',
 };
 
 export default function NavItem({ item, isActive, accent, onClick }: NavItemProps) {
@@ -44,7 +46,7 @@ export default function NavItem({ item, isActive, accent, onClick }: NavItemProp
         'w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 group relative border-l-2',
         isActive
           ? cn(accentActiveClasses[accent], 'font-semibold')
-          : 'text-surface-400 hover:text-surface-200 hover:bg-surface-900/50 border-transparent'
+          : 'text-surface-500 hover:text-foreground hover:bg-surface-850 border-transparent'
       )}
     >
       <Icon

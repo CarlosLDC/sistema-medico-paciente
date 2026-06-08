@@ -23,6 +23,14 @@
   --background: #0a0b0a;
   --foreground: #f8fafc;
 
+  --zenith-btn-solid-bg: #ffffff;
+  --zenith-btn-solid-fg: #0a0b0a;
+  --zenith-btn-solid-hover: #f1f3f4;
+  --zenith-btn-solid-border: rgb(255 255 255 / 0.9);
+  --zenith-nav-active-bg: rgb(255 255 255 / 0.08);
+  --zenith-nav-active-border: rgb(255 255 255 / 0.7);
+  --zenith-nav-active-dot: rgb(255 255 255 / 0.8);
+
   --zenith-surface-950: #0a0b0a;
   --zenith-surface-900: #121413;
   --zenith-surface-855: #161816;
@@ -50,6 +58,14 @@
   color-scheme: light;
   --background: #f1f5f9;
   --foreground: #0f172a;
+
+  --zenith-btn-solid-bg: #0f172a;
+  --zenith-btn-solid-fg: #f8fafc;
+  --zenith-btn-solid-hover: #1e293b;
+  --zenith-btn-solid-border: #0f172a;
+  --zenith-nav-active-bg: var(--zenith-surface-850);
+  --zenith-nav-active-border: var(--zenith-surface-600);
+  --zenith-nav-active-dot: var(--zenith-surface-500);
 
   --zenith-surface-950: #f1f5f9;
   --zenith-surface-900: #ffffff;
@@ -192,15 +208,46 @@ body {
   color: var(--foreground);
 }
 
+[data-theme="light"] .text-surface-950 {
+  color: var(--foreground);
+}
+
+[data-theme="light"] .hover\:text-white:hover {
+  color: var(--foreground);
+}
+
+[data-theme="light"] .bg-white.text-surface-950 {
+  background-color: var(--zenith-btn-solid-bg);
+  color: var(--zenith-btn-solid-fg);
+}
+
+[data-theme="light"] .bg-white.text-surface-950:hover {
+  background-color: var(--zenith-btn-solid-hover);
+}
+
+[data-theme="light"] :is(
+  .hover\:bg-surface-700,
+  .hover\:bg-surface-800,
+  .hover\:bg-surface-900,
+  .hover\:bg-secondary-500,
+  .hover\:bg-secondary-600,
+  .hover\:bg-primary-500
+):hover.hover\:text-white:hover,
+[data-theme="light"] :is(.bg-surface-800, .bg-surface-900).hover\:text-white:hover {
+  color: #ffffff;
+}
+
 [data-theme="light"] :is(
   .bg-secondary-600,
   .bg-secondary-500,
   .bg-secondary-650,
   .bg-primary-600,
-  .bg-primary-500
+  .bg-primary-500,
+  .bg-primary-700
 ).text-white,
 [data-theme="light"] [class*="bg-gradient-to-r"].text-white,
-[data-theme="light"] [class*="from-secondary"].text-white {
+[data-theme="light"] [class*="from-secondary"].text-white,
+[data-theme="light"] .zenith-on-dark {
   color: #ffffff;
 }
 
