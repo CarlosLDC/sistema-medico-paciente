@@ -260,15 +260,15 @@
   --radius-section: 0.75rem;
   --zenith-logout-red: #dc2626;
   --zenith-logout-red-hover: #b91c1c;
-  --text-caption: 0.625rem;
-  --text-label: 0.6875rem;
+  --text-caption: 0.6875rem;
+  --text-label: 0.75rem;
   --text-title: 1.125rem;
-  --text-subtitle: 0.75rem;
+  --text-subtitle: 0.8125rem;
   --shadow-brand: 0 8px 20px color-mix(in srgb, #000000 35%, transparent);
 
   --font-primary-family: "Helvetica Neue LT Std", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-heading-family: var(--font-primary-family);
-  --font-weight-light: 300;
+  --font-weight-light: 400;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-bold: 700;
@@ -374,10 +374,11 @@
 
   .zenith-page-subtitle {
     font-family: var(--font-primary-family);
+    font-size: var(--text-subtitle);
     font-weight: var(--font-weight-light);
     line-height: var(--leading-body);
     letter-spacing: 0.005em;
-    @apply text-xs text-surface-400 mt-0.5;
+    @apply text-surface-400 mt-0.5;
   }
 
   .zenith-table-wrap {
@@ -436,7 +437,8 @@
 
   .zenith-nav-label {
     font-family: var(--font-primary-family);
-    font-weight: var(--font-weight-regular);
+    font-size: var(--text-subtitle);
+    font-weight: var(--font-weight-light);
     line-height: var(--leading-ui);
     letter-spacing: 0.005em;
   }
@@ -492,6 +494,13 @@ body {
   letter-spacing: 0.005em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Texto secundario delgado: tamaño y peso ligeramente mayores */
+:is(p, span, td, li, div).text-xs.text-surface-400:not(:where(.font-bold, .font-semibold, .font-medium)),
+:is(p, span, td, li, div).text-xs.text-surface-500:not(:where(.font-bold, .font-semibold, .font-medium)) {
+  font-size: var(--text-subtitle);
+  font-weight: var(--font-weight-light);
 }
 
 input,
@@ -692,6 +701,12 @@ table th {
 .login-view__panel-subtitle,
 .login-view__panel-footnote {
   color: var(--login-muted);
+  font-size: var(--text-subtitle);
+  font-weight: var(--font-weight-light);
+}
+
+.login-view__panel-subtitle {
+  font-size: 0.9375rem;
 }
 
 .login-view__panel-brand .login-view__brand-mark {
@@ -708,6 +723,8 @@ table th {
 
 .login-view__brand-tag {
   color: var(--login-hero-muted);
+  font-size: var(--text-caption);
+  font-weight: var(--font-weight-light);
 }
 
 .login-view__hero-tagline {
@@ -758,6 +775,8 @@ table th {
 
 .login-view__hint {
   color: var(--login-muted);
+  font-size: var(--text-caption);
+  font-weight: var(--font-weight-light);
 }
 
 .login-view__submit {
@@ -794,10 +813,14 @@ table th {
 
 .login-view__footer-label {
   color: var(--login-muted);
+  font-size: var(--text-caption);
+  font-weight: var(--font-weight-light);
 }
 
 .login-view__demo-toggle {
   color: var(--login-muted);
+  font-size: var(--text-subtitle);
+  font-weight: var(--font-weight-light);
 }
 
 .login-view__demo-toggle:hover {
@@ -936,6 +959,8 @@ table th {
 
 @utility text-login-hero-muted {
   color: var(--login-hero-muted);
+  font-size: 1.1875rem;
+  font-weight: var(--font-weight-light);
 }
 
 /* Identidad por rol — médico (verde), paciente (cian), admin (azul) */

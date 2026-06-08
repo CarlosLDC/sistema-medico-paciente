@@ -57,7 +57,7 @@ export default function NavItem({ item, isActive, accent, onClick }: NavItemProp
       />
       <span
         className={cn(
-          'zenith-nav-label flex-1 min-w-0 text-left text-xs whitespace-nowrap truncate',
+          'zenith-nav-label flex-1 min-w-0 text-left whitespace-nowrap truncate',
           isActive && 'zenith-nav-label--active'
         )}
         title={item.name}

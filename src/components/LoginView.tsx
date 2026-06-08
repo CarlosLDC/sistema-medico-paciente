@@ -31,7 +31,7 @@ function LoginBrandMark({ className }: { className?: string }) {
       </div>
       <div className="text-left">
         <p className="text-base font-bold tracking-tight leading-none">Médico-Paciente</p>
-        <p className="login-view__brand-tag mt-1 text-[10px] font-medium uppercase tracking-wider">
+        <p className="login-view__brand-tag mt-1 uppercase tracking-wider">
           Zenith Health
         </p>
       </div>
@@ -135,14 +135,14 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
           <div className="mb-8 flex flex-col items-center lg:hidden">
             <LoginBrandMark className="login-view__panel-brand" />
             <h2 className="mt-5 text-center text-2xl font-semibold tracking-tight">Bienvenido de nuevo</h2>
-            <p className="login-view__panel-subtitle mt-2 text-center text-sm">
+            <p className="login-view__panel-subtitle mt-2 text-center">
               Tu portal te espera. Un acceso y sigues donde lo dejaste.
             </p>
           </div>
 
           <div className="hidden lg:block">
             <h2 className="text-2xl font-semibold tracking-tight">Bienvenido de nuevo</h2>
-            <p className="login-view__panel-subtitle mt-2 text-sm">
+            <p className="login-view__panel-subtitle mt-2">
               Un acceso y vuelves al mando de tu operación clínica.
             </p>
           </div>
@@ -182,7 +182,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <Label htmlFor="login-password">Contraseña</Label>
-                <span className="login-view__hint text-[10px]">Mín. 6 caracteres</span>
+                <span className="login-view__hint">Mín. 6 caracteres</span>
               </div>
               <div className="relative">
                 <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-login-muted" />
@@ -239,7 +239,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
               onClick={() => setShowTestAccounts((open) => !open)}
               aria-expanded={showTestAccounts}
               aria-controls="login-test-accounts"
-              className="login-view__demo-toggle mx-auto flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium transition-colors"
+              className="login-view__demo-toggle mx-auto flex items-center gap-1.5 rounded-md px-2 py-1 transition-colors"
             >
               Cuentas de prueba
               <ChevronDown
@@ -268,7 +268,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
             )}
           </div>
 
-          <p className="login-view__panel-footnote mt-6 text-center text-xs">
+          <p className="login-view__panel-footnote mt-6 text-center">
             Expedientes, recetas y despacho — un solo lugar para hacer crecer tu operación clínica.
           </p>
         </div>
