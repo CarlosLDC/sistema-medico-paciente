@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Zenith OMS - Sistema de Gestión de Pedidos",
+  title: "Médico-Paciente - Sistema de Gestión de Pedidos",
   description: "Plataforma premium para el control de inventario, registro de clientes y seguimiento de pedidos en tiempo real.",
 };
 

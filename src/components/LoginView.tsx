@@ -121,7 +121,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
           <div className="h-12 w-12 rounded-xl bg-surface-800 border border-surface-700 flex items-center justify-center text-foreground">
             <Activity className="h-6 w-6" />
           </div>
-          <h2 className="zenith-page-title mt-2">Zenith Portal</h2>
+          <h2 className="zenith-page-title mt-2">Médico-Paciente</h2>
           <p className="text-xs text-surface-400">Inicio de Sesión Unificado para Médicos, Pacientes y Administradores</p>
         </div>
 

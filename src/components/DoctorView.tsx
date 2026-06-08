@@ -498,7 +498,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                             ) : (
                               <button
                                 onClick={() => handleAttendAppointment(app.id, app.patientName)}
-                                className="px-3 py-1.5 text-xs font-semibold bg-secondary-600 hover:bg-secondary-500 text-white rounded-lg transition-colors cursor-pointer"
+                                className="px-3 py-1.5 text-xs font-semibold bg-[var(--portal-doctor-btn-bg)] hover:bg-[var(--portal-doctor-btn-hover)] text-[var(--portal-doctor-btn-fg)] rounded-lg transition-colors cursor-pointer"
                               >
                                 Atender Paciente
                               </button>
@@ -580,7 +580,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                   title="Recepción de Paciente"
                   description="Vincule un paciente para cargar su expediente clínico y sincronizar la consulta en espejo."
                   actions={
-                    <Button onClick={() => setIsScannerModalOpen(true)}>
+                    <Button variant="doctor" onClick={() => setIsScannerModalOpen(true)}>
                       <QrCode className="h-4 w-4" />
                       Escanear paciente
                     </Button>
@@ -652,7 +652,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
 
                           <button
                             onClick={() => setActiveTab('prescription')}
-                            className="w-full mt-4 py-2.5 bg-secondary-600 hover:bg-secondary-500 text-white rounded-xl text-xs font-bold transition-all shadow-md flex items-center justify-center gap-1 cursor-pointer"
+                            className="w-full mt-4 py-2.5 bg-[var(--portal-doctor-btn-bg)] hover:bg-[var(--portal-doctor-btn-hover)] text-[var(--portal-doctor-btn-fg)] rounded-xl text-xs font-bold transition-all shadow-md flex items-center justify-center gap-1 cursor-pointer"
                           >
                             <span>Iniciar Consulta / Prescribir</span>
                             <ChevronRight className="h-4 w-4" />
@@ -728,7 +728,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                         <p className="text-xs text-surface-450 max-w-md leading-relaxed">
                           Abra el escáner para leer el código QR de la credencial del paciente o ingrese su ID manualmente.
                         </p>
-                        <Button onClick={() => setIsScannerModalOpen(true)}>
+                        <Button variant="doctor" onClick={() => setIsScannerModalOpen(true)}>
                           <QrCode className="h-4 w-4" />
                           Abrir escáner
                         </Button>
@@ -765,7 +765,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                   {!linkedPatient && (
                     <button
                       onClick={() => setIsScannerModalOpen(true)}
-                      className="px-4 py-2 bg-secondary-600 hover:bg-secondary-500 text-white rounded-xl text-xs font-bold transition-all cursor-pointer"
+                      className="px-4 py-2 bg-[var(--portal-doctor-btn-bg)] hover:bg-[var(--portal-doctor-btn-hover)] text-[var(--portal-doctor-btn-fg)] rounded-xl text-xs font-bold transition-all cursor-pointer"
                     >
                       Vincular Paciente
                     </button>
@@ -1306,7 +1306,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                   <div className="flex items-center gap-3 p-3 bg-secondary-500/5 border border-secondary-500/15 rounded-xl">
                     <ShieldCheck className="h-5 w-5 text-secondary-450 shrink-0" />
                     <p className="text-[10px] text-secondary-400 leading-snug">
-                      <span className="font-bold">Verificación completada por Zenith OMS:</span> Las credenciales de este profesional han sido validadas contra el Registro Nacional de Especialistas y se encuentran vigentes a la fecha.
+                      <span className="font-bold">Verificación completada por Médico-Paciente:</span> Las credenciales de este profesional han sido validadas contra el Registro Nacional de Especialistas y se encuentran vigentes a la fecha.
                     </p>
                   </div>
                 </div>
@@ -1434,7 +1434,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                 <button
                   type="button"
                   onClick={triggerCameraScan}
-                  className="px-4 py-2 bg-secondary-600 hover:bg-secondary-500 text-white rounded-lg text-xs font-bold transition-all shadow-md cursor-pointer"
+                  className="px-4 py-2 bg-[var(--portal-doctor-btn-bg)] hover:bg-[var(--portal-doctor-btn-hover)] text-[var(--portal-doctor-btn-fg)] rounded-lg text-xs font-bold transition-all shadow-md cursor-pointer"
                 >
                   Activar escáner
                 </button>

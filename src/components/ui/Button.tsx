@@ -1,7 +1,7 @@
 import React from 'react';
 import { cn } from '../../lib/utils';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline';
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline' | 'patient' | 'doctor';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -12,6 +12,10 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
     'bg-[var(--zenith-btn-solid-bg)] text-[var(--zenith-btn-solid-fg)] hover:bg-[var(--zenith-btn-solid-hover)] border border-[var(--zenith-btn-solid-border)] shadow-sm',
+  patient:
+    'bg-[var(--portal-patient-btn-bg)] text-[var(--portal-patient-btn-fg)] hover:bg-[var(--portal-patient-btn-hover)] border border-[var(--portal-patient-btn-border)] shadow-sm',
+  doctor:
+    'bg-[var(--portal-doctor-btn-bg)] text-[var(--portal-doctor-btn-fg)] hover:bg-[var(--portal-doctor-btn-hover)] border border-[var(--portal-doctor-btn-border)] shadow-sm',
   secondary:
     'bg-surface-800 text-foreground hover:bg-surface-700 border border-surface-700',
   ghost:

@@ -33,8 +33,8 @@ export default function Sidebar({
       accent="primary"
       brand={{
         icon: Activity,
-        title: 'Zenith OMS',
-        subtitle: 'Gestion de Pedidos',
+        title: 'Médico-Paciente',
+        subtitle: 'Gestión de Pedidos',
       }}
       items={[
         { id: 'dashboard', name: 'Dashboard', icon: LayoutDashboard },

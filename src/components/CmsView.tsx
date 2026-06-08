@@ -46,7 +46,7 @@ const themePreviewClasses = {
 
 const DEFAULT_TERMS = `Términos y Condiciones del Servicio:
 1. Aceptación de los Términos: Al acceder y utilizar este portal de salud digital, el usuario acepta de manera explícita los términos de servicio expuestos en el presente acuerdo.
-2. Prescripción Médica: La compra de medicamentos controlados requerirá de la validación física u homologación digital del récipe emitido por un médico colegiado verificado en Zenith OMS.
+2. Prescripción Médica: La compra de medicamentos controlados requerirá de la validación física u homologación digital del récipe emitido por un médico colegiado verificado en Médico-Paciente.
 3. Descuentos y Promociones: Los descuentos otorgados son exclusivos del programa de incentivos del médico tratante y no son transferibles.`;
 
 const DEFAULT_PRIVACY = `Políticas de Privacidad y Consentimiento de Datos:
@@ -108,7 +108,7 @@ export default function CmsView() {
         title="Portal del paciente"
         description="Define la apariencia y los textos que verán médicos y pacientes."
         actions={
-          <Button size="sm" onClick={handlePublish}>
+          <Button size="sm" variant="patient" onClick={handlePublish}>
             <Save className="h-4 w-4" />
             Guardar cambios
           </Button>
