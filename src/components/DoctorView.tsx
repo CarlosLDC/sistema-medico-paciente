@@ -13,9 +13,9 @@ import {
   ChevronRight,
   QrCode,
   Camera,
-  Laptop,
   CheckCircle2,
   RefreshCw,
+  UserPlus,
   AlertCircle,
   Activity,
   ShieldCheck,
@@ -121,6 +121,70 @@ const MOCK_RECIPE_LOG: RecipeLogEntry[] = [
   { id: 'REC-2026-881', date: '28 May, 2026', patientName: 'Luis Rodríguez Silva', patientId: 'PX-992-0811', medications: ['Ibuprofeno 600mg'], branch: 'Farmacia Central', status: 'Enviado' },
 ];
 
+const INITIAL_PATIENTS: LinkedPatient[] = [
+  {
+    id: 'PX-992-8849',
+    name: 'Sofía Peralta',
+    age: 28,
+    gender: 'Femenino',
+    bloodType: 'O+',
+    phone: '+34 600 123 456',
+    condition: 'Hipertensión Arterial Leve',
+    allergies: 'Penicilina',
+    lastVisit: '08 Jun, 2026',
+    medications: ['Ramipril 5mg', 'Aspirina 100mg'],
+  },
+  {
+    id: 'PX-992-1029',
+    name: 'Carlos Mendoza',
+    age: 45,
+    gender: 'Masculino',
+    bloodType: 'A-',
+    phone: '+34 699 987 654',
+    condition: 'Diabetes Tipo 2 (Controlada)',
+    allergies: 'Ninguna conocida',
+    lastVisit: '01 Jun, 2026',
+    medications: ['Metformina 850mg'],
+  },
+  {
+    id: 'PX-992-0344',
+    name: 'Ana Gómez Román',
+    age: 34,
+    gender: 'Femenino',
+    bloodType: 'B+',
+    phone: '+34 611 222 333',
+    condition: 'Ninguna (Chequeo anual)',
+    allergies: 'Ninguna conocida',
+    lastVisit: '15 May, 2026',
+    medications: [],
+  },
+  {
+    id: 'PX-992-0811',
+    name: 'Luis Rodríguez Silva',
+    age: 52,
+    gender: 'Masculino',
+    bloodType: 'O-',
+    phone: '+34 622 333 444',
+    condition: 'Hipertensión controlada',
+    allergies: 'Sulfonamidas',
+    lastVisit: '28 May, 2026',
+    medications: ['Ibuprofeno 600mg'],
+  },
+];
+
+const createEmptyPatient = (): LinkedPatient => ({
+  id: '',
+  name: '',
+  age: 0,
+  gender: 'Masculino',
+  bloodType: 'O+',
+  phone: '',
+  condition: '',
+  allergies: 'Ninguna conocida',
+  lastVisit: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }),
+  medications: [],
+});
+
 export default function DoctorView({ doctorName, doctorEmail, onLogout }: DoctorViewProps) {
   // Navigation active tab: 'agenda' | 'reception' | 'prescription' | 'commissions' | 'profile'
   const [activeTab, setActiveTab] = useState<'agenda' | 'reception' | 'prescription' | 'commissions' | 'profile'>('agenda');
@@ -148,18 +212,11 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
     return () => window.removeEventListener('zenith_commission_update', loadRate);
   }, []);
 
-  const [appointments, setAppointments] = useState([
-    { id: 'CITA-201', patientName: 'Sofía Peralta', time: '09:00 AM', reason: 'Control Cardiológico', status: 'Atendido' },
-    { id: 'CITA-202', patientName: 'Carlos Mendoza', time: '10:30 AM', reason: 'Evaluación General', status: 'Pendiente' },
-    { id: 'CITA-203', patientName: 'Ana Gómez Román', time: '12:00 PM', reason: 'Revisión Resultados Laboratorio', status: 'Pendiente' },
-    { id: 'CITA-204', patientName: 'Luis Rodríguez Silva', time: '03:30 PM', reason: 'Chequeo de Presión Arterial', status: 'Pendiente' },
-  ]);
-
-  const [activePatients, setActivePatients] = useState([
-    { name: 'Sofía Peralta', age: 28, condition: 'Hipertensión Leve', lastVisit: '08 de Jun, 2026' },
-    { name: 'Carlos Mendoza', age: 45, condition: 'Diabetes Tipo 2 (Controlada)', lastVisit: '01 de Jun, 2026' },
-    { name: 'Ana Gómez Román', age: 34, condition: 'Ninguna (Chequeo anual)', lastVisit: '15 de May, 2026' },
-  ]);
+  const [patients, setPatients] = useState<LinkedPatient[]>(INITIAL_PATIENTS);
+  const [patientForm, setPatientForm] = useState<LinkedPatient>(createEmptyPatient());
+  const [medicationsInput, setMedicationsInput] = useState('');
+  const [isNewPatient, setIsNewPatient] = useState(false);
+  const [patientSaveMsg, setPatientSaveMsg] = useState('');
 
   // Reception / QR scan states (M.1)
   const [isScannerModalOpen, setIsScannerModalOpen] = useState(false);
@@ -167,8 +224,6 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
   const [scanProgress, setScanProgress] = useState(0);
   const [manualIdInput, setManualIdInput] = useState('');
   const [linkedPatient, setLinkedPatient] = useState<LinkedPatient | null>(null);
-  const [isMirroring, setIsMirroring] = useState(false);
-  const [mirrorProgress, setMirrorProgress] = useState(0);
 
   // Prescription states (M.2)
   const [searchQuery, setSearchQuery] = useState('');
@@ -176,57 +231,72 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
   const [aiLoadingId, setAiLoadingId] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState('');
 
-  const handleAttendAppointment = (appointmentId: string, patientName: string) => {
-    // Mark as attended
-    setAppointments(appointments.map(app => 
-      app.id === appointmentId ? { ...app, status: 'Atendido' } : app
-    ));
-    
-    // Automatically open reception tab and pre-link patient
-    if (patientName === 'Sofía Peralta') {
-      linkPatientMock('8849');
-    } else {
-      linkPatientMock('generic');
-    }
+  const openPatientForm = (patient: LinkedPatient) => {
+    setPatientForm({ ...patient, medications: [...patient.medications] });
+    setMedicationsInput(patient.medications.join(', '));
+    setLinkedPatient(patient);
+    setIsNewPatient(false);
     setActiveTab('reception');
   };
 
-  const linkPatientMock = (idType: string) => {
-    setIsMirroring(false);
-    setMirrorProgress(0);
+  const handleNewPatient = () => {
+    const empty = createEmptyPatient();
+    setPatientForm(empty);
+    setMedicationsInput('');
+    setLinkedPatient(null);
+    setIsNewPatient(true);
+    setActiveTab('reception');
+  };
 
-    if (idType === '8849' || idType.toLowerCase().includes('px-992')) {
-      // Link Sofía Peralta
-      setLinkedPatient({
-        id: 'PX-992-8849',
-        name: 'Sofía Peralta',
-        age: 28,
-        gender: 'Femenino',
-        bloodType: 'O+',
-        phone: '+34 600 123 456',
-        condition: 'Hipertensión Arterial Leve',
-        allergies: 'Penicilina',
-        lastVisit: '08 Jun, 2026',
-        medications: ['Ramipril 5mg', 'Aspirina 100mg']
-      });
-    } else {
-      // Link Carlos Mendoza
-      setLinkedPatient({
-        id: 'PX-992-1029',
-        name: 'Carlos Mendoza',
-        age: 45,
-        gender: 'Masculino',
-        bloodType: 'A-',
-        phone: '+34 699 987 654',
-        condition: 'Diabetes Tipo 2 (Controlada)',
-        allergies: 'Ninguna conocida',
-        lastVisit: '01 Jun, 2026',
-        medications: ['Metformina 850mg']
-      });
+  const handleSavePatient = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!patientForm.name.trim() || !patientForm.phone.trim()) {
+      alert('El nombre y el teléfono del paciente son obligatorios.');
+      return;
     }
 
-    // Auto-trigger Mirror data simulation after linking
-    setIsMirroring(true);
+    const medications = medicationsInput
+      .split(',')
+      .map((med) => med.trim())
+      .filter(Boolean);
+
+    if (isNewPatient) {
+      const newPatient: LinkedPatient = {
+        ...patientForm,
+        id: `PX-992-${Math.floor(1000 + Math.random() * 9000)}`,
+        medications,
+        lastVisit: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }),
+      };
+      setPatients((prev) => [...prev, newPatient]);
+      setLinkedPatient(newPatient);
+      setPatientForm(newPatient);
+      setIsNewPatient(false);
+    } else {
+      const updatedPatient: LinkedPatient = { ...patientForm, medications };
+      setPatients((prev) => prev.map((p) => (p.id === updatedPatient.id ? updatedPatient : p)));
+      setLinkedPatient(updatedPatient);
+      setPatientForm(updatedPatient);
+    }
+
+    setPatientSaveMsg('Datos del paciente guardados correctamente.');
+    setTimeout(() => setPatientSaveMsg(''), 3000);
+  };
+
+  const linkPatientMock = (idType: string) => {
+    const normalized = idType.toLowerCase();
+    const found = patients.find(
+      (p) =>
+        p.id.toLowerCase().includes(normalized) ||
+        (normalized.includes('8849') && p.id.includes('8849')) ||
+        (normalized.includes('1029') && p.id.includes('1029'))
+    );
+
+    if (found) {
+      openPatientForm(found);
+    } else {
+      openPatientForm(patients[0]);
+    }
+
     setIsScannerModalOpen(false);
   };
 
@@ -235,7 +305,6 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
     setIsScanning(true);
     setScanProgress(0);
     setLinkedPatient(null);
-    setIsMirroring(false);
   };
 
   useEffect(() => {
@@ -254,22 +323,6 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
     }
     return () => clearInterval(timer);
   }, [isScanning]);
-
-  // Simulate mirroring progress bar
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (isMirroring && mirrorProgress < 100) {
-      timer = setInterval(() => {
-        setMirrorProgress((prev) => {
-          if (prev >= 100) {
-            return 100;
-          }
-          return prev + 10;
-        });
-      }, 150);
-    }
-    return () => clearInterval(timer);
-  }, [isMirroring, mirrorProgress]);
 
   const handleManualLinkSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -383,8 +436,8 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
             accent="primary"
             brand={{ icon: Activity, title: 'Portal Médico', subtitle: 'Sistema de Salud' }}
             items={[
-              { id: 'agenda', name: 'Agenda del Día', icon: Calendar },
-              { id: 'reception', name: 'Recepción y Escáner', icon: QrCode },
+              { id: 'agenda', name: 'Panel', icon: Calendar },
+              { id: 'reception', name: 'Gestión de Pacientes', icon: Users },
               { id: 'prescription', name: 'Generar Récipe', icon: FileText },
               { id: 'commissions', name: 'Comisiones', icon: TrendingUp },
               { id: 'profile', name: 'Mi Perfil', icon: Users },
@@ -429,116 +482,97 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
               <div className="space-y-6">
                 <PageHeader
                   title={`Bienvenido de nuevo, ${doctorName}`}
-                  description="Resumen de citas agendadas y pacientes clínicos asignados."
+                  description="Resumen de pacientes registrados y acceso rápido a la gestión de expedientes."
+                  actions={
+                    <Button variant="doctor" onClick={handleNewPatient}>
+                      <UserPlus className="h-4 w-4" />
+                      Nuevo paciente
+                    </Button>
+                  }
                 />
 
-                {/* Metrics Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                  <div className="bg-surface-900/60 border border-surface-800 rounded-2xl p-5 flex items-center gap-4">
-                    <div className="h-10 w-10 rounded-xl bg-secondary-500/10 text-secondary-400 flex items-center justify-center">
-                      <Calendar className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <span className="zenith-field-label">Citas Hoy</span>
-                      <p className="text-lg font-semibold text-white mt-0.5">{appointments.length}</p>
-                    </div>
-                  </div>
-                  <div className="bg-surface-900/60 border border-surface-800 rounded-2xl p-5 flex items-center gap-4">
-                    <div className="h-10 w-10 rounded-xl bg-primary-500/10 text-primary-400 flex items-center justify-center">
-                      <Clock className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <span className="zenith-field-label">Citas Pendientes</span>
-                      <p className="text-lg font-semibold text-white mt-0.5">
-                        {appointments.filter(a => a.status === 'Pendiente').length}
-                      </p>
-                    </div>
-                  </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div className="bg-surface-900/60 border border-surface-800 rounded-2xl p-5 flex items-center gap-4">
                     <div className="h-10 w-10 rounded-xl bg-secondary-500/10 text-secondary-400 flex items-center justify-center">
                       <Users className="h-5 w-5" />
                     </div>
                     <div>
-                      <span className="zenith-field-label">Pacientes Activos</span>
-                      <p className="text-lg font-semibold text-white mt-0.5">{activePatients.length}</p>
+                      <span className="zenith-field-label">Pacientes Registrados</span>
+                      <p className="text-lg font-semibold text-white mt-0.5">{patients.length}</p>
+                    </div>
+                  </div>
+                  <div className="bg-surface-900/60 border border-surface-800 rounded-2xl p-5 flex items-center gap-4">
+                    <div className="h-10 w-10 rounded-xl bg-primary-500/10 text-primary-400 flex items-center justify-center">
+                      <ShieldAlert className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <span className="zenith-field-label">Con Alergias Registradas</span>
+                      <p className="text-lg font-semibold text-white mt-0.5">
+                        {patients.filter((p) => p.allergies && p.allergies !== 'Ninguna conocida').length}
+                      </p>
                     </div>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  {/* Appointments list */}
                   <div className="lg:col-span-2 bg-surface-900/60 border border-surface-800 rounded-2xl p-6 space-y-4">
                     <div>
-                      <h3 className="zenith-section-title">Pacientes Agendados</h3>
-                      <p className="text-xs text-surface-400">Atienda y vincule expedientes clínicos en lista de espera.</p>
+                      <h3 className="zenith-section-title">Pacientes Registrados</h3>
+                      <p className="text-xs text-surface-400">Consulte y modifique los datos clínicos de cada paciente.</p>
                     </div>
 
                     <div className="divide-y divide-surface-850">
-                      {appointments.map((app) => (
-                        <div key={app.id} className="py-3.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 first:pt-0 last:pb-0">
+                      {patients.map((patient) => (
+                        <div key={patient.id} className="py-3.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 first:pt-0 last:pb-0">
                           <div>
                             <div className="flex items-center gap-2">
-                              <p className="text-sm font-semibold text-white">{app.patientName}</p>
+                              <p className="text-sm font-semibold text-white">{patient.name}</p>
                               <span className="text-[9px] font-mono text-surface-500 bg-surface-950 px-1.5 py-0.5 rounded border border-surface-850">
-                                {app.id}
+                                {patient.id}
                               </span>
                             </div>
-                            <p className="text-xs text-surface-400 mt-1 flex items-center gap-1.5">
-                              <Clock className="h-3.5 w-3.5 text-surface-550" />
-                              <span>{app.time} • Motivo: <span className="italic">{app.reason}</span></span>
+                            <p className="text-xs text-surface-400 mt-1">
+                              {patient.age} años • {patient.condition || 'Sin condición registrada'}
                             </p>
                           </div>
 
-                          <div>
-                            {app.status === 'Atendido' ? (
-                              <span className="px-2.5 py-1 text-2xs font-semibold bg-secondary-500/10 text-secondary-400 border border-secondary-500/20 rounded-lg flex items-center gap-1">
-                                <Check className="h-3 w-3" />
-                                <span>Atendido</span>
-                              </span>
-                            ) : (
-                              <button
-                                onClick={() => handleAttendAppointment(app.id, app.patientName)}
-                                className="px-3 py-1.5 text-xs font-semibold bg-[var(--portal-doctor-btn-bg)] hover:bg-[var(--portal-doctor-btn-hover)] text-[var(--portal-doctor-btn-fg)] rounded-lg transition-colors cursor-pointer"
-                              >
-                                Atender Paciente
-                              </button>
-                            )}
-                          </div>
+                          <button
+                            onClick={() => openPatientForm(patient)}
+                            className="px-3 py-1.5 text-xs font-semibold bg-[var(--portal-doctor-btn-bg)] hover:bg-[var(--portal-doctor-btn-hover)] text-[var(--portal-doctor-btn-fg)] rounded-lg transition-colors cursor-pointer"
+                          >
+                            Editar datos
+                          </button>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  {/* Patient warnings */}
                   <div className="bg-surface-900/60 border border-surface-800 rounded-2xl p-6 space-y-4 flex flex-col justify-between">
                     <div>
-                      <h3 className="zenith-section-title">Alertas Clínicas Críticas</h3>
-                      <p className="text-xs text-surface-400">Seguimiento de condiciones críticas registradas.</p>
+                      <h3 className="zenith-section-title">Alertas Clínicas</h3>
+                      <p className="text-xs text-surface-400">Condiciones y alergias registradas en expedientes.</p>
                     </div>
 
                     <div className="space-y-3 flex-1 pt-2">
-                      {activePatients.map((pat, idx) => (
-                        <div key={idx} className="p-3 bg-surface-950/40 border border-surface-850 rounded-xl space-y-1">
+                      {patients.map((patient) => (
+                        <div key={patient.id} className="p-3 bg-surface-950/40 border border-surface-850 rounded-xl space-y-1">
                           <div className="flex justify-between items-center text-xs">
-                            <span className="font-semibold text-white">{pat.name}</span>
-                            <span className="text-surface-555 text-[10px] font-medium">Edad: {pat.age} años</span>
+                            <span className="font-semibold text-white">{patient.name}</span>
+                            <span className="text-surface-555 text-[10px] font-medium">Edad: {patient.age} años</span>
                           </div>
                           <p className="text-[10px] text-secondary-455 flex items-center gap-1 font-semibold">
                             <ShieldAlert className="h-3 w-3 text-secondary-400" />
-                            <span>Condición: {pat.condition}</span>
+                            <span>{patient.allergies}</span>
                           </p>
                         </div>
                       ))}
                     </div>
 
-                    <button 
-                      onClick={() => {
-                        setActiveTab('reception');
-                        setIsScannerModalOpen(true);
-                      }}
+                    <button
+                      onClick={() => setIsScannerModalOpen(true)}
                       className="w-full text-center text-xs text-secondary-400 font-semibold hover:text-secondary-300 transition-colors pt-2 border-t border-surface-850 mt-4 flex items-center justify-center gap-0.5 cursor-pointer"
                     >
-                      <span>Abrir Escáner de Récipes</span>
+                      <span>Buscar paciente por credencial</span>
                       <ChevronRight className="h-3.5 w-3.5" />
                     </button>
                   </div>
@@ -573,167 +607,167 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
               </div>
             )}
 
-            {/* VIEW TAB 2: PATIENT QR SCANNER & RECEPTION (Pantalla M.1) */}
+            {/* VIEW TAB 2: PATIENT MANAGEMENT (Pantalla M.1) */}
             {activeTab === 'reception' && (
               <div className="space-y-6 animate-in fade-in duration-300">
                 <PageHeader
-                  title="Recepción de Paciente"
-                  description="Vincule un paciente para cargar su expediente clínico y sincronizar la consulta en espejo."
+                  title="Gestión de Pacientes"
+                  description="Registre y modifique los datos clínicos del paciente. Las consultas no se gestionan desde este módulo."
                   actions={
-                    <Button variant="doctor" onClick={() => setIsScannerModalOpen(true)}>
-                      <QrCode className="h-4 w-4" />
-                      Escanear paciente
-                    </Button>
+                    <div className="flex flex-wrap gap-2">
+                      <Button variant="doctor" onClick={() => setIsScannerModalOpen(true)}>
+                        <QrCode className="h-4 w-4" />
+                        Buscar por credencial
+                      </Button>
+                      <Button variant="doctor" onClick={handleNewPatient}>
+                        <UserPlus className="h-4 w-4" />
+                        Nuevo paciente
+                      </Button>
+                    </div>
                   }
                 />
 
-                {linkedPatient ? (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        
-                        {/* Bloque A: Demographic data and patient history */}
-                        <div className="bg-surface-900/60 border border-surface-800 rounded-3xl p-6 backdrop-blur-md space-y-4 animate-in fade-in duration-300 flex flex-col justify-between">
-                          <div className="space-y-4">
-                            <div>
-                              <span className="text-[9px] bg-secondary-500/10 text-secondary-400 px-2 py-0.5 rounded font-bold uppercase tracking-wider">Bloque A</span>
-                              <h3 className="zenith-section-title mt-1.5">Expediente Clínico</h3>
-                              <p className="text-xs text-surface-400">Datos médicos visibles en su pantalla de control.</p>
-                            </div>
+                {patientSaveMsg && (
+                  <div className="p-4 bg-secondary-500/15 border border-secondary-500/30 rounded-2xl flex items-center gap-3 text-secondary-400 text-xs">
+                    <CheckCircle2 className="h-5 w-5 shrink-0" />
+                    <span>{patientSaveMsg}</span>
+                  </div>
+                )}
 
-                            <div className="bg-surface-950/60 border border-surface-850 p-3.5 rounded-xl space-y-2.5 text-xs">
-                              <div className="flex justify-between items-center border-b border-surface-850 pb-1.5">
-                                <span className="font-semibold text-white text-sm">{linkedPatient.name}</span>
-                                <span className="text-[9px] bg-surface-800 text-surface-400 font-mono px-1.5 py-0.5 rounded">
-                                  {linkedPatient.gender}
-                                </span>
-                              </div>
-                              
-                              <div className="grid grid-cols-2 gap-y-2 text-2xs text-surface-400">
-                                <div>
-                                  <span className="text-surface-555 uppercase font-bold block">Edad</span>
-                                  <span className="text-surface-200">{linkedPatient.age} años</span>
-                                </div>
-                                <div>
-                                  <span className="text-surface-555 uppercase font-bold block">Grupo Sanguíneo</span>
-                                  <span className="text-surface-200">{linkedPatient.bloodType}</span>
-                                </div>
-                                <div className="col-span-2">
-                                  <span className="text-surface-555 uppercase font-bold block">Teléfono Móvil</span>
-                                  <span className="text-surface-200">{linkedPatient.phone}</span>
-                                </div>
-                              </div>
-                            </div>
+                <div className="bg-surface-900/60 border border-surface-800 rounded-3xl p-6 backdrop-blur-md">
+                  <form onSubmit={handleSavePatient} className="space-y-6">
+                    <div>
+                      <h3 className="zenith-section-title">
+                        {isNewPatient ? 'Registrar nuevo paciente' : 'Modificar datos del paciente'}
+                      </h3>
+                      <p className="text-xs text-surface-400">
+                        Complete o actualice la información del expediente clínico.
+                      </p>
+                    </div>
 
-                            <div className="space-y-2.5 text-xs">
-                              <div className="space-y-1">
-                                <span className="text-[10px] font-bold text-secondary-455 uppercase block">Diagnóstico de Control</span>
-                                <p className="text-surface-300 font-semibold">{linkedPatient.condition}</p>
-                              </div>
-                              
-                              <div className="space-y-1">
-                                <span className="text-[10px] font-bold text-secondary-455 uppercase block">Alergias Críticas</span>
-                                <p className="text-secondary-400 font-bold flex items-center gap-1.5">
-                                  <ShieldAlert className="h-3.5 w-3.5 text-secondary-455" />
-                                  <span>{linkedPatient.allergies}</span>
-                                </p>
-                              </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="zenith-field-label">Nombre completo</label>
+                        <input
+                          type="text"
+                          value={patientForm.name}
+                          onChange={(e) => setPatientForm({ ...patientForm, name: e.target.value })}
+                          className="w-full bg-surface-950 border border-surface-850 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-secondary-500"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="zenith-field-label">ID del paciente</label>
+                        <input
+                          type="text"
+                          value={patientForm.id}
+                          disabled={!isNewPatient}
+                          placeholder="Se generará automáticamente"
+                          className="w-full bg-surface-950/40 border border-surface-850 rounded-xl px-3.5 py-2.5 text-xs text-surface-550 focus:outline-none disabled:cursor-not-allowed"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="zenith-field-label">Edad</label>
+                        <input
+                          type="number"
+                          min={0}
+                          value={patientForm.age || ''}
+                          onChange={(e) => setPatientForm({ ...patientForm, age: Number(e.target.value) })}
+                          className="w-full bg-surface-950 border border-surface-850 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-secondary-500"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="zenith-field-label">Género</label>
+                        <select
+                          value={patientForm.gender}
+                          onChange={(e) => setPatientForm({ ...patientForm, gender: e.target.value })}
+                          className="w-full bg-surface-950 border border-surface-850 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-secondary-500 cursor-pointer"
+                        >
+                          <option value="Masculino">Masculino</option>
+                          <option value="Femenino">Femenino</option>
+                          <option value="Otro">Otro</option>
+                        </select>
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="zenith-field-label">Grupo sanguíneo</label>
+                        <input
+                          type="text"
+                          value={patientForm.bloodType}
+                          onChange={(e) => setPatientForm({ ...patientForm, bloodType: e.target.value })}
+                          className="w-full bg-surface-950 border border-surface-850 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-secondary-500"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="zenith-field-label">Teléfono móvil</label>
+                        <input
+                          type="tel"
+                          value={patientForm.phone}
+                          onChange={(e) => setPatientForm({ ...patientForm, phone: e.target.value })}
+                          className="w-full bg-surface-950 border border-surface-850 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-secondary-500"
+                        />
+                      </div>
+                      <div className="space-y-1.5 md:col-span-2">
+                        <label className="zenith-field-label">Condición / diagnóstico de control</label>
+                        <input
+                          type="text"
+                          value={patientForm.condition}
+                          onChange={(e) => setPatientForm({ ...patientForm, condition: e.target.value })}
+                          className="w-full bg-surface-950 border border-surface-850 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-secondary-500"
+                        />
+                      </div>
+                      <div className="space-y-1.5 md:col-span-2">
+                        <label className="zenith-field-label">Alergias</label>
+                        <input
+                          type="text"
+                          value={patientForm.allergies}
+                          onChange={(e) => setPatientForm({ ...patientForm, allergies: e.target.value })}
+                          className="w-full bg-surface-950 border border-surface-850 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-secondary-500"
+                        />
+                      </div>
+                      <div className="space-y-1.5 md:col-span-2">
+                        <label className="zenith-field-label">Tratamientos activos (separados por coma)</label>
+                        <input
+                          type="text"
+                          value={medicationsInput}
+                          onChange={(e) => setMedicationsInput(e.target.value)}
+                          placeholder="Ej: Ramipril 5mg, Aspirina 100mg"
+                          className="w-full bg-surface-950 border border-surface-850 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-secondary-500"
+                        />
+                      </div>
+                    </div>
 
-                              <div className="space-y-1.5 pt-1.5 border-t border-surface-850">
-                                <span className="text-[10px] font-bold text-surface-500 uppercase block">Tratamientos Prescritos Activos</span>
-                                <div className="flex flex-wrap gap-1.5">
-                                  {linkedPatient.medications.map((med, index) => (
-                                    <span key={index} className="px-2 py-0.5 bg-surface-800 text-surface-300 rounded text-2xs font-medium">
-                                      {med}
-                                    </span>
-                                  ))}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
+                    <div className="flex flex-col sm:flex-row gap-3 justify-between pt-4 border-t border-surface-850">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setPatientForm(createEmptyPatient());
+                          setMedicationsInput('');
+                          setIsNewPatient(false);
+                          setLinkedPatient(null);
+                        }}
+                        className="px-4 py-2.5 bg-surface-950 border border-surface-800 rounded-xl text-surface-400 hover:text-white text-xs font-bold transition-all cursor-pointer"
+                      >
+                        Limpiar formulario
+                      </button>
+                      <div className="flex flex-col sm:flex-row gap-3">
+                        {linkedPatient && (
                           <button
+                            type="button"
                             onClick={() => setActiveTab('prescription')}
-                            className="w-full mt-4 py-2.5 bg-[var(--portal-doctor-btn-bg)] hover:bg-[var(--portal-doctor-btn-hover)] text-[var(--portal-doctor-btn-fg)] rounded-xl text-xs font-bold transition-all shadow-md flex items-center justify-center gap-1 cursor-pointer"
+                            className="px-4 py-2.5 bg-surface-800 hover:bg-surface-700 text-white rounded-xl text-xs font-bold transition-all cursor-pointer border border-surface-700"
                           >
-                            <span>Iniciar Consulta / Prescribir</span>
-                            <ChevronRight className="h-4 w-4" />
+                            Generar Récipe
                           </button>
-                        </div>
-
-                        {/* Bloque B: Visual Mirror confirmation of patient feed */}
-                        <div className="bg-surface-900/60 border border-surface-800 rounded-3xl p-6 backdrop-blur-md space-y-5 flex flex-col justify-between animate-in fade-in duration-300">
-                          <div className="space-y-4">
-                            <div>
-                              <span className="text-[9px] bg-secondary-500/10 text-secondary-400 px-2 py-0.5 rounded font-bold uppercase tracking-wider">Bloque B</span>
-                              <h3 className="zenith-section-title mt-1.5">Espejo de Datos</h3>
-                              <p className="text-xs text-surface-400">Confirmación del envío de información en espejo.</p>
-                            </div>
-
-                            <div className="bg-surface-950 border border-surface-850 p-4 rounded-xl space-y-4 text-xs">
-                              <div className="flex items-center gap-2">
-                                <span className={`h-2.5 w-2.5 rounded-full ${mirrorProgress === 100 ? 'bg-secondary-500 animate-pulse' : 'bg-primary-500 animate-ping'}`}></span>
-                                <span className="font-bold text-surface-300">
-                                  {mirrorProgress === 100 ? 'Conexión Espejo Estable' : 'Sincronizando Espejo...'}
-                                </span>
-                              </div>
-
-                              <div className="space-y-2 text-2xs text-surface-400">
-                                <div className="flex justify-between">
-                                  <span>Médico Conectado</span>
-                                  <span className="text-surface-200">{doctorName}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                  <span>ID Cédula Profesional</span>
-                                  <span className="text-surface-200">M.P. 28.490/7</span>
-                                </div>
-                                <div className="flex justify-between">
-                                  <span>Pantalla del Paciente</span>
-                                  <span className="text-surface-200 font-mono">{linkedPatient.name} Portal</span>
-                                </div>
-                              </div>
-
-                              <div className="space-y-1">
-                                <div className="h-1 w-full bg-surface-800 rounded-full overflow-hidden">
-                                  <div 
-                                    className="h-full bg-secondary-500 transition-all duration-300 ease-out"
-                                    style={{ width: `${mirrorProgress}%` }}
-                                  ></div>
-                                </div>
-                                <span className="text-[9px] text-surface-500 font-mono text-right block">{mirrorProgress}% Transmitido</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          {mirrorProgress === 100 ? (
-                            <div className="p-3 bg-secondary-500/10 border border-secondary-500/20 rounded-xl text-secondary-450 text-2xs flex items-start gap-2 animate-in zoom-in-95 duration-200">
-                              <ShieldCheck className="h-4 w-4 shrink-0 mt-0.5 text-secondary-450" />
-                              <p className="leading-snug">
-                                <strong className="font-bold">Confirmado</strong>: Los datos del médico e informe se transmitieron en espejo a la pantalla del paciente con éxito.
-                              </p>
-                            </div>
-                          ) : (
-                            <div className="p-3 bg-surface-950/40 border border-surface-850 rounded-xl text-surface-550 text-2xs flex items-start gap-2">
-                              <RefreshCw className="h-4 w-4 shrink-0 mt-0.5 animate-spin" />
-                              <p className="leading-snug">
-                                Enviando paquete de telemetría de consulta al dispositivo del paciente...
-                              </p>
-                            </div>
-                          )}
-                        </div>
-
+                        )}
+                        <button
+                          type="submit"
+                          className="px-6 py-2.5 bg-[var(--portal-doctor-btn-bg)] hover:bg-[var(--portal-doctor-btn-hover)] text-[var(--portal-doctor-btn-fg)] rounded-xl text-xs font-bold transition-all cursor-pointer"
+                        >
+                          {isNewPatient ? 'Registrar paciente' : 'Guardar cambios'}
+                        </button>
                       </div>
-                    ) : (
-                      <div className="bg-surface-900/60 border border-surface-800 rounded-3xl p-8 flex flex-col items-center justify-center text-center space-y-4 min-h-[280px]">
-                        <AlertCircle className="h-10 w-10 text-surface-650" />
-                        <h4 className="zenith-section-title">Sin Paciente Vinculado</h4>
-                        <p className="text-xs text-surface-450 max-w-md leading-relaxed">
-                          Abra el escáner para leer el código QR de la credencial del paciente o ingrese su ID manualmente.
-                        </p>
-                        <Button variant="doctor" onClick={() => setIsScannerModalOpen(true)}>
-                          <QrCode className="h-4 w-4" />
-                          Abrir escáner
-                        </Button>
-                      </div>
-                    )}
+                    </div>
+                  </form>
+                </div>
               </div>
             )}
 
@@ -749,7 +783,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs text-surface-450 uppercase font-bold tracking-wider">Paciente en Consulta</span>
+                        <span className="text-xs text-surface-450 uppercase font-bold tracking-wider">Paciente seleccionado</span>
                         {linkedPatient && (
                           <span className="text-[9px] bg-secondary-500/10 text-secondary-400 border border-secondary-500/25 px-1.5 py-0.2 rounded font-mono font-bold">
                             VINCULADO
@@ -764,10 +798,10 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
 
                   {!linkedPatient && (
                     <button
-                      onClick={() => setIsScannerModalOpen(true)}
+                      onClick={() => setActiveTab('reception')}
                       className="px-4 py-2 bg-[var(--portal-doctor-btn-bg)] hover:bg-[var(--portal-doctor-btn-hover)] text-[var(--portal-doctor-btn-fg)] rounded-xl text-xs font-bold transition-all cursor-pointer"
                     >
-                      Vincular Paciente
+                      Seleccionar paciente
                     </button>
                   )}
                 </div>
@@ -998,9 +1032,9 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                 ) : (
                   <div className="h-64 bg-surface-900/60 border border-surface-800 rounded-3xl p-8 flex flex-col items-center justify-center text-center space-y-3">
                     <AlertCircle className="h-10 w-10 text-surface-650" />
-                    <h4 className="zenith-section-title">Sin Consulta Activa</h4>
+                    <h4 className="zenith-section-title">Sin Paciente Seleccionado</h4>
                     <p className="text-xs text-surface-450 max-w-sm leading-relaxed">
-                      Debe vincular a un paciente en el módulo de Recepción para acceder al entorno de prescripción clínica y asistencia farmacológica con IA.
+                      Registre o seleccione un paciente en Gestión de Pacientes para generar un récipe clínico.
                     </p>
                   </div>
                 )}
@@ -1404,12 +1438,12 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
           setIsScanning(false);
           setScanProgress(0);
         }}
-        title="Escanear credencial del paciente"
+        title="Buscar paciente por credencial"
         size="md"
       >
         <ModalBody className="space-y-5">
           <p className="text-xs text-surface-400">
-            Active la cámara o ingrese manualmente el ID del token para vincular el historial clínico.
+            Active la cámara o ingrese manualmente el ID del paciente para cargar su expediente y editar sus datos.
           </p>
 
           <div className="mx-auto w-full max-w-[280px] aspect-square rounded-2xl bg-surface-950 border border-surface-800 relative flex flex-col items-center justify-center overflow-hidden p-4">
