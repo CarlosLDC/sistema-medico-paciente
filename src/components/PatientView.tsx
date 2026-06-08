@@ -483,8 +483,8 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
           accent="primary"
           brand={{ icon: Activity, title: 'Mi Salud', subtitle: 'Portal de Pacientes' }}
           items={[
-            { id: 'recipes', name: 'Récipes Médicos', icon: FileText },
             { id: 'treatment', name: 'Seguimiento de Tratamiento', icon: Pill },
+            { id: 'recipes', name: 'Récipes Médicos', icon: FileText },
             { id: 'proposals', name: 'Confirmación de Pedido', icon: FileSpreadsheet },
             { id: 'profile', name: 'Configuración Perfil', icon: User },
           ]}
