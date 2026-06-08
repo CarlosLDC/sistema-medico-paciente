@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { X, Search, Plus, Minus, User, PlusCircle, CreditCard, MapPin, Trash2, ShoppingBag } from 'lucide-react';
 import { Product, Customer, Order, OrderItem } from '../types';
+import { formatCustomerAddress } from '../lib/customerLocation';
 import { formatCurrency } from '../lib/currency';
 import { isMedicationProduct } from '../lib/products';
 import { Button, Modal, ModalBody } from './ui';
@@ -39,7 +40,8 @@ export default function NewOrderModal({
     email: '',
     phone: '',
     address: '',
-    city: '',
+    municipio: '',
+    state: '',
   });
 
   // Shipping & Payment state
@@ -122,7 +124,7 @@ export default function NewOrderModal({
 
     // Create client if fast creation is active
     if (isCreatingNewCustomer) {
-      if (!newCustomerForm.name || !newCustomerForm.email || !newCustomerForm.address || !newCustomerForm.city) {
+      if (!newCustomerForm.name || !newCustomerForm.email || !newCustomerForm.address || !newCustomerForm.municipio || !newCustomerForm.state) {
         alert('Por favor complete todos los datos obligatorios del cliente.');
         return;
       }
@@ -130,7 +132,7 @@ export default function NewOrderModal({
       customerIdToUse = createdCustomer.id;
       customerNameToUse = createdCustomer.name;
       customerEmailToUse = createdCustomer.email;
-      addressToUse = customAddress || `${createdCustomer.address}, ${createdCustomer.city}`;
+      addressToUse = customAddress || formatCustomerAddress(createdCustomer);
     }
 
     if (!customerIdToUse) {
@@ -168,7 +170,7 @@ export default function NewOrderModal({
     setCart({});
     setSelectedCustomerId('');
     setIsCreatingNewCustomer(false);
-    setNewCustomerForm({ name: '', email: '', phone: '', address: '', city: '' });
+    setNewCustomerForm({ name: '', email: '', phone: '', address: '', municipio: '', state: '' });
     setCustomAddress('');
     setDiscountAmount(0);
     onClose();
@@ -391,35 +393,48 @@ export default function NewOrderModal({
                       <label className="zenith-field-label">Teléfono</label>
                       <input
                         type="text"
-                        placeholder="+58 412..."
+                        placeholder="0412-0000000"
                         value={newCustomerForm.phone}
                         onChange={(e) => setNewCustomerForm({ ...newCustomerForm, phone: e.target.value })}
                         className="w-full bg-surface-950 border border-surface-850 rounded-lg p-2 text-xs text-white placeholder-surface-600 focus:outline-none focus:border-primary-500 mt-1"
                       />
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                    <div className="sm:col-span-2">
-                      <label className="zenith-field-label">Dirección *</label>
+                  <div className="space-y-2">
+                    <div>
+                      <label className="zenith-field-label">Dirección (Av., Urb., Edif., Piso) *</label>
                       <input
                         type="text"
                         required={isCreatingNewCustomer}
-                        placeholder="Calle, Número, Piso"
+                        placeholder="Ej: Av. Francisco de Miranda, Urb. Campo Alegre, Piso 4B"
                         value={newCustomerForm.address}
                         onChange={(e) => setNewCustomerForm({ ...newCustomerForm, address: e.target.value })}
                         className="w-full bg-surface-950 border border-surface-850 rounded-lg p-2 text-xs text-white placeholder-surface-600 focus:outline-none focus:border-primary-500 mt-1"
                       />
                     </div>
-                    <div>
-                      <label className="zenith-field-label">Ciudad *</label>
-                      <input
-                        type="text"
-                        required={isCreatingNewCustomer}
-                        placeholder="Caracas"
-                        value={newCustomerForm.city}
-                        onChange={(e) => setNewCustomerForm({ ...newCustomerForm, city: e.target.value })}
-                        className="w-full bg-surface-950 border border-surface-850 rounded-lg p-2 text-xs text-white placeholder-surface-600 focus:outline-none focus:border-primary-500 mt-1"
-                      />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <div>
+                        <label className="zenith-field-label">Estado *</label>
+                        <input
+                          type="text"
+                          required={isCreatingNewCustomer}
+                          placeholder="Ej: Distrito Capital"
+                          value={newCustomerForm.state}
+                          onChange={(e) => setNewCustomerForm({ ...newCustomerForm, state: e.target.value })}
+                          className="w-full bg-surface-950 border border-surface-850 rounded-lg p-2 text-xs text-white placeholder-surface-600 focus:outline-none focus:border-primary-500 mt-1"
+                        />
+                      </div>
+                      <div>
+                        <label className="zenith-field-label">Municipio *</label>
+                        <input
+                          type="text"
+                          required={isCreatingNewCustomer}
+                          placeholder="Ej: Chacao"
+                          value={newCustomerForm.municipio}
+                          onChange={(e) => setNewCustomerForm({ ...newCustomerForm, municipio: e.target.value })}
+                          className="w-full bg-surface-950 border border-surface-850 rounded-lg p-2 text-xs text-white placeholder-surface-600 focus:outline-none focus:border-primary-500 mt-1"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -437,7 +452,7 @@ export default function NewOrderModal({
                   type="text"
                   placeholder={
                     activeCustomer
-                      ? `Usa: ${activeCustomer.address}, ${activeCustomer.city}`
+                      ? `Usa: ${formatCustomerAddress(activeCustomer)}`
                       : 'Dirección de entrega'
                   }
                   value={customAddress}

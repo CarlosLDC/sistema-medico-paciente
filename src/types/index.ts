@@ -16,7 +16,8 @@ export interface Customer {
   email: string;
   phone: string;
   address: string;
-  city: string;
+  municipio: string;
+  state: string;
   totalOrders: number;
   totalSpent: number;
 }

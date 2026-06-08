@@ -4,6 +4,7 @@ import React, { useState, useMemo } from 'react';
 import { Search, Plus, Users, Mail, Phone, MapPin, DollarSign, ShoppingBag, X } from 'lucide-react';
 import { Customer } from '../types';
 import { formatCurrency } from '../lib/currency';
+import { formatCustomerAddress, formatCustomerLocation } from '../lib/customerLocation';
 import { PageHeader, Button, Input, Modal, ModalBody, ModalFooter, ListCard } from './ui';
 
 interface CustomersViewProps {
@@ -19,7 +20,8 @@ export default function CustomersView({ customers, onAddCustomer }: CustomersVie
     email: '',
     phone: '',
     address: '',
-    city: '',
+    municipio: '',
+    state: '',
   });
 
   // Filters
@@ -27,7 +29,8 @@ export default function CustomersView({ customers, onAddCustomer }: CustomersVie
     return customers.filter(c => 
       c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       c.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      c.city.toLowerCase().includes(searchTerm.toLowerCase())
+      c.municipio.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      c.state.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [customers, searchTerm]);
 
@@ -42,13 +45,13 @@ export default function CustomersView({ customers, onAddCustomer }: CustomersVie
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const { name, email, phone, address, city } = newCustomerForm;
-    if (!name || !email || !address || !city) {
+    const { name, email, phone, address, municipio, state } = newCustomerForm;
+    if (!name || !email || !address || !municipio || !state) {
       alert('Por favor complete todos los campos obligatorios.');
       return;
     }
-    onAddCustomer({ name, email, phone, address, city });
-    setNewCustomerForm({ name: '', email: '', phone: '', address: '', city: '' });
+    onAddCustomer({ name, email, phone, address, municipio, state });
+    setNewCustomerForm({ name: '', email: '', phone: '', address: '', municipio: '', state: '' });
     setIsAddModalOpen(false);
   };
 
@@ -105,7 +108,7 @@ export default function CustomersView({ customers, onAddCustomer }: CustomersVie
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-surface-500" />
         <input
           type="text"
-          placeholder="Buscar clientes por nombre, correo o ciudad..."
+          placeholder="Buscar clientes por nombre, correo, municipio o estado..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full pl-10 pr-4 py-2.5 bg-surface-900/40 border border-surface-800 rounded-xl text-xs text-white placeholder-surface-550 focus:outline-none focus:border-primary-500"
@@ -154,9 +157,9 @@ export default function CustomersView({ customers, onAddCustomer }: CustomersVie
                       )}
                     </td>
                     <td className="px-6 py-4.5">
-                      <p className="text-xs text-surface-350 flex items-center gap-1.5" title={c.address}>
+                      <p className="text-xs text-surface-350 flex items-center gap-1.5" title={formatCustomerAddress(c)}>
                         <MapPin className="h-3.5 w-3.5 text-surface-500 shrink-0" />
-                        <span>{c.address}, {c.city}</span>
+                        <span>{formatCustomerAddress(c)}</span>
                       </p>
                     </td>
                     <td className="px-6 py-4.5 text-center font-mono font-bold text-white text-xs">
@@ -177,7 +180,7 @@ export default function CustomersView({ customers, onAddCustomer }: CustomersVie
                 title={c.name}
                 subtitle={c.email}
                 fields={[
-                  { label: 'Ciudad', value: c.city },
+                  { label: 'Ubicación', value: formatCustomerLocation(c) },
                   { label: 'Pedidos', value: c.totalOrders },
                   { label: 'Facturación', value: formatCurrency(c.totalSpent) },
                   { label: 'Teléfono', value: c.phone || '—' },
@@ -239,38 +242,51 @@ export default function CustomersView({ customers, onAddCustomer }: CustomersVie
               </div>
 
               <div>
-                <label className="zenith-field-label">Teléfono de Contacto</label>
+                <label className="zenith-field-label">Teléfono Móvil</label>
                 <input
                   type="text"
-                  placeholder="+58 412 000 0000"
+                  placeholder="0412-0000000"
                   value={newCustomerForm.phone}
                   onChange={(e) => setNewCustomerForm({ ...newCustomerForm, phone: e.target.value })}
                   className="w-full bg-surface-950 border border-surface-850 rounded-lg p-2.5 text-xs text-white placeholder-surface-600 focus:outline-none focus:border-primary-500 mt-1"
                 />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div className="sm:col-span-2">
-                  <label className="zenith-field-label">Dirección Principal *</label>
+              <div className="space-y-3">
+                <div>
+                  <label className="zenith-field-label">Dirección (Av., Urb., Edif., Piso) *</label>
                   <input
                     type="text"
                     required
-                    placeholder="Calle, Número, Escalera"
+                    placeholder="Ej: Av. Francisco de Miranda, Urb. Campo Alegre, Edif. Parque Cristal, Piso 4B"
                     value={newCustomerForm.address}
                     onChange={(e) => setNewCustomerForm({ ...newCustomerForm, address: e.target.value })}
                     className="w-full bg-surface-950 border border-surface-850 rounded-lg p-2.5 text-xs text-white placeholder-surface-600 focus:outline-none focus:border-primary-500 mt-1"
                   />
                 </div>
-                <div>
-                  <label className="zenith-field-label">Ciudad *</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Caracas"
-                    value={newCustomerForm.city}
-                    onChange={(e) => setNewCustomerForm({ ...newCustomerForm, city: e.target.value })}
-                    className="w-full bg-surface-950 border border-surface-850 rounded-lg p-2.5 text-xs text-white placeholder-surface-600 focus:outline-none focus:border-primary-500 mt-1"
-                  />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="zenith-field-label">Estado *</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Ej: Distrito Capital"
+                      value={newCustomerForm.state}
+                      onChange={(e) => setNewCustomerForm({ ...newCustomerForm, state: e.target.value })}
+                      className="w-full bg-surface-950 border border-surface-850 rounded-lg p-2.5 text-xs text-white placeholder-surface-600 focus:outline-none focus:border-primary-500 mt-1"
+                    />
+                  </div>
+                  <div>
+                    <label className="zenith-field-label">Municipio *</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Ej: Chacao"
+                      value={newCustomerForm.municipio}
+                      onChange={(e) => setNewCustomerForm({ ...newCustomerForm, municipio: e.target.value })}
+                      className="w-full bg-surface-950 border border-surface-850 rounded-lg p-2.5 text-xs text-white placeholder-surface-600 focus:outline-none focus:border-primary-500 mt-1"
+                    />
+                  </div>
                 </div>
               </div>
           </ModalBody>

@@ -9,6 +9,7 @@ import CustomersView from '../components/CustomersView';
 import OrderDetailModal from '../components/OrderDetailModal';
 import NewOrderModal from '../components/NewOrderModal';
 import { Order, Product, Customer, OrderStatus } from '../types';
+import { normalizeCustomer } from '../lib/customerLocation';
 import { INITIAL_ORDERS, INITIAL_PRODUCTS, INITIAL_CUSTOMERS } from '../data/mockData';
 import { Bell, Activity } from 'lucide-react';
 import LoginView from '../components/LoginView';
@@ -58,7 +59,10 @@ export default function Home() {
     }
 
     if (localCustomers) {
-      setCustomers(JSON.parse(localCustomers));
+      const parsed = JSON.parse(localCustomers) as (Customer & { city?: string })[];
+      const normalized = parsed.map(normalizeCustomer);
+      setCustomers(normalized);
+      localStorage.setItem('zenith_customers', JSON.stringify(normalized));
     } else {
       setCustomers(INITIAL_CUSTOMERS);
       localStorage.setItem('zenith_customers', JSON.stringify(INITIAL_CUSTOMERS));
