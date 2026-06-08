@@ -1,65 +1,339 @@
-import Image from "next/image";
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import Sidebar from '../components/Sidebar';
+import DashboardView from '../components/DashboardView';
+import OrdersView from '../components/OrdersView';
+import ProductsView from '../components/ProductsView';
+import CustomersView from '../components/CustomersView';
+import OrderDetailModal from '../components/OrderDetailModal';
+import NewOrderModal from '../components/NewOrderModal';
+import { Order, Product, Customer, OrderStatus } from '../types';
+import { INITIAL_ORDERS, INITIAL_PRODUCTS, INITIAL_CUSTOMERS } from '../data/mockData';
+import { Bell, Search, Activity, User } from 'lucide-react';
 
 export default function Home() {
+  const [activeTab, setActiveTab] = useState('dashboard');
+  
+  // Master states
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [customers, setCustomers] = useState<Customer[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Modals state
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [isNewOrderOpen, setIsNewOrderOpen] = useState(false);
+
+  // Load from local storage
+  useEffect(() => {
+    const localOrders = localStorage.getItem('zenith_orders');
+    const localProducts = localStorage.getItem('zenith_products');
+    const localCustomers = localStorage.getItem('zenith_customers');
+
+    if (localOrders) {
+      setOrders(JSON.parse(localOrders));
+    } else {
+      setOrders(INITIAL_ORDERS);
+      localStorage.setItem('zenith_orders', JSON.stringify(INITIAL_ORDERS));
+    }
+
+    if (localProducts) {
+      setProducts(JSON.parse(localProducts));
+    } else {
+      setProducts(INITIAL_PRODUCTS);
+      localStorage.setItem('zenith_products', JSON.stringify(INITIAL_PRODUCTS));
+    }
+
+    if (localCustomers) {
+      setCustomers(JSON.parse(localCustomers));
+    } else {
+      setCustomers(INITIAL_CUSTOMERS);
+      localStorage.setItem('zenith_customers', JSON.stringify(INITIAL_CUSTOMERS));
+    }
+    
+    setIsLoaded(true);
+  }, []);
+
+  // Sync helpers
+  const saveOrders = (updatedOrders: Order[]) => {
+    setOrders(updatedOrders);
+    localStorage.setItem('zenith_orders', JSON.stringify(updatedOrders));
+  };
+
+  const saveProducts = (updatedProducts: Product[]) => {
+    setProducts(updatedProducts);
+    localStorage.setItem('zenith_products', JSON.stringify(updatedProducts));
+  };
+
+  const saveCustomers = (updatedCustomers: Customer[]) => {
+    setCustomers(updatedCustomers);
+    localStorage.setItem('zenith_customers', JSON.stringify(updatedCustomers));
+  };
+
+  // Actions
+  const handleUpdateStock = (productId: string, newStock: number) => {
+    const updated = products.map(p => p.id === productId ? { ...p, stock: newStock } : p);
+    saveProducts(updated);
+  };
+
+  const handleAddProduct = (newProd: Omit<Product, 'id'>) => {
+    const newId = `prod-${products.length + 1}`;
+    const productWithId: Product = { ...newProd, id: newId };
+    const updated = [...products, productWithId];
+    saveProducts(updated);
+  };
+
+  const handleAddCustomer = (newCust: Omit<Customer, 'id' | 'totalOrders' | 'totalSpent'>) => {
+    const newId = `cust-${customers.length + 1}`;
+    const customerWithId: Customer = {
+      ...newCust,
+      id: newId,
+      totalOrders: 0,
+      totalSpent: 0
+    };
+    const updated = [...customers, customerWithId];
+    saveCustomers(updated);
+    return customerWithId;
+  };
+
+  const handleCreateOrder = (newOrderData: Omit<Order, 'id' | 'createdAt' | 'history'>) => {
+    // Generate Order ID
+    const maxIdNum = orders.reduce((max, o) => {
+      const match = o.id.match(/PED-(\d+)/);
+      if (match) {
+        const num = parseInt(match[1]);
+        return num > max ? num : max;
+      }
+      return max;
+    }, 1000);
+    const newId = `PED-${maxIdNum + 1}`;
+
+    const timestamp = new Date().toISOString();
+    const newOrder: Order = {
+      ...newOrderData,
+      id: newId,
+      createdAt: timestamp,
+      history: [
+        {
+          status: 'Pendiente',
+          timestamp: timestamp,
+          note: 'Pedido registrado en el sistema.'
+        }
+      ]
+    };
+
+    // Deduct stock
+    const updatedProducts = products.map(prod => {
+      const cartItem = newOrder.items.find(item => item.productId === prod.id);
+      if (cartItem) {
+        return {
+          ...prod,
+          stock: Math.max(0, prod.stock - cartItem.quantity)
+        };
+      }
+      return prod;
+    });
+
+    // Update Customer Statistics
+    const updatedCustomers = customers.map(cust => {
+      if (cust.id === newOrder.customerId) {
+        return {
+          ...cust,
+          totalOrders: cust.totalOrders + 1,
+          totalSpent: parseFloat((cust.totalSpent + newOrder.total).toFixed(2))
+        };
+      }
+      return cust;
+    });
+
+    saveOrders([newOrder, ...orders]);
+    saveProducts(updatedProducts);
+    saveCustomers(updatedCustomers);
+  };
+
+  const handleUpdateOrderStatus = (orderId: string, nextStatus: OrderStatus, note: string) => {
+    const timestamp = new Date().toISOString();
+    
+    const updatedOrders = orders.map(order => {
+      if (order.id === orderId) {
+        const updatedHistory = [
+          ...order.history,
+          {
+            status: nextStatus,
+            timestamp: timestamp,
+            note: note
+          }
+        ];
+
+        return {
+          ...order,
+          status: nextStatus,
+          history: updatedHistory
+        };
+      }
+      return order;
+    });
+
+    // Handle Cancelled order - return stock
+    if (nextStatus === 'Cancelado') {
+      const cancelledOrder = orders.find(o => o.id === orderId);
+      if (cancelledOrder) {
+        // Return product stock
+        const updatedProducts = products.map(prod => {
+          const item = cancelledOrder.items.find(i => i.productId === prod.id);
+          if (item) {
+            return { ...prod, stock: prod.stock + item.quantity };
+          }
+          return prod;
+        });
+
+        // Deduct from customer stats
+        const updatedCustomers = customers.map(cust => {
+          if (cust.id === cancelledOrder.customerId) {
+            return {
+              ...cust,
+              totalOrders: Math.max(0, cust.totalOrders - 1),
+              totalSpent: parseFloat(Math.max(0, cust.totalSpent - cancelledOrder.total).toFixed(2))
+            };
+          }
+          return cust;
+        });
+
+        saveProducts(updatedProducts);
+        saveCustomers(updatedCustomers);
+      }
+    }
+
+    saveOrders(updatedOrders);
+    
+    // Sync current modal detail view
+    const currentOrder = updatedOrders.find(o => o.id === orderId);
+    if (currentOrder) {
+      setSelectedOrder(currentOrder);
+    }
+  };
+
+  // Calculations for Badges
+  const pendingCount = orders.filter(o => o.status === 'Pendiente').length;
+  const lowStockCount = products.filter(p => p.stock <= p.minStock).length;
+
+  if (!isLoaded) {
+    return (
+      <div className="flex-1 flex items-center justify-center bg-slate-950 text-indigo-400 font-semibold gap-3 h-screen">
+        <Activity className="h-6 w-6 animate-pulse" />
+        <span>Cargando Zenith OMS...</span>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="flex h-screen bg-slate-950 text-slate-100 overflow-hidden font-sans">
+      
+      {/* Sidebar Navigation */}
+      <Sidebar 
+        activeTab={activeTab} 
+        setActiveTab={setActiveTab}
+        pendingOrdersCount={pendingCount}
+        lowStockCount={lowStockCount}
+      />
+
+      {/* Main Container */}
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+        
+        {/* App Header */}
+        <header className="h-16 border-b border-slate-900 flex items-center justify-between px-8 bg-slate-950/80 backdrop-blur-md z-10">
+          <div className="flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-ping"></span>
+            <span className="text-xs text-slate-400 font-semibold tracking-wider uppercase">Servicio Activo</span>
+          </div>
+
+          <div className="flex items-center gap-5">
+            {/* Quick Create shortcut */}
+            <button
+              onClick={() => setIsNewOrderOpen(true)}
+              className="px-3 py-1.5 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 border border-indigo-500/20 rounded-lg text-xs font-bold transition-all cursor-pointer"
+            >
+              + Nuevo Pedido
+            </button>
+            
+            {/* Notifications */}
+            <div className="relative cursor-pointer p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-900 transition-colors">
+              <Bell className="h-4.5 w-4.5" />
+              {(pendingCount > 0 || lowStockCount > 0) && (
+                <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-rose-500 shadow-md shadow-rose-500/50"></span>
+              )}
+            </div>
+
+            {/* Profile Summary */}
+            <div className="flex items-center gap-2 border-l border-slate-850 pl-4">
+              <div className="h-7 w-7 rounded-full bg-indigo-600 flex items-center justify-center text-xs font-bold text-white">
+                CM
+              </div>
+              <span className="text-xs font-semibold text-slate-300 hidden md:inline">Carlos M.</span>
+            </div>
+          </div>
+        </header>
+
+        {/* Content Viewer Workspace */}
+        <main className="flex-1 overflow-y-auto p-8 bg-slate-950/20">
+          <div className="max-w-7xl mx-auto">
+            {activeTab === 'dashboard' && (
+              <DashboardView 
+                orders={orders} 
+                products={products} 
+                onNavigate={setActiveTab}
+                onSelectOrder={setSelectedOrder}
+              />
+            )}
+            
+            {activeTab === 'orders' && (
+              <OrdersView 
+                orders={orders} 
+                onSelectOrder={setSelectedOrder}
+                onOpenNewOrder={() => setIsNewOrderOpen(true)}
+              />
+            )}
+            
+            {activeTab === 'products' && (
+              <ProductsView 
+                products={products} 
+                onUpdateStock={handleUpdateStock}
+                onAddProduct={handleAddProduct}
+              />
+            )}
+
+            {activeTab === 'customers' && (
+              <CustomersView 
+                customers={customers} 
+                onAddCustomer={handleAddCustomer}
+              />
+            )}
+          </div>
+        </main>
+      </div>
+
+      {/* Persistent Order Details overlay */}
+      {selectedOrder && (
+        <OrderDetailModal 
+          order={selectedOrder}
+          onClose={() => setSelectedOrder(null)}
+          onUpdateStatus={handleUpdateOrderStatus}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      )}
+
+      {/* Persistent Order Placement cart system */}
+      {isNewOrderOpen && (
+        <NewOrderModal 
+          isOpen={isNewOrderOpen}
+          onClose={() => setIsNewOrderOpen(false)}
+          products={products}
+          customers={customers}
+          onAddCustomer={handleAddCustomer}
+          onCreateOrder={handleCreateOrder}
+        />
+      )}
+
     </div>
   );
 }
