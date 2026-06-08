@@ -16,33 +16,12 @@ import { cn } from '../lib/utils';
 interface CmsSettings {
   logoUrl: string;
   bannerUrl: string;
-  themeColor: 'primary' | 'secondary';
   termsAndConditions: string;
   privacyPolicy: string;
   deliveryPolicy: string;
 }
 
 type CmsSection = 'appearance' | 'legal';
-
-const themeOptions = [
-  { id: 'primary' as const, name: 'Azul turquesa', swatch: 'bg-primary-500' },
-  { id: 'secondary' as const, name: 'Verde', swatch: 'bg-secondary-500' },
-];
-
-const themePreviewClasses = {
-  primary: {
-    badge: 'bg-primary-600',
-    iconBox: 'bg-primary-550/15 border-primary-550/20',
-    icon: 'text-primary-400',
-    glow: 'bg-primary-500/10',
-  },
-  secondary: {
-    badge: 'bg-secondary-600',
-    iconBox: 'bg-secondary-550/15 border-secondary-550/20',
-    icon: 'text-secondary-400',
-    glow: 'bg-secondary-500/10',
-  },
-} as const;
 
 const DEFAULT_TERMS = `Términos y Condiciones del Servicio:
 1. Aceptación de los Términos: Al acceder y utilizar este portal de salud digital, el usuario acepta de manera explícita los términos de servicio expuestos en el presente acuerdo.
@@ -61,7 +40,6 @@ export default function CmsView() {
   const [settings, setSettings] = useState<CmsSettings>({
     logoUrl: '/images/default-logo.png',
     bannerUrl: '/images/default-banner.jpg',
-    themeColor: 'primary',
     termsAndConditions: DEFAULT_TERMS,
     privacyPolicy: DEFAULT_PRIVACY,
     deliveryPolicy:
@@ -76,9 +54,15 @@ export default function CmsView() {
   useEffect(() => {
     const localCms = localStorage.getItem('zenith_cms_settings');
     if (localCms) {
-      const parsed = JSON.parse(localCms) as CmsSettings & { themeColor?: string };
-      const themeColor = parsed.themeColor === 'secondary' ? 'secondary' : 'primary';
-      setSettings({ ...parsed, themeColor });
+      const parsed = JSON.parse(localCms) as Partial<CmsSettings> & { themeColor?: string };
+      setSettings((prev) => ({
+        ...prev,
+        logoUrl: parsed.logoUrl ?? prev.logoUrl,
+        bannerUrl: parsed.bannerUrl ?? prev.bannerUrl,
+        termsAndConditions: parsed.termsAndConditions ?? prev.termsAndConditions,
+        privacyPolicy: parsed.privacyPolicy ?? prev.privacyPolicy,
+        deliveryPolicy: parsed.deliveryPolicy ?? prev.deliveryPolicy,
+      }));
     }
   }, []);
 
@@ -99,8 +83,6 @@ export default function CmsView() {
     setSaveSuccess(true);
     setTimeout(() => setSaveSuccess(false), 3000);
   };
-
-  const previewTheme = themePreviewClasses[settings.themeColor];
 
   return (
     <div className="space-y-6">
@@ -147,33 +129,6 @@ export default function CmsView() {
       {activeSection === 'appearance' ? (
         <div className="grid grid-cols-1 xl:grid-cols-5 gap-6">
           <div className="xl:col-span-3 space-y-5">
-            <section className="zenith-panel space-y-4">
-              <div>
-                <h3 className="zenith-section-title">Color del portal</h3>
-                <p className="text-xs text-surface-500 mt-0.5">
-                  Elige el color principal de botones y destacados.
-                </p>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {themeOptions.map((theme) => (
-                  <button
-                    key={theme.id}
-                    type="button"
-                    onClick={() => setSettings((prev) => ({ ...prev, themeColor: theme.id }))}
-                    className={cn(
-                      'flex items-center gap-3 p-3.5 rounded-xl border text-sm font-semibold transition-all cursor-pointer text-left',
-                      settings.themeColor === theme.id
-                        ? 'bg-surface-850 border-primary-500 text-foreground ring-1 ring-primary-500/30'
-                        : 'bg-surface-950 border-surface-800 text-surface-500 hover:border-surface-700 hover:text-foreground'
-                    )}
-                  >
-                    <span className={cn('h-8 w-8 rounded-lg shrink-0', theme.swatch)} />
-                    <span>{theme.name}</span>
-                  </button>
-                ))}
-              </div>
-            </section>
-
             <section className="zenith-panel space-y-4">
               <div>
                 <h3 className="zenith-section-title">Logotipo</h3>
@@ -240,12 +195,7 @@ export default function CmsView() {
               </div>
               <div className="relative rounded-xl bg-primary-900/60 border border-primary-500/10 overflow-hidden p-5 min-h-[140px] flex flex-col justify-between">
                 <div className="space-y-2 relative z-10">
-                  <span
-                    className={cn(
-                      'inline-block px-2 py-0.5 rounded-full text-[10px] font-bold text-white',
-                      previewTheme.badge
-                    )}
-                  >
+                  <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-bold text-white bg-primary-600">
                     Beneficio activo
                   </span>
                   <p className="text-sm font-bold text-foreground leading-snug">
@@ -255,20 +205,10 @@ export default function CmsView() {
                     Canjee su receta en cualquier sucursal de la red.
                   </p>
                 </div>
-                <div
-                  className={cn(
-                    'absolute right-4 bottom-4 h-14 w-14 rounded-xl border flex items-center justify-center',
-                    previewTheme.iconBox
-                  )}
-                >
-                  <Palette className={cn('h-7 w-7', previewTheme.icon)} />
+                <div className="absolute right-4 bottom-4 h-14 w-14 rounded-xl border flex items-center justify-center bg-primary-550/15 border-primary-550/20">
+                  <Palette className="h-7 w-7 text-primary-400" />
                 </div>
-                <div
-                  className={cn(
-                    'absolute -right-8 -bottom-8 h-28 w-28 rounded-full blur-xl',
-                    previewTheme.glow
-                  )}
-                />
+                <div className="absolute -right-8 -bottom-8 h-28 w-28 rounded-full blur-xl bg-primary-500/10" />
               </div>
             </div>
           </aside>
