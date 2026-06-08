@@ -480,7 +480,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
   };
 
   const credentialQrSvg = (
-    <svg viewBox="0 0 100 100" className="w-40 h-40 sm:w-48 sm:h-48 text-surface-900">
+    <svg viewBox="0 0 100 100" className="w-40 h-40 sm:w-48 sm:h-48 text-[#0a1220]">
       <rect x="0" y="0" width="20" height="20" fill="currentColor" />
       <rect x="5" y="5" width="10" height="10" fill="white" />
       <rect x="80" y="0" width="20" height="20" fill="currentColor" />
@@ -1705,14 +1705,14 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
           <p className="text-xs text-surface-400 text-center">
             Presente este código en el mostrador para validar su identidad y retirar medicamentos.
           </p>
-          <div className="flex flex-col items-center bg-white p-5 rounded-xl shadow-inner border border-surface-700/10 mx-auto max-w-xs">
+          <div className="flex flex-col items-center bg-white text-[#0a1220] p-5 rounded-xl shadow-inner border border-surface-700/10 mx-auto max-w-xs">
             {credentialQrSvg}
             <div className="mt-3 text-center">
-              <span className="text-xs font-mono font-bold text-surface-800 tracking-wider block">
+              <span className="text-xs font-mono font-bold text-[#0a1220] tracking-wider block">
                 TOKEN: {qrToken}
               </span>
-              <p className="text-[10px] text-surface-500 font-medium mt-1">
-                Vence en <span className="text-secondary-500 font-bold">{qrSecondsLeft}s</span>
+              <p className="text-[10px] text-surface-600 font-medium mt-1">
+                Vence en <span className="text-secondary-600 font-bold">{qrSecondsLeft}s</span>
               </p>
             </div>
           </div>
