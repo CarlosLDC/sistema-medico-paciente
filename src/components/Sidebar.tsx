@@ -45,7 +45,7 @@ export default function Sidebar({
         { id: 'customers', name: 'Clientes', icon: Users },
         { id: 'doctors', name: 'Gestión Médicos', icon: Stethoscope },
         { id: 'financials', name: 'Comisiones', icon: DollarSign },
-        { id: 'cms', name: 'Portal paciente', icon: Settings },
+        { id: 'cms', name: 'Configuración Global', icon: Settings },
       ]}
       activeId={activeTab}
       onNavigate={setActiveTab}

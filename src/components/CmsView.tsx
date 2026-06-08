@@ -87,7 +87,7 @@ export default function CmsView() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Portal del paciente"
+        title="Configuración Global"
         description="Define la apariencia y los textos que verán médicos y pacientes."
         actions={
           <Button size="sm" variant="patient" onClick={handlePublish}>
@@ -101,8 +101,8 @@ export default function CmsView() {
         <div className="p-3.5 bg-secondary-500/10 border border-secondary-500/25 rounded-xl flex items-center gap-2 text-secondary-450 text-xs">
           <CheckCircle className="h-4 w-4 shrink-0" />
           <span>
-            <strong className="font-bold">Cambios guardados.</strong> Se aplicarán en el portal del
-            paciente.
+            <strong className="font-bold">Cambios guardados.</strong> Se aplicarán en la configuración
+            global del sistema.
           </span>
         </div>
       )}
