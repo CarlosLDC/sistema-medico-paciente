@@ -193,22 +193,22 @@ export default function CmsView() {
                 <h3 className="zenith-section-title">Vista previa</h3>
                 <p className="text-xs text-surface-500 mt-0.5">Así se verá el banner del paciente.</p>
               </div>
-              <div className="relative rounded-xl bg-primary-900/60 border border-primary-500/10 overflow-hidden p-5 min-h-[140px] flex flex-col justify-between">
+              <div className="cms-patient-banner-preview">
                 <div className="space-y-2 relative z-10">
-                  <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-bold text-white bg-primary-600">
+                  <span className="cms-patient-banner-preview__badge">
                     Beneficio activo
                   </span>
-                  <p className="text-sm font-bold text-foreground leading-snug">
+                  <p className="cms-patient-banner-preview__title">
                     Su médico le ha otorgado descuentos exclusivos
                   </p>
-                  <p className="text-[10px] text-surface-500">
+                  <p className="cms-patient-banner-preview__subtitle">
                     Canjee su receta en cualquier sucursal de la red.
                   </p>
                 </div>
-                <div className="absolute right-4 bottom-4 h-14 w-14 rounded-xl border flex items-center justify-center bg-primary-550/15 border-primary-550/20">
-                  <Palette className="h-7 w-7 text-primary-400" />
+                <div className="cms-patient-banner-preview__icon">
+                  <Palette className="h-7 w-7" />
                 </div>
-                <div className="absolute -right-8 -bottom-8 h-28 w-28 rounded-full blur-xl bg-primary-500/10" />
+                <div className="cms-patient-banner-preview__glow" />
               </div>
             </div>
           </aside>

@@ -243,6 +243,36 @@
   .zenith-field-label {
     @apply text-[length:var(--text-label)] font-medium text-surface-500;
   }
+
+  .cms-patient-banner-preview {
+    @apply relative rounded-xl overflow-hidden p-5 min-h-[140px] flex flex-col justify-between border;
+    background: color-mix(in srgb, var(--color-primary) 10%, #141618);
+    border-color: color-mix(in srgb, var(--color-primary) 18%, transparent);
+  }
+
+  .cms-patient-banner-preview__badge {
+    @apply inline-block px-2 py-0.5 rounded-full text-[10px] font-bold text-white;
+    background: var(--color-primary-650);
+  }
+
+  .cms-patient-banner-preview__title {
+    @apply text-sm font-bold leading-snug text-foreground;
+  }
+
+  .cms-patient-banner-preview__subtitle {
+    @apply text-[10px] text-surface-400;
+  }
+
+  .cms-patient-banner-preview__icon {
+    @apply absolute right-4 bottom-4 h-14 w-14 rounded-xl border flex items-center justify-center text-primary-400;
+    background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+    border-color: color-mix(in srgb, var(--color-primary) 25%, transparent);
+  }
+
+  .cms-patient-banner-preview__glow {
+    @apply absolute -right-8 -bottom-8 h-28 w-28 rounded-full blur-xl pointer-events-none;
+    background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  }
 }
 
 body {
@@ -333,6 +363,33 @@ body {
 
 [data-theme="light"] .zenith-field-label {
   color: var(--zenith-surface-600);
+}
+
+[data-theme="light"] .cms-patient-banner-preview__badge {
+  color: #ffffff;
+}
+
+[data-theme="light"] .cms-patient-banner-preview {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-primary) 24%, #f0fdfa) 0%,
+    color-mix(in srgb, var(--color-primary) 10%, #f8fafc) 100%
+  );
+  border-color: color-mix(in srgb, var(--color-primary) 42%, #cbd5e1);
+}
+
+[data-theme="light"] .cms-patient-banner-preview__subtitle {
+  color: var(--zenith-surface-600);
+}
+
+[data-theme="light"] .cms-patient-banner-preview__icon {
+  color: var(--color-primary-650);
+  background: color-mix(in srgb, var(--color-primary) 18%, #ffffff);
+  border-color: color-mix(in srgb, var(--color-primary) 45%, #e2e8f0);
+}
+
+[data-theme="light"] .cms-patient-banner-preview__glow {
+  background: color-mix(in srgb, var(--color-primary) 28%, transparent);
 }
 
 ::-webkit-scrollbar {
