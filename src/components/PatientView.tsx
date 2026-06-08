@@ -25,7 +25,6 @@ import {
   ShieldCheck,
   Building,
   Info,
-  CreditCard,
   QrCode,
   DollarSign,
   AlertTriangle
@@ -124,11 +123,8 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
   const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
 
   // Payment States (Pantalla P.3)
-  const [paymentMethod, setPaymentMethod] = useState<'mobile' | 'transfer' | 'card'>('mobile');
+  const [paymentMethod, setPaymentMethod] = useState<'mobile' | 'transfer'>('mobile');
   const [referenceNumber, setReferenceNumber] = useState('');
-  const [cardNumber, setCardNumber] = useState('');
-  const [cardExpiry, setCardExpiry] = useState('');
-  const [cardCVC, setCardCVC] = useState('');
   const [paymentTimeLeft, setPaymentTimeLeft] = useState(900); // 15 minutes in seconds
   const [paymentError, setPaymentError] = useState('');
   
@@ -244,7 +240,6 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
     setPaymentTimeLeft(900);
     setPaymentError('');
     setReferenceNumber('');
-    setCardNumber('');
     setActiveSubTab('payment');
   };
 
@@ -252,24 +247,13 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
     e.preventDefault();
     setPaymentError('');
 
-    if (paymentMethod === 'card') {
-      if (!cardNumber || !cardExpiry || !cardCVC) {
-        setPaymentError('Por favor complete todos los datos de su tarjeta.');
-        return;
-      }
-      if (cardNumber.length < 12) {
-        setPaymentError('El número de tarjeta no es válido.');
-        return;
-      }
-    } else {
-      if (!referenceNumber) {
-        setPaymentError('Por favor ingrese el número de referencia de la transacción.');
-        return;
-      }
-      if (referenceNumber.length < 5) {
-        setPaymentError('El número de referencia debe contener al menos 5 dígitos.');
-        return;
-      }
+    if (!referenceNumber) {
+      setPaymentError('Por favor ingrese el número de referencia de la transacción.');
+      return;
+    }
+    if (referenceNumber.length < 5) {
+      setPaymentError('El número de referencia debe contener al menos 5 dígitos.');
+      return;
     }
 
     const randVoucher = `VOU-2026-${Math.floor(100000 + Math.random() * 900000)}`;
@@ -754,7 +738,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                       <p className="text-xs text-surface-400">Seleccione su método de pago y consigne los datos solicitados.</p>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <button
                         onClick={() => setPaymentMethod('mobile')}
                         className={`py-3 rounded-xl border font-bold text-xs flex flex-col items-center gap-1.5 transition-all cursor-pointer ${
@@ -777,18 +761,6 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                       >
                         <Building className="h-4.5 w-4.5" />
                         <span>Transferencia</span>
-                      </button>
-
-                      <button
-                        onClick={() => setPaymentMethod('card')}
-                        className={`py-3 rounded-xl border font-bold text-xs flex flex-col items-center gap-1.5 transition-all cursor-pointer ${
-                          paymentMethod === 'card'
-                            ? 'bg-primary-500/15 border-primary-500 text-white'
-                            : 'bg-surface-950/40 border-surface-850 text-surface-400 hover:text-surface-200'
-                        }`}
-                      >
-                        <CreditCard className="h-4.5 w-4.5" />
-                        <span>Tarjeta Crédito</span>
                       </button>
                     </div>
 
@@ -865,44 +837,6 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                               onChange={(e) => setReferenceNumber(e.target.value)}
                               className="w-full bg-surface-950 border border-surface-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-primary-500 placeholder-surface-700"
                             />
-                          </div>
-                        </div>
-                      )}
-
-                      {paymentMethod === 'card' && (
-                        <div className="p-4 bg-surface-950/50 border border-surface-850 rounded-xl space-y-4 text-xs">
-                          <div className="space-y-1.5">
-                            <label className="zenith-field-label">Número de Tarjeta</label>
-                            <input
-                              type="text"
-                              placeholder="4000 1234 5678 9010"
-                              value={cardNumber}
-                              onChange={(e) => setCardNumber(e.target.value)}
-                              className="w-full bg-surface-950 border border-surface-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-primary-500 placeholder-surface-700"
-                            />
-                          </div>
-                          
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div className="space-y-1.5">
-                              <label className="zenith-field-label">Expiración (MM/AA)</label>
-                              <input
-                                type="text"
-                                placeholder="12/28"
-                                value={cardExpiry}
-                                onChange={(e) => setCardExpiry(e.target.value)}
-                                className="w-full bg-surface-950 border border-surface-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-primary-500 placeholder-surface-700"
-                              />
-                            </div>
-                            <div className="space-y-1.5">
-                              <label className="zenith-field-label">Código CVC</label>
-                              <input
-                                type="password"
-                                placeholder="***"
-                                value={cardCVC}
-                                onChange={(e) => setCardCVC(e.target.value)}
-                                className="w-full bg-surface-950 border border-surface-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-primary-500 placeholder-surface-700"
-                              />
-                            </div>
                           </div>
                         </div>
                       )}
@@ -1047,7 +981,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                       <div>
                         <p className="font-semibold text-surface-600">Referencia de Pago Registrada:</p>
                         <p className="font-mono text-surface-800 font-bold mt-0.5">
-                          {paymentMethod === 'card' ? 'TRANS-CREDIT-CARD-OK' : referenceNumber}
+                          {referenceNumber}
                         </p>
                       </div>
                       
