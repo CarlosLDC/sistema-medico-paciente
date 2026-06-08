@@ -54,7 +54,7 @@ export default function AppHeader({
           <div className="relative cursor-pointer p-1.5 rounded-lg text-surface-400 hover:text-foreground hover:bg-surface-900 transition-colors">
             <Bell className="h-4.5 w-4.5" />
             {notificationCount > 0 && (
-              <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-white/80" />
+              <span className="absolute top-0.5 right-0.5 h-2.5 w-2.5 rounded-full bg-primary-500 border-2 border-surface-950" />
             )}
           </div>
         )}
