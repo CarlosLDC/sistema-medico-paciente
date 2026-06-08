@@ -62,6 +62,7 @@ interface MedicalProduct {
   price: number;
   stock: number;
   description: string;
+  source: 'farmacia' | 'externo';
 }
 
 interface CartItem {
@@ -72,13 +73,15 @@ interface CartItem {
 }
 
 const FARMA_HUMANA_CATALOG: MedicalProduct[] = [
-  { id: 'med-1', name: 'Ramipril 5mg', sku: 'RX-RAM-001', category: 'Cardiovascular', price: 12.50, stock: 120, description: 'Indicado para el tratamiento de la hipertensión arterial y reducción de morbilidad cardiovascular.' },
-  { id: 'med-2', name: 'Aspirina 100mg', sku: 'RX-ASP-002', category: 'Analgesia / Antiagregante', price: 6.00, stock: 450, description: 'Antiagregante plaquetario para la prevención cardiovascular.' },
-  { id: 'med-3', name: 'Amoxicilina 875mg + Ácido Clavulánico 125mg', sku: 'RX-AMO-003', category: 'Antibiótico', price: 18.20, stock: 80, description: 'Tratamiento de infecciones bacterianas del tracto respiratorio u oído.' },
-  { id: 'med-4', name: 'Metformina 850mg', sku: 'RX-MET-004', category: 'Antidiabético', price: 9.80, stock: 310, description: 'Tratamiento de la diabetes mellitus tipo 2 en adultos.' },
-  { id: 'med-5', name: 'Atorvastatina 20mg', sku: 'RX-ATO-005', category: 'Hipolipemiante', price: 15.40, stock: 150, description: 'Tratamiento para la reducción del colesterol total y LDL elevado.' },
-  { id: 'med-6', name: 'Ibuprofeno 600mg', sku: 'RX-IBU-006', category: 'Antiinflamatorio', price: 4.50, stock: 500, description: 'Alivio del dolor moderado y reducción de procesos febriles o inflamatorios.' }
+  { id: 'med-1', name: 'Ramipril 5mg', sku: 'RX-RAM-001', category: 'Cardiovascular', price: 12.50, stock: 120, description: 'Indicado para el tratamiento de la hipertensión arterial y reducción de morbilidad cardiovascular.', source: 'farmacia' },
+  { id: 'med-2', name: 'Aspirina 100mg', sku: 'RX-ASP-002', category: 'Analgesia / Antiagregante', price: 6.00, stock: 450, description: 'Antiagregante plaquetario para la prevención cardiovascular.', source: 'farmacia' },
+  { id: 'med-3', name: 'Amoxicilina 875mg + Ácido Clavulánico 125mg', sku: 'RX-AMO-003', category: 'Antibiótico', price: 18.20, stock: 80, description: 'Tratamiento de infecciones bacterianas del tracto respiratorio u oído.', source: 'farmacia' },
+  { id: 'med-4', name: 'Metformina 850mg', sku: 'RX-MET-004', category: 'Antidiabético', price: 9.80, stock: 310, description: 'Tratamiento de la diabetes mellitus tipo 2 en adultos.', source: 'farmacia' },
+  { id: 'med-5', name: 'Atorvastatina 20mg', sku: 'RX-ATO-005', category: 'Hipolipemiante', price: 15.40, stock: 150, description: 'Tratamiento para la reducción del colesterol total y LDL elevado.', source: 'farmacia' },
+  { id: 'med-6', name: 'Ibuprofeno 600mg', sku: 'RX-IBU-006', category: 'Antiinflamatorio', price: 4.50, stock: 500, description: 'Alivio del dolor moderado y reducción de procesos febriles o inflamatorios.', source: 'farmacia' }
 ];
+
+const PHARMACY_PRODUCTS = FARMA_HUMANA_CATALOG.filter((product) => product.source === 'farmacia');
 
 // Commission entry record
 interface CommissionEntry {
@@ -353,8 +356,8 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
     }, 4500);
   };
 
-  // Filter pharmaceutical products
-  const filteredCatalog = FARMA_HUMANA_CATALOG.filter(prod => 
+  // Filter pharmaceutical products from pharmacy inventory only
+  const filteredCatalog = PHARMACY_PRODUCTS.filter(prod => 
     prod.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     prod.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
     prod.sku.toLowerCase().includes(searchQuery.toLowerCase())
@@ -538,6 +541,33 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                       <span>Abrir Escáner de Récipes</span>
                       <ChevronRight className="h-3.5 w-3.5" />
                     </button>
+                  </div>
+                </div>
+
+                <div className="bg-surface-900/60 border border-surface-800 rounded-2xl p-6 space-y-4">
+                  <div>
+                    <h3 className="zenith-section-title">Productos de Farmacia</h3>
+                    <p className="text-xs text-surface-400">Listado de productos internos de farmacia disponibles para la agenda clínica del día.</p>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {PHARMACY_PRODUCTS.slice(0, 4).map((prod) => (
+                      <div key={prod.id} className="bg-surface-950/50 border border-surface-850 rounded-2xl p-4">
+                        <div className="flex items-center justify-between gap-3">
+                          <div>
+                            <p className="text-sm font-semibold text-white truncate">{prod.name}</p>
+                            <p className="text-[10px] text-surface-500 mt-1">{prod.category}</p>
+                          </div>
+                          <span className="text-[9px] text-surface-400 bg-surface-800 px-2 py-0.5 rounded-full uppercase tracking-[0.16em]">
+                            Farmacia
+                          </span>
+                        </div>
+                        <div className="mt-3 text-[10px] text-surface-400 line-clamp-2">{prod.description}</div>
+                        <div className="mt-3 flex items-center justify-between text-[10px] text-surface-300">
+                          <span>Stock: {prod.stock} u.</span>
+                          <span className="font-semibold text-secondary-400">${prod.price.toFixed(2)}</span>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -756,7 +786,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                     <div className="lg:col-span-5 bg-surface-900/60 border border-surface-800 rounded-3xl p-6 backdrop-blur-md space-y-4 flex flex-col max-h-[600px]">
                       <div>
                         <h3 className="zenith-section-title">Buscador de Medicamentos</h3>
-                        <p className="text-xs text-surface-400">Catálogo indexado de medicamentos del sistema.</p>
+                        <p className="text-xs text-surface-400">Catálogo interno de farmacia — solo productos de farmacia autorizados, no externos.</p>
                       </div>
 
                       {/* Search Input */}
