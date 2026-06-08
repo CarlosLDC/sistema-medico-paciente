@@ -150,11 +150,11 @@ export default function FinancialSettingsView() {
                 className="w-full pl-8 pr-3 py-2.5 bg-surface-950 border border-surface-850 rounded-xl text-xs text-white font-mono focus:outline-none focus:border-surface-400"
               />
             </div>
-            <p className="text-[10px] text-surface-500">
-              {commissionType === 'percent'
-                ? 'El porcentaje se calcula sobre el total neto de la venta de medicamentos en la receta.'
-                : 'Monto plano fijo en bolívares pagadero por cada ticket de venta efectiva.'}
-            </p>
+            {commissionType === 'fixed' && (
+              <p className="text-[10px] text-surface-500">
+                Monto plano fijo en bolívares pagadero por cada ticket de venta efectiva.
+              </p>
+            )}
           </div>
 
           <div className="space-y-1.5">
@@ -170,9 +170,6 @@ export default function FinancialSettingsView() {
                 className="w-full pl-8 pr-3 py-2.5 bg-surface-950 border border-surface-850 rounded-xl text-xs text-white font-mono focus:outline-none focus:border-surface-400"
               />
             </div>
-            <p className="text-[10px] text-surface-550">
-              Ventas menores a este umbral no generarán incentivo financiero para el médico.
-            </p>
           </div>
         </div>
 
