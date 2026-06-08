@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import { Order, Product } from '../types';
 import { formatCurrency } from '../lib/currency';
+import { downloadAuditReport } from '../lib/exportReport';
 import { PageHeader, Button, Badge, StatCard, ListCard } from './ui';
 
 interface DashboardViewProps {
@@ -97,6 +98,7 @@ export default function DashboardView({ orders, products, onNavigate, onSelectOr
   const [isExporting, setIsExporting] = useState(false);
   const [exportProgress, setExportProgress] = useState(0);
   const [exportMsg, setExportMsg] = useState('');
+  const [pendingExportType, setPendingExportType] = useState<'Excel' | 'CSV' | null>(null);
 
   // Calculations for static metrics
   const completedOrders = orders.filter(o => o.status === 'Entregado');
@@ -150,33 +152,44 @@ export default function DashboardView({ orders, products, onNavigate, onSelectOr
     ? `${linePath} L ${points[points.length - 1].x} ${chartHeight} L ${points[0].x} ${chartHeight} Z`
     : '';
 
-  // Export simulation
   const handleExport = (type: 'Excel' | 'CSV') => {
+    setPendingExportType(type);
     setIsExporting(true);
     setExportProgress(0);
-    setExportMsg(`Generando archivo de auditoría contable (.${type.toLowerCase()})...`);
+    setExportMsg(`Generando archivo de auditoría contable (.${type === 'Excel' ? 'xls' : 'csv'})...`);
   };
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (isExporting && exportProgress < 100) {
-      timer = setInterval(() => {
-        setExportProgress(prev => {
-          if (prev >= 100) {
-            clearInterval(timer);
-            setTimeout(() => {
-              setIsExporting(false);
-              setExportMsg('');
-              alert(`¡Reporte exportado con éxito a formato ${exportProgress === 100 ? 'auditable' : ''}!`);
-            }, 500);
-            return 100;
-          }
-          return prev + 20;
-        });
-      }, 200);
+    if (!isExporting || exportProgress >= 100 || !pendingExportType) {
+      return;
     }
+
+    const timer = setInterval(() => {
+      setExportProgress((prev) => Math.min(prev + 20, 100));
+    }, 200);
+
     return () => clearInterval(timer);
-  }, [isExporting, exportProgress]);
+  }, [isExporting, exportProgress, pendingExportType]);
+
+  useEffect(() => {
+    if (!isExporting || exportProgress < 100 || !pendingExportType) {
+      return;
+    }
+
+    const finishTimer = setTimeout(() => {
+      downloadAuditReport(
+        pendingExportType === 'Excel' ? 'excel' : 'csv',
+        orders,
+        products
+      );
+      setIsExporting(false);
+      setExportProgress(0);
+      setExportMsg('');
+      setPendingExportType(null);
+    }, 400);
+
+    return () => clearTimeout(finishTimer);
+  }, [isExporting, exportProgress, pendingExportType, orders, products]);
 
   // Database filtering
   const filteredDoctors = MOCK_DOCTORS.filter(d => 
