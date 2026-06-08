@@ -323,7 +323,7 @@ export default function DashboardView({ orders, products, onNavigate, onSelectOr
         <div className="lg:col-span-2 bg-surface-900/60 border border-surface-800 rounded-2xl p-6 backdrop-blur-md flex flex-col justify-between">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h4 className="font-bold text-white text-base">Tendencia Operativa Semanal</h4>
+              <h4 className="zenith-section-title">Tendencia Operativa Semanal</h4>
               <p className="text-xs text-surface-400">Filtre y visualice las estadísticas clave de rendimiento.</p>
             </div>
             
@@ -392,7 +392,7 @@ export default function DashboardView({ orders, products, onNavigate, onSelectOr
         {/* Category breakdown (1/3 width) */}
         <div className="bg-surface-900/60 border border-surface-800 rounded-2xl p-6 backdrop-blur-md flex flex-col justify-between">
           <div>
-            <h4 className="font-bold text-white text-base">Distribución por Categorías</h4>
+            <h4 className="zenith-section-title">Distribución por Categorías</h4>
             <p className="text-xs text-surface-400">Ingresos consolidados por departamento.</p>
           </div>
           
@@ -426,7 +426,7 @@ export default function DashboardView({ orders, products, onNavigate, onSelectOr
 
           <div className="border-t border-surface-850 pt-3 flex items-center justify-between text-xs text-surface-500 font-medium">
             <span>Volumen Consolidado:</span>
-            <span className="text-white font-black font-mono">
+            <span className="text-white font-semibold font-mono">
               {totalRevenue.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
             </span>
           </div>
@@ -442,7 +442,7 @@ export default function DashboardView({ orders, products, onNavigate, onSelectOr
           <div className="flex items-center gap-2">
             <Database className="h-5 w-5 text-primary-400" />
             <div>
-              <h4 className="font-bold text-white text-base">Buscador y Consultas de Base de Datos</h4>
+              <h4 className="zenith-section-title">Buscador y Consultas de Base de Datos</h4>
               <p className="text-xs text-surface-400">Consulte tablas relacionales en espejo con la sucursal Farma-Humana.</p>
             </div>
           </div>
@@ -602,7 +602,7 @@ export default function DashboardView({ orders, products, onNavigate, onSelectOr
         <div className="lg:col-span-2 bg-surface-900/60 border border-surface-800 rounded-2xl p-6 backdrop-blur-md">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h4 className="font-bold text-white text-base">Últimos Pedidos</h4>
+              <h4 className="zenith-section-title">Últimos Pedidos</h4>
               <p className="text-xs text-surface-400">Monitoreo en tiempo real de transacciones.</p>
             </div>
             <button 
@@ -653,7 +653,7 @@ export default function DashboardView({ orders, products, onNavigate, onSelectOr
         {/* Inventory alerts */}
         <div className="bg-surface-900/60 border border-surface-800 rounded-2xl p-6 backdrop-blur-md flex flex-col">
           <div className="mb-4">
-            <h4 className="font-bold text-white text-base">Alertas de Inventario</h4>
+            <h4 className="zenith-section-title">Alertas de Inventario</h4>
             <p className="text-xs text-surface-400">Productos cercanos o bajo stock mínimo.</p>
           </div>
           

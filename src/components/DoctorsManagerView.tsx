@@ -175,7 +175,7 @@ export default function DoctorsManagerView() {
         <form onSubmit={handleSubmit} className="lg:col-span-5 bg-surface-900/60 border border-surface-800 rounded-3xl p-6 backdrop-blur-md space-y-4">
           <div className="flex items-center gap-2 border-b border-surface-850 pb-3">
             <UserPlus className="h-4.5 w-4.5 text-secondary-455" />
-            <h3 className="font-bold text-white text-base">Dar de Alta Médico</h3>
+            <h3 className="zenith-section-title">Dar de Alta Médico</h3>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
@@ -317,7 +317,7 @@ export default function DoctorsManagerView() {
               <div className="flex items-center gap-2 border-b border-surface-850 pb-2">
                 <Lock className="h-4.5 w-4.5 text-primary-400" />
                 <div>
-                  <h4 className="font-bold text-white text-xs">Credenciales Provisionales Generadas</h4>
+                  <h4 className="zenith-section-title text-xs">Credenciales Provisionales Generadas</h4>
                   <p className="text-[10px] text-surface-500">Envíe estos datos de acceso seguro al profesional.</p>
                 </div>
               </div>
@@ -356,7 +356,7 @@ export default function DoctorsManagerView() {
             
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-surface-850 pb-3">
               <div>
-                <h3 className="font-bold text-white text-base">Directorio de Profesionales</h3>
+                <h3 className="zenith-section-title">Directorio de Profesionales</h3>
                 <p className="text-xs text-surface-400">Lista completa de médicos y estado de vigencia.</p>
               </div>
 

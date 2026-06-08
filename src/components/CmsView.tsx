@@ -167,7 +167,7 @@ export default function CmsView() {
         <div className="bg-surface-900/40 border border-surface-800 rounded-3xl p-8 backdrop-blur-md space-y-6 max-w-3xl mx-auto">
           <div className="text-center space-y-2">
             <span className="text-[10px] uppercase font-bold tracking-widest text-primary-400">Previsualizador de Identidad Corporativa</span>
-            <h3 className="text-lg font-bold text-white">Así visualizarán los pacientes el portal</h3>
+            <h3 className="zenith-section-title">Así visualizarán los pacientes el portal</h3>
           </div>
 
           {/* Simulated Banner */}
@@ -176,7 +176,7 @@ export default function CmsView() {
               <span className={`px-2.5 py-0.5 rounded-full text-2xs font-extrabold text-white ${previewTheme.badge}`}>
                 Descuento de Consulta
               </span>
-              <h4 className="text-lg font-black text-white leading-tight">Su médico le ha otorgado beneficios exclusivos</h4>
+              <h4 className="zenith-section-title leading-tight">Su médico le ha otorgado beneficios exclusivos</h4>
               <p className="text-2xs text-surface-400">Canjee su récipe digital en cualquier sucursal afiliada a Farma-Humana.</p>
             </div>
             <div className={`h-20 w-20 rounded-2xl ${previewTheme.iconBox} flex items-center justify-center`}>
@@ -207,7 +207,7 @@ export default function CmsView() {
             {/* File drop panel */}
             <div className="bg-surface-900/60 border border-surface-800 rounded-3xl p-6 backdrop-blur-md space-y-4">
               <div>
-                <h3 className="font-bold text-white text-base">Carga de Multimedia y Banners</h3>
+                <h3 className="zenith-section-title">Carga de Multimedia y Banners</h3>
                 <p className="text-xs text-surface-400">Cargue banners de campaña, logotipos e imágenes del sistema.</p>
               </div>
 
@@ -277,7 +277,7 @@ export default function CmsView() {
             <div className="bg-surface-900/60 border border-surface-800 rounded-3xl p-6 backdrop-blur-md space-y-4">
               <div className="flex items-center gap-2 border-b border-surface-850 pb-3">
                 <Palette className="h-4.5 w-4.5 text-secondary-450" />
-                <h3 className="font-bold text-white text-base">Identidad Visual & Estilos</h3>
+                <h3 className="zenith-section-title">Identidad Visual & Estilos</h3>
               </div>
 
               <div className="space-y-3.5">
@@ -333,7 +333,7 @@ export default function CmsView() {
           <div className="bg-surface-900/60 border border-surface-800 rounded-3xl p-6 backdrop-blur-md space-y-5">
             <div className="flex items-center gap-2 border-b border-surface-850 pb-3">
               <ShieldCheck className="h-5 w-5 text-primary-400" />
-              <h3 className="font-bold text-white text-base">Políticas Legales y Consentimientos</h3>
+              <h3 className="zenith-section-title">Políticas Legales y Consentimientos</h3>
             </div>
 
             <div className="space-y-4">

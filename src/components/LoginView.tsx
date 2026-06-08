@@ -117,7 +117,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
           <div className="h-12 w-12 rounded-xl bg-gradient-to-tr from-primary to-secondary flex items-center justify-center text-white shadow-lg shadow-primary-500/20">
             <Activity className="h-6 w-6" />
           </div>
-          <h2 className="text-2xl font-extrabold text-white tracking-tight mt-2">Zenith Portal</h2>
+          <h2 className="zenith-page-title mt-2">Zenith Portal</h2>
           <p className="text-xs text-surface-400">Inicio de Sesión Unificado para Médicos, Pacientes y Administradores</p>
         </div>
 
@@ -128,7 +128,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
               <Info className="h-10 w-10 animate-bounce" />
             </div>
             <div className="space-y-1">
-              <h4 className="text-sm font-bold text-white">Usuario no registrado</h4>
+              <h4 className="zenith-section-title">Usuario no registrado</h4>
               <p className="text-xs text-surface-400 leading-relaxed">
                 Su correo pertenece a la estructura de un client nuevo. Le estamos redirigiendo automáticamente al sistema externo de registro de pacientes.
               </p>

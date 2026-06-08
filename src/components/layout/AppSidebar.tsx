@@ -71,8 +71,8 @@ export default function AppSidebar({
           <BrandIcon className="h-5 w-5" />
         </div>
         <div>
-          <h1 className="text-white tracking-tight text-lg leading-none">{brand.title}</h1>
-          <span className="text-[10px] text-surface-500 font-semibold tracking-wider uppercase">
+          <h1 className="text-white tracking-tight text-base leading-none">{brand.title}</h1>
+          <span className="text-[10px] text-surface-500 font-medium tracking-wider uppercase">
             {brand.subtitle}
           </span>
         </div>
@@ -82,7 +82,7 @@ export default function AppSidebar({
 
       <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
         {sectionLabel && (
-          <div className="px-4 py-2 text-[10px] font-bold text-surface-500 uppercase tracking-wider">
+          <div className="px-4 py-2 text-[10px] font-semibold text-surface-500 uppercase tracking-wider">
             {sectionLabel}
           </div>
         )}

@@ -72,7 +72,7 @@ export default function CustomersView({ customers, onAddCustomer }: CustomersVie
           </div>
           <div>
             <span className="text-[10px] font-bold text-surface-500 uppercase">Clientes Totales</span>
-            <p className="text-xl font-bold text-white mt-0.5">{customers.length}</p>
+            <p className="text-lg font-semibold text-white mt-0.5">{customers.length}</p>
           </div>
         </div>
         <div className="bg-surface-900/40 border border-surface-850 rounded-2xl p-5 flex items-center gap-4">
@@ -81,7 +81,7 @@ export default function CustomersView({ customers, onAddCustomer }: CustomersVie
           </div>
           <div>
             <span className="text-[10px] font-bold text-surface-500 uppercase">Gasto Medio</span>
-            <p className="text-xl font-bold text-white mt-0.5">
+            <p className="text-lg font-semibold text-white mt-0.5">
               {averageSpent.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
             </p>
           </div>
@@ -182,7 +182,7 @@ export default function CustomersView({ customers, onAddCustomer }: CustomersVie
       <Modal open={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} size="md">
         <form onSubmit={handleSubmit}>
           <div className="flex items-center justify-between px-6 py-4 border-b border-surface-850 shrink-0">
-            <h3 className="text-base font-bold text-white flex items-center gap-1.5">
+            <h3 className="zenith-section-title flex items-center gap-1.5">
               <Users className="h-4.5 w-4.5 text-primary-400" />
               Registrar Nuevo Cliente
             </h3>

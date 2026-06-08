@@ -154,7 +154,7 @@ export default function ProductsView({ products, onUpdateStock, onAddProduct }: 
                 {/* Card Details Block */}
                 <div className="p-4 flex-1 flex flex-col justify-between space-y-4">
                   <div>
-                    <h3 className="text-sm font-bold text-white line-clamp-2 leading-snug group-hover:text-primary-400 transition-colors">
+                    <h3 className="text-sm font-medium text-white line-clamp-2 leading-snug group-hover:text-primary-400 transition-colors">
                       {prod.name}
                     </h3>
                   </div>
@@ -163,7 +163,7 @@ export default function ProductsView({ products, onUpdateStock, onAddProduct }: 
                   <div className="flex justify-between items-end">
                     <div>
                       <span className="text-[10px] text-surface-500 font-bold uppercase">Precio Unitario</span>
-                      <p className="font-mono text-base font-bold text-white mt-0.5">
+                      <p className="font-mono text-sm font-semibold text-white mt-0.5">
                         {prod.price.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
                       </p>
                     </div>
@@ -219,7 +219,7 @@ export default function ProductsView({ products, onUpdateStock, onAddProduct }: 
       <Modal open={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} size="md">
         <form onSubmit={handleAddProductSubmit}>
           <div className="flex items-center justify-between px-6 py-4 border-b border-surface-850 shrink-0">
-            <h3 className="text-base font-bold text-white flex items-center gap-1.5">
+            <h3 className="zenith-section-title flex items-center gap-1.5">
               <Package className="h-4.5 w-4.5 text-primary-400" />
               Añadir Nuevo Producto
             </h3>

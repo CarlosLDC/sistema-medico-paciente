@@ -45,7 +45,7 @@ export default function Modal({ open, onClose, title, children, size = 'lg', cla
       >
         {title && (
           <div className="flex items-center justify-between px-6 py-4 border-b border-surface-850 shrink-0">
-            <div className="font-bold text-white">{title}</div>
+            <div className="zenith-section-title">{title}</div>
             <button
               onClick={onClose}
               className="p-1.5 rounded-lg text-surface-400 hover:text-white hover:bg-surface-800 transition-colors cursor-pointer"

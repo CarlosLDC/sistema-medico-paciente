@@ -404,7 +404,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                       <span className="text-[10px] bg-primary-500/10 text-primary-400 px-2 py-0.5 rounded font-bold uppercase tracking-wider">Última Orden de Farmacia</span>
                       <span className="text-xs font-mono font-semibold text-surface-500">ID: #ORD-9923</span>
                     </div>
-                    <h3 className="text-sm font-bold text-white">Retiro de Medicamentos (Receta Activa)</h3>
+                    <h3 className="text-sm font-medium text-white">Retiro de Medicamentos (Receta Activa)</h3>
                     <p className="text-xs text-surface-400">Retira en Farmacia Central (Sanatorio Zenith) • Pasillo B, Mostrador 3</p>
                   </div>
 
@@ -487,7 +487,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                 {/* Recipes Table Card */}
                 <div className="bg-surface-900/60 border border-surface-800 rounded-2xl p-6 backdrop-blur-md space-y-4">
                   <div>
-                    <h3 className="font-bold text-white text-base">Récipes Emitidos por Especialistas</h3>
+                    <h3 className="zenith-section-title">Récipes Emitidos por Especialistas</h3>
                     <p className="text-xs text-surface-400">Listado cronológico de recetas autorizadas.</p>
                   </div>
 
@@ -563,7 +563,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                   <div className="lg:col-span-2 bg-surface-900/60 border border-surface-800 rounded-2xl p-6 backdrop-blur-md space-y-4">
                     <div className="flex justify-between items-center">
                       <div>
-                        <h3 className="font-bold text-white text-base">Desglose de Medicamentos Recetados</h3>
+                        <h3 className="zenith-section-title">Desglose de Medicamentos Recetados</h3>
                         <p className="text-xs text-surface-400">Descuentos exclusivos aplicados por su médico.</p>
                       </div>
                       <span className="text-[10px] bg-primary-500/10 text-primary-400 border border-primary-500/25 px-2 py-0.5 rounded font-bold">
@@ -639,7 +639,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                   {/* Facturación Invoice Box */}
                   <div className="space-y-6">
                     <div className="bg-surface-900/60 border border-surface-800 rounded-2xl p-6 backdrop-blur-md space-y-4">
-                      <h3 className="font-bold text-white text-base">Resumen de Facturación</h3>
+                      <h3 className="zenith-section-title">Resumen de Facturación</h3>
 
                       <div className="space-y-2.5 text-xs text-surface-400">
                         <div className="flex justify-between">
@@ -660,14 +660,14 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                         </div>
                         
                         <div className="border-t border-surface-800 pt-3 flex justify-between items-baseline">
-                          <span className="font-bold text-white text-sm">Total Neto</span>
-                          <span className="text-xl font-black text-primary-400">${totals.netTotal.toFixed(2)}</span>
+                          <span className="font-medium text-white text-sm">Total Neto</span>
+                          <span className="text-lg font-semibold text-primary-400">${totals.netTotal.toFixed(2)}</span>
                         </div>
                       </div>
                     </div>
 
                     <div className="bg-surface-900/60 border border-surface-800 rounded-2xl p-6 backdrop-blur-md space-y-4">
-                      <h3 className="font-bold text-white text-sm flex items-center gap-2">
+                      <h3 className="zenith-section-title flex items-center gap-2">
                         <Building className="h-4 w-4 text-surface-400" />
                         <span>Sucursal de Envío</span>
                       </h3>
@@ -713,7 +713,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                       <Clock className="h-5 w-5 text-secondary-400 animate-pulse" />
                       <div>
                         <span className="text-[9px] font-bold text-secondary-450 uppercase leading-none block">Reserva de Inventario</span>
-                        <span className="text-lg font-mono font-black text-white">{formatTime(paymentTimeLeft)}</span>
+                        <span className="text-base font-mono font-semibold text-white">{formatTime(paymentTimeLeft)}</span>
                       </div>
                     </div>
                   }
@@ -724,7 +724,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                   {/* Payment form */}
                   <div className="lg:col-span-2 bg-surface-900/60 border border-surface-800 rounded-2xl p-6 backdrop-blur-md space-y-5">
                     <div>
-                      <h3 className="font-bold text-white text-base">Registro del Comprobante</h3>
+                      <h3 className="zenith-section-title">Registro del Comprobante</h3>
                       <p className="text-xs text-surface-400">Seleccione su método de pago y consigne los datos solicitados.</p>
                     </div>
 
@@ -899,7 +899,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
 
                   {/* Summary of checkout */}
                   <div className="bg-surface-900/60 border border-surface-800 rounded-2xl p-6 backdrop-blur-md space-y-4">
-                    <h3 className="font-bold text-white text-sm">Resumen de Compra</h3>
+                    <h3 className="zenith-section-title">Resumen de Compra</h3>
                     
                     <div className="space-y-3">
                       {proposalItems.map((item) => (
@@ -946,7 +946,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                       </div>
                       <div>
                         <span className="text-[9px] font-bold text-secondary-450 uppercase tracking-widest leading-none block">Transacción Aprobada</span>
-                        <h3 className="text-base font-extrabold text-white mt-0.5">Comprobante de Venta</h3>
+                        <h3 className="zenith-section-title mt-0.5">Comprobante de Venta</h3>
                       </div>
                     </div>
 
@@ -1210,7 +1210,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                 <div className="space-y-1">
                   <div className="flex items-center gap-2 text-primary-900">
                     <Activity className="h-7 w-7 text-primary-700" />
-                    <h1 className="text-2xl font-black tracking-tight uppercase">Clínica Zenith</h1>
+                    <h1 className="zenith-page-title uppercase">Clínica Zenith</h1>
                   </div>
                   <p className="text-2xs text-surface-500 font-medium">
                     Servicios de Cardiología y Diagnóstico Especializado<br />
@@ -1331,7 +1331,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
           
           <div className="relative bg-surface-900 border border-surface-800 text-surface-100 w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 flex flex-col max-h-[85vh]">
             <div className="flex items-center justify-between px-6 py-4 border-b border-surface-850 bg-surface-950/40">
-              <h3 className="font-bold text-white text-sm flex items-center gap-2">
+              <h3 className="zenith-section-title flex items-center gap-2">
                 <ShieldCheck className="h-5 w-5 text-primary-400" />
                 <span>Términos y Condiciones Farma-Humana</span>
               </h3>

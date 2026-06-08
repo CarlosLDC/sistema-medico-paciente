@@ -173,7 +173,7 @@ export default function NewOrderModal({
         <div className="flex items-center justify-between px-6 py-4 border-b border-surface-850 shrink-0">
           <div className="flex items-center gap-2">
             <ShoppingBag className="h-5 w-5 text-primary-400" />
-            <h3 className="text-lg font-bold text-white">Registrar Nuevo Pedido</h3>
+            <h3 className="zenith-section-title">Registrar Nuevo Pedido</h3>
           </div>
           <button
             type="button"

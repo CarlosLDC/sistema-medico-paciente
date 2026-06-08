@@ -36,7 +36,7 @@ export default function StatCard({
       </div>
       <div className="mt-3">
         <p className="text-xs text-surface-400 font-medium">{label}</p>
-        <h3 className="text-2xl text-white tracking-tight mt-0.5">{value}</h3>
+        <p className="text-lg text-white tracking-tight mt-0.5 tabular-nums">{value}</p>
         {hint && (
           <div className={cn('mt-1 flex items-center gap-1 text-[10px] font-semibold', hintColor)}>
             {hint}

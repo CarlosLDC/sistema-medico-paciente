@@ -110,7 +110,7 @@ export default function FinancialSettingsView() {
         <form onSubmit={handleUpdate} className="lg:col-span-5 bg-surface-900/60 border border-surface-800 rounded-3xl p-6 backdrop-blur-md space-y-5">
           <div className="flex items-center gap-2 border-b border-surface-850 pb-3">
             <Percent className="h-4.5 w-4.5 text-primary-400" />
-            <h3 className="font-bold text-white text-base">Parámetros de Comisión</h3>
+            <h3 className="zenith-section-title">Parámetros de Comisión</h3>
           </div>
 
           {/* Toggle Type */}
@@ -203,7 +203,7 @@ export default function FinancialSettingsView() {
           <div className="flex items-center gap-2 border-b border-surface-850 pb-3">
             <History className="h-4.5 w-4.5 text-secondary-455" />
             <div>
-              <h3 className="font-bold text-white text-base">Bitácora de Auditoría Financiera</h3>
+              <h3 className="zenith-section-title">Bitácora de Auditoría Financiera</h3>
               <p className="text-xs text-surface-400">Historial completo de modificaciones de reglas contables.</p>
             </div>
           </div>

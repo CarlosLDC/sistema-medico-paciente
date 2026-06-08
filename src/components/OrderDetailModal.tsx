@@ -81,7 +81,7 @@ export default function OrderDetailModal({ order, onClose, onUpdateStatus }: Ord
         <>
         <div className="flex items-center justify-between px-6 py-4 border-b border-surface-850 shrink-0">
           <div className="flex items-center gap-3">
-            <h3 className="text-lg font-bold text-white font-mono">{order.id}</h3>
+            <h3 className="zenith-section-title font-mono">{order.id}</h3>
             <Badge status={order.status}>
               {order.status}
             </Badge>
@@ -134,7 +134,7 @@ export default function OrderDetailModal({ order, onClose, onUpdateStatus }: Ord
             {/* Product items list */}
             <div className="border border-surface-850 rounded-xl overflow-hidden">
               <div className="px-4 py-3 bg-surface-950/25 border-b border-surface-850">
-                <h4 className="text-sm font-bold text-white">Artículos del Pedido</h4>
+                <h4 className="zenith-section-title">Artículos del Pedido</h4>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
@@ -263,7 +263,7 @@ export default function OrderDetailModal({ order, onClose, onUpdateStatus }: Ord
           {/* Sidebar vertical timeline (1 column) */}
           <div className="bg-surface-950/30 border border-surface-850 rounded-xl p-5 flex flex-col space-y-4">
             <div>
-              <h4 className="text-sm font-bold text-white">Línea de Tiempo del Pedido</h4>
+              <h4 className="zenith-section-title">Línea de Tiempo del Pedido</h4>
               <p className="text-xs text-surface-500">Historial y notas de cambios de estado.</p>
             </div>
             

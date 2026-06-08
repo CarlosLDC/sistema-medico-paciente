@@ -425,7 +425,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                     </div>
                     <div>
                       <span className="text-[10px] font-bold text-surface-500 uppercase">Citas Hoy</span>
-                      <p className="text-xl font-bold text-white mt-0.5">{appointments.length}</p>
+                      <p className="text-lg font-semibold text-white mt-0.5">{appointments.length}</p>
                     </div>
                   </div>
                   <div className="bg-surface-900/60 border border-surface-800 rounded-2xl p-5 flex items-center gap-4">
@@ -434,7 +434,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                     </div>
                     <div>
                       <span className="text-[10px] font-bold text-surface-500 uppercase">Citas Pendientes</span>
-                      <p className="text-xl font-bold text-white mt-0.5">
+                      <p className="text-lg font-semibold text-white mt-0.5">
                         {appointments.filter(a => a.status === 'Pendiente').length}
                       </p>
                     </div>
@@ -445,7 +445,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                     </div>
                     <div>
                       <span className="text-[10px] font-bold text-surface-500 uppercase">Pacientes Activos</span>
-                      <p className="text-xl font-bold text-white mt-0.5">{activePatients.length}</p>
+                      <p className="text-lg font-semibold text-white mt-0.5">{activePatients.length}</p>
                     </div>
                   </div>
                 </div>
@@ -454,7 +454,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                   {/* Appointments list */}
                   <div className="lg:col-span-2 bg-surface-900/60 border border-surface-800 rounded-2xl p-6 space-y-4">
                     <div>
-                      <h3 className="font-bold text-white text-base">Pacientes Agendados</h3>
+                      <h3 className="zenith-section-title">Pacientes Agendados</h3>
                       <p className="text-xs text-surface-400">Atienda y vincule expedientes clínicos en lista de espera.</p>
                     </div>
 
@@ -497,7 +497,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                   {/* Patient warnings */}
                   <div className="bg-surface-900/60 border border-surface-800 rounded-2xl p-6 space-y-4 flex flex-col justify-between">
                     <div>
-                      <h3 className="font-bold text-white text-base">Alertas Clínicas Críticas</h3>
+                      <h3 className="zenith-section-title">Alertas Clínicas Críticas</h3>
                       <p className="text-xs text-surface-400">Seguimiento de condiciones críticas registradas.</p>
                     </div>
 
@@ -541,7 +541,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                   {/* Left Column: QR Code simulated Scanner */}
                   <div className="bg-surface-900/60 border border-surface-800 rounded-3xl p-6 backdrop-blur-md space-y-5 flex flex-col items-center text-center">
                     <div className="w-full text-left">
-                      <h3 className="font-bold text-white text-base">Módulo de Vinculación</h3>
+                      <h3 className="zenith-section-title">Módulo de Vinculación</h3>
                       <p className="text-xs text-surface-400">Active la cámara o digite manualmente el ID del token.</p>
                     </div>
 
@@ -625,7 +625,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                           <div className="space-y-4">
                             <div>
                               <span className="text-[9px] bg-secondary-500/10 text-secondary-400 px-2 py-0.5 rounded font-bold uppercase tracking-wider">Bloque A</span>
-                              <h3 className="font-bold text-white text-base mt-1.5">Expediente Clínico</h3>
+                              <h3 className="zenith-section-title mt-1.5">Expediente Clínico</h3>
                               <p className="text-xs text-surface-400">Datos médicos visibles en su pantalla de control.</p>
                             </div>
 
@@ -694,7 +694,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                           <div className="space-y-4">
                             <div>
                               <span className="text-[9px] bg-secondary-500/10 text-secondary-400 px-2 py-0.5 rounded font-bold uppercase tracking-wider">Bloque B</span>
-                              <h3 className="font-bold text-white text-base mt-1.5">Espejo de Datos</h3>
+                              <h3 className="zenith-section-title mt-1.5">Espejo de Datos</h3>
                               <p className="text-xs text-surface-400">Confirmación del envío de información en espejo.</p>
                             </div>
 
@@ -754,7 +754,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                     ) : (
                       <div className="h-full bg-surface-900/60 border border-surface-800 rounded-3xl p-8 flex flex-col items-center justify-center text-center space-y-3 min-h-[340px]">
                         <AlertCircle className="h-10 w-10 text-surface-650" />
-                        <h4 className="font-bold text-white text-sm">Sin Paciente Vinculado</h4>
+                        <h4 className="zenith-section-title">Sin Paciente Vinculado</h4>
                         <p className="text-xs text-surface-450 max-w-sm leading-relaxed">
                           La sesión de consulta no se ha abierto. Escanee el código QR dinámico de la credencial de su paciente para cargar su historial clínico de forma segura.
                         </p>
@@ -785,7 +785,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                           </span>
                         )}
                       </div>
-                      <h3 className="text-base font-extrabold text-white mt-0.5">
+                      <h3 className="zenith-section-title mt-0.5">
                         {linkedPatient ? `${linkedPatient.name} (${linkedPatient.age} años)` : 'Ninguno seleccionado'}
                       </h3>
                     </div>
@@ -814,7 +814,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                     {/* Left Grid: Catalog & Search (5 cols) */}
                     <div className="lg:col-span-5 bg-surface-900/60 border border-surface-800 rounded-3xl p-6 backdrop-blur-md space-y-4 flex flex-col max-h-[600px]">
                       <div>
-                        <h3 className="font-bold text-white text-base">Buscador de Medicamentos</h3>
+                        <h3 className="zenith-section-title">Buscador de Medicamentos</h3>
                         <p className="text-xs text-surface-400">Catálogo indexado de la farmacia Farma-Humana.</p>
                       </div>
 
@@ -889,7 +889,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                       <div className="space-y-4">
                         <div className="flex justify-between items-center border-b border-surface-850 pb-3">
                           <div>
-                            <h3 className="font-bold text-white text-base">Prescripción en Preparación</h3>
+                            <h3 className="zenith-section-title">Prescripción en Preparación</h3>
                             <p className="text-xs text-surface-400">Configure la posología de cada medicamento.</p>
                           </div>
                           <span className="text-xs bg-secondary-500/10 text-secondary-455 px-2 py-0.5 rounded font-bold">
@@ -1027,7 +1027,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                 ) : (
                   <div className="h-64 bg-surface-900/60 border border-surface-800 rounded-3xl p-8 flex flex-col items-center justify-center text-center space-y-3">
                     <AlertCircle className="h-10 w-10 text-surface-650" />
-                    <h4 className="font-bold text-white text-sm">Sin Consulta Activa</h4>
+                    <h4 className="zenith-section-title">Sin Consulta Activa</h4>
                     <p className="text-xs text-surface-450 max-w-sm leading-relaxed">
                       Debe vincular a un paciente en el módulo de Recepción para acceder al entorno de prescripción clínica y asistencia farmacológica con IA.
                     </p>
@@ -1071,7 +1071,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                         <DollarSign className="h-4.5 w-4.5" />
                       </div>
                       <p className="text-[10px] font-bold text-surface-500 uppercase tracking-wider">Comisiones Acreditadas</p>
-                      <p className="text-2xl font-black text-secondary-400">${totalAccredited.toFixed(2)}</p>
+                      <p className="text-lg font-semibold text-secondary-400">${totalAccredited.toFixed(2)}</p>
                       <div className="absolute -bottom-3 -right-3 h-14 w-14 rounded-full bg-secondary-500/5"></div>
                     </div>
 
@@ -1080,7 +1080,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                         <Clock className="h-4.5 w-4.5" />
                       </div>
                       <p className="text-[10px] font-bold text-surface-500 uppercase tracking-wider">Comisiones Pendientes</p>
-                      <p className="text-2xl font-black text-primary-400">${totalPending.toFixed(2)}</p>
+                      <p className="text-lg font-semibold text-primary-400">${totalPending.toFixed(2)}</p>
                       <div className="absolute -bottom-3 -right-3 h-14 w-14 rounded-full bg-primary-500/5"></div>
                     </div>
 
@@ -1089,7 +1089,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                         <BarChart3 className="h-4.5 w-4.5" />
                       </div>
                       <p className="text-[10px] font-bold text-surface-500 uppercase tracking-wider">Ventas Generadas</p>
-                      <p className="text-2xl font-black text-primary-400">${totalSales.toFixed(2)}</p>
+                      <p className="text-lg font-semibold text-primary-400">${totalSales.toFixed(2)}</p>
                       <div className="absolute -bottom-3 -right-3 h-14 w-14 rounded-full bg-primary-500/5"></div>
                     </div>
 
@@ -1098,7 +1098,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                         <BadgeCheck className="h-4.5 w-4.5" />
                       </div>
                       <p className="text-[10px] font-bold text-surface-500 uppercase tracking-wider">Récipes Emitidos</p>
-                      <p className="text-2xl font-black text-secondary-400">{totalRecipes}</p>
+                      <p className="text-lg font-semibold text-secondary-400">{totalRecipes}</p>
                       <div className="absolute -bottom-3 -right-3 h-14 w-14 rounded-full bg-secondary-500/5"></div>
                     </div>
                   </div>
@@ -1109,7 +1109,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                     <div className="bg-surface-900/60 border border-surface-800 rounded-2xl p-6 backdrop-blur-md space-y-4">
                       <div className="flex justify-between items-center">
                         <div>
-                          <h3 className="font-bold text-white text-base">Libro de Comisiones</h3>
+                          <h3 className="zenith-section-title">Libro de Comisiones</h3>
                           <p className="text-xs text-surface-400">Incentivos asignados por venta efectiva en Farma-Humana.</p>
                         </div>
                         <span className="text-[10px] bg-secondary-500/10 text-secondary-400 border border-secondary-500/20 px-2 py-0.5 rounded font-bold">Tasa: {commissionRate}%</span>
@@ -1125,7 +1125,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                                 <span className="text-[10px] text-surface-500 truncate block">{entry.medication} • {entry.date}</span>
                               </div>
                               <div className="text-right shrink-0 pl-3">
-                                <span className={`font-black text-sm ${ entry.status === 'Acreditado' ? 'text-secondary-400' : 'text-primary-450' }`}>
+                                <span className={`font-semibold text-sm ${ entry.status === 'Acreditado' ? 'text-secondary-400' : 'text-primary-450' }`}>
                                   +${entry.commissionAmount.toFixed(2)}
                                 </span>
                                 <span className={`text-[9px] font-bold block ${ entry.status === 'Acreditado' ? 'text-secondary-500/70' : 'text-primary-500/70' }`}>
@@ -1147,14 +1147,14 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                       {/* Totals row */}
                       <div className="border-t border-surface-850 pt-4 flex justify-between items-center text-xs">
                         <span className="text-surface-500 font-semibold">Total Período Actual (Jun 2026)</span>
-                        <span className="font-black text-white text-base">${(totalAccredited + totalPending).toFixed(2)}</span>
+                        <span className="font-semibold text-white text-sm">${(totalAccredited + totalPending).toFixed(2)}</span>
                       </div>
                     </div>
 
                     {/* Signed Recipe Log */}
                     <div className="bg-surface-900/60 border border-surface-800 rounded-2xl p-6 backdrop-blur-md space-y-4">
                       <div>
-                        <h3 className="font-bold text-white text-base">Bitácora de Récipes Firmados</h3>
+                        <h3 className="zenith-section-title">Bitácora de Récipes Firmados</h3>
                         <p className="text-xs text-surface-400">Historial de recetas digitales emitidas y firmadas electrónicamente.</p>
                       </div>
 
@@ -1222,12 +1222,12 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                     <div className="flex items-center gap-4 shrink-0">
                       <div className="text-center">
                         <p className="text-[9px] text-surface-500 uppercase font-bold">Récipes</p>
-                        <p className="text-lg font-black text-white">{totalRecipes}</p>
+                        <p className="text-base font-semibold text-white">{totalRecipes}</p>
                       </div>
                       <div className="h-8 w-px bg-surface-800"></div>
                       <div className="text-center">
                         <p className="text-[9px] text-surface-500 uppercase font-bold">Ventas</p>
-                        <p className="text-lg font-black text-white">${totalSales.toFixed(0)}</p>
+                        <p className="text-base font-semibold text-white">${totalSales.toFixed(0)}</p>
                       </div>
                       <div className="h-8 w-px bg-surface-800"></div>
                       <div className="text-center">
@@ -1276,7 +1276,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                         </div>
                         <div>
                           <p className="text-[10px] font-bold text-surface-500 uppercase">Nombre Legal</p>
-                          <p className="text-sm font-extrabold text-white">{doctorName}</p>
+                          <p className="text-sm font-semibold text-white">{doctorName}</p>
                         </div>
                       </div>
                       <div className="divide-y divide-surface-850 text-xs">
@@ -1304,7 +1304,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                         </div>
                         <div>
                           <p className="text-[10px] font-bold text-surface-500 uppercase">Registro Profesional</p>
-                          <p className="text-sm font-extrabold text-white">M.P. 28.490/7</p>
+                          <p className="text-sm font-semibold text-white">M.P. 28.490/7</p>
                         </div>
                       </div>
                       <div className="divide-y divide-surface-850 text-xs">

@@ -12,8 +12,8 @@ export default function PageHeader({ title, description, actions, className }: P
   return (
     <div className={cn('flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4', className)}>
       <div>
-        <h2 className="text-2xl text-white tracking-tight">{title}</h2>
-        {description && <p className="text-sm text-surface-400 mt-0.5">{description}</p>}
+        <h2 className="zenith-page-title">{title}</h2>
+        {description && <p className="zenith-page-subtitle">{description}</p>}
       </div>
       {actions && <div className="flex items-center gap-2 self-start sm:self-center">{actions}</div>}
     </div>
