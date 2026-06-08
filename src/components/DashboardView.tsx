@@ -23,6 +23,7 @@ import {
   Heart
 } from 'lucide-react';
 import { Order, Product } from '../types';
+import { formatCurrency } from '../lib/currency';
 import { PageHeader, Button, Badge, StatCard, ListCard } from './ui';
 
 interface DashboardViewProps {
@@ -270,7 +271,7 @@ export default function DashboardView({ orders, products, onNavigate, onSelectOr
         <StatCard
           icon={DollarSign}
           label="Ventas Totales"
-          value={totalRevenue.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
+          value={formatCurrency(totalRevenue)}
           hint={
             <>
               <TrendingUp className="h-3 w-3" />
@@ -375,7 +376,7 @@ export default function DashboardView({ orders, products, onNavigate, onSelectOr
                 <g key={idx} className="group/dot cursor-pointer">
                   <circle cx={p.x} cy={p.y} r="5.5" fill="var(--color-surface-900)" stroke="#50e9f8" strokeWidth="2.5" className="transition-all duration-150 hover:r-7" />
                   <text x={p.x} y={p.y - 12} textAnchor="middle" fill="#ffffff" fontSize="9" fontWeight="bold" className="opacity-0 group-hover/dot:opacity-100 transition-opacity bg-surface-950 font-mono">
-                    {chartData[idx].value}{activeMetricTab === 'sales' ? '€' : ' r.'}
+                    {chartData[idx].value}{activeMetricTab === 'sales' ? '$' : ' r.'}
                   </text>
                 </g>
               ))}
@@ -409,7 +410,7 @@ export default function DashboardView({ orders, products, onNavigate, onSelectOr
                     <div key={cat.name} className="space-y-1.5">
                       <div className="flex justify-between text-2xs">
                         <span className="font-bold text-surface-300">{cat.name}</span>
-                        <span className="font-mono text-surface-450 font-bold">{cat.value.toFixed(2)}€ ({percentage}%)</span>
+                        <span className="font-mono text-surface-450 font-bold">{formatCurrency(cat.value)} ({percentage}%)</span>
                       </div>
                       <div className="h-1.5 w-full bg-surface-950 rounded-full overflow-hidden">
                         <div className={`h-full rounded-full transition-all duration-700 ${barColor}`} style={{ width: `${percentage}%` }}></div>
@@ -427,7 +428,7 @@ export default function DashboardView({ orders, products, onNavigate, onSelectOr
           <div className="border-t border-surface-850 pt-3 flex items-center justify-between text-xs text-surface-500 font-medium">
             <span>Volumen Consolidado:</span>
             <span className="text-white font-semibold font-mono">
-              {totalRevenue.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
+              {formatCurrency(totalRevenue)}
             </span>
           </div>
         </div>
@@ -704,7 +705,7 @@ export default function DashboardView({ orders, products, onNavigate, onSelectOr
                     <td className="py-3 font-mono font-bold text-surface-350">{order.id}</td>
                     <td className="py-3 text-white font-medium">{order.customerName}</td>
                     <td className="py-3 font-mono font-bold text-surface-300">
-                      {order.total.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
+                      {formatCurrency(order.total)}
                     </td>
                     <td className="py-3 whitespace-nowrap">
                       <Badge status={order.status}>{order.status}</Badge>
@@ -732,7 +733,7 @@ export default function DashboardView({ orders, products, onNavigate, onSelectOr
                 fields={[
                   {
                     label: 'Total',
-                    value: order.total.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }),
+                    value: formatCurrency(order.total),
                   },
                 ]}
                 actions={

@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Filter, Plus, Package, AlertTriangle, PlusCircle, MinusCircle, X } from 'lucide-react';
 import { Product } from '../types';
+import { formatCurrency } from '../lib/currency';
 import { PageHeader, Button, FilterBar, Input, Select, Modal, ModalBody, ModalFooter } from './ui';
 
 interface ProductsViewProps {
@@ -164,7 +165,7 @@ export default function ProductsView({ products, onUpdateStock, onAddProduct }: 
                     <div>
                       <span className="text-[10px] text-surface-500 font-bold uppercase">Precio Unitario</span>
                       <p className="font-mono text-sm font-semibold text-white mt-0.5">
-                        {prod.price.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
+                        {formatCurrency(prod.price)}
                       </p>
                     </div>
                     
@@ -274,7 +275,7 @@ export default function ProductsView({ products, onUpdateStock, onAddProduct }: 
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
-                  <label className="zenith-field-label">Precio (€) *</label>
+                  <label className="zenith-field-label">Precio ($) *</label>
                   <input
                     type="number"
                     step="0.01"

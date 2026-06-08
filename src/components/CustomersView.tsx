@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Plus, Users, Mail, Phone, MapPin, DollarSign, ShoppingBag, X } from 'lucide-react';
 import { Customer } from '../types';
+import { formatCurrency } from '../lib/currency';
 import { PageHeader, Button, Input, Modal, ModalBody, ModalFooter, ListCard } from './ui';
 
 interface CustomersViewProps {
@@ -82,7 +83,7 @@ export default function CustomersView({ customers, onAddCustomer }: CustomersVie
           <div>
             <span className="zenith-field-label">Gasto Medio</span>
             <p className="text-lg font-semibold text-white mt-0.5">
-              {averageSpent.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
+              {formatCurrency(averageSpent)}
             </p>
           </div>
         </div>
@@ -162,7 +163,7 @@ export default function CustomersView({ customers, onAddCustomer }: CustomersVie
                       {c.totalOrders}
                     </td>
                     <td className="px-6 py-4.5 text-right font-mono font-bold text-primary-400">
-                      {c.totalSpent.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
+                      {formatCurrency(c.totalSpent)}
                     </td>
                   </tr>
                 ))}
@@ -178,7 +179,7 @@ export default function CustomersView({ customers, onAddCustomer }: CustomersVie
                 fields={[
                   { label: 'Ciudad', value: c.city },
                   { label: 'Pedidos', value: c.totalOrders },
-                  { label: 'Facturación', value: c.totalSpent.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }) },
+                  { label: 'Facturación', value: formatCurrency(c.totalSpent) },
                   { label: 'Teléfono', value: c.phone || '—' },
                 ]}
               />

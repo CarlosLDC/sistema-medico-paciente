@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { X, Search, Plus, Minus, User, PlusCircle, CreditCard, MapPin, Trash2, ShoppingBag } from 'lucide-react';
 import { Product, Customer, Order, OrderItem } from '../types';
+import { formatCurrency } from '../lib/currency';
 import { Button, Modal, ModalBody } from './ui';
 
 interface NewOrderModalProps {
@@ -230,7 +231,7 @@ export default function NewOrderModal({
 
                     <div className="flex justify-between items-center">
                       <span className="font-mono text-sm font-bold text-primary-400">
-                        {prod.price.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
+                        {formatCurrency(prod.price)}
                       </span>
                       <button
                         type="button"
@@ -267,7 +268,7 @@ export default function NewOrderModal({
                       <div className="min-w-0 flex-1 pr-3">
                         <p className="text-xs font-semibold text-white truncate">{product.name}</p>
                         <p className="text-[10px] text-surface-500 font-mono">
-                          {product.price.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })} c/u
+                          {formatCurrency(product.price)} c/u
                         </p>
                       </div>
                       <div className="flex items-center justify-between sm:justify-end gap-4.5 w-full sm:w-auto">
@@ -290,7 +291,7 @@ export default function NewOrderModal({
                           </button>
                         </div>
                         <span className="text-xs font-bold font-mono text-surface-300 min-w-[70px] text-right">
-                          {lineTotal.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
+                          {formatCurrency(lineTotal)}
                         </span>
                         <button
                           type="button"
@@ -457,7 +458,7 @@ export default function NewOrderModal({
                 </div>
                 <div className="space-y-1.5">
                   <label className="zenith-field-label flex items-center min-h-[14px]">
-                    Descuento (€)
+                    Descuento ($)
                   </label>
                   <input
                     type="number"
@@ -476,21 +477,21 @@ export default function NewOrderModal({
             <div className="border-t border-surface-805 pt-4 space-y-2 text-xs">
               <div className="flex justify-between">
                 <span className="text-surface-500">Subtotal:</span>
-                <span className="font-mono text-surface-300">{subtotal.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</span>
+                <span className="font-mono text-surface-300">{formatCurrency(subtotal)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-surface-500">IVA (21%):</span>
-                <span className="font-mono text-surface-300">{tax.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</span>
+                <span className="font-mono text-surface-300">{formatCurrency(tax)}</span>
               </div>
               {discount > 0 && (
                 <div className="flex justify-between text-secondary-400">
                   <span>Descuento:</span>
-                  <span className="font-mono">-{discount.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</span>
+                  <span className="font-mono">-{formatCurrency(discount)}</span>
                 </div>
               )}
               <div className="flex justify-between text-sm font-bold border-t border-surface-800 pt-2 text-white">
                 <span>Total Pedido:</span>
-                <span className="font-mono text-primary-400">{total.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</span>
+                <span className="font-mono text-primary-400">{formatCurrency(total)}</span>
               </div>
 
               {/* Submit Buttons */}

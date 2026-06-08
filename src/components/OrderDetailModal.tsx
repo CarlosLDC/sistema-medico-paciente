@@ -17,6 +17,7 @@ import {
   PackageCheck
 } from 'lucide-react';
 import { Order, OrderStatus } from '../types';
+import { formatCurrency } from '../lib/currency';
 import { Badge, Modal, ModalBody, ListCard } from './ui';
 
 interface OrderDetailModalProps {
@@ -154,11 +155,11 @@ export default function OrderDetailModal({ order, onClose, onUpdateStatus }: Ord
                           <span className="text-[10px] text-surface-500 font-mono">ID: {item.productId}</span>
                         </td>
                         <td className="px-4 py-3 text-right font-mono text-surface-400">
-                          {item.price.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
+                          {formatCurrency(item.price)}
                         </td>
                         <td className="px-4 py-3 text-center font-semibold text-white">{item.quantity}</td>
                         <td className="px-4 py-3 text-right font-mono font-bold text-white">
-                          {(item.price * item.quantity).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
+                          {formatCurrency((item.price * item.quantity))}
                         </td>
                       </tr>
                     ))}
@@ -174,12 +175,12 @@ export default function OrderDetailModal({ order, onClose, onUpdateStatus }: Ord
                     fields={[
                       {
                         label: 'Precio',
-                        value: item.price.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }),
+                        value: formatCurrency(item.price),
                       },
                       { label: 'Cantidad', value: item.quantity },
                       {
                         label: 'Total',
-                        value: (item.price * item.quantity).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }),
+                        value: formatCurrency((item.price * item.quantity)),
                       },
                     ]}
                   />
@@ -191,27 +192,27 @@ export default function OrderDetailModal({ order, onClose, onUpdateStatus }: Ord
                 <div className="flex justify-between">
                   <span className="text-surface-400">Subtotal:</span>
                   <span className="font-mono text-surface-300">
-                    {order.subtotal.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
+                    {formatCurrency(order.subtotal)}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-surface-400">IVA (21%):</span>
                   <span className="font-mono text-surface-300">
-                    {order.tax.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
+                    {formatCurrency(order.tax)}
                   </span>
                 </div>
                 {order.discount > 0 && (
                   <div className="flex justify-between text-secondary-400">
                     <span>Descuento:</span>
                     <span className="font-mono font-semibold">
-                      -{order.discount.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
+                      -{formatCurrency(order.discount)}
                     </span>
                   </div>
                 )}
                 <div className="flex justify-between text-sm font-bold border-t border-surface-850 pt-2 text-white">
                   <span>Total Pedido:</span>
                   <span className="font-mono text-primary-400">
-                    {order.total.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
+                    {formatCurrency(order.total)}
                   </span>
                 </div>
               </div>

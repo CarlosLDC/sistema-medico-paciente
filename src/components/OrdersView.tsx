@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Filter, ArrowUpDown, Eye, Calendar, Plus } from 'lucide-react';
 import { Order } from '../types';
+import { formatCurrency } from '../lib/currency';
 import {
   PageHeader,
   Button,
@@ -144,7 +145,7 @@ export default function OrdersView({ orders, onSelectOrder, onOpenNewOrder }: Or
                         {totalItems} {totalItems === 1 ? 'producto' : 'productos'}
                       </td>
                       <td className="px-6 py-4.5 font-mono font-semibold text-white text-sm">
-                        {order.total.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
+                        {formatCurrency(order.total)}
                       </td>
                       <td className="px-6 py-4.5 text-xs text-surface-400 font-medium">{order.paymentMethod}</td>
                       <td className="px-6 py-4.5 whitespace-nowrap">
@@ -181,7 +182,7 @@ export default function OrdersView({ orders, onSelectOrder, onOpenNewOrder }: Or
                   fields={[
                     { label: 'Fecha', value: orderDate },
                     { label: 'Artículos', value: `${totalItems} ${totalItems === 1 ? 'producto' : 'productos'}` },
-                    { label: 'Total', value: order.total.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }) },
+                    { label: 'Total', value: formatCurrency(order.total) },
                     { label: 'Pago', value: order.paymentMethod },
                   ]}
                   actions={
