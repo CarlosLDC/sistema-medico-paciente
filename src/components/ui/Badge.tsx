@@ -9,9 +9,9 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 const variantClasses = {
-  default: 'bg-surface-800 text-surface-300 border-surface-700',
-  primary: 'bg-primary/10 text-primary border-primary/20',
-  secondary: 'bg-secondary/10 text-secondary border-secondary/20',
+  default: 'bg-surface-800 text-surface-200 border-surface-700',
+  primary: 'bg-surface-800 text-surface-200 border-surface-600',
+  secondary: 'bg-surface-800 text-white border-secondary/30',
 };
 
 export default function Badge({ status, variant = 'default', className, children, ...props }: BadgeProps) {

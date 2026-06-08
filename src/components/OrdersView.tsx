@@ -141,7 +141,7 @@ export default function OrdersView({ orders, onSelectOrder, onOpenNewOrder }: Or
                       <td className="px-6 py-4.5 text-xs text-surface-300 font-medium">
                         {totalItems} {totalItems === 1 ? 'producto' : 'productos'}
                       </td>
-                      <td className="px-6 py-4.5 font-mono font-bold text-primary-400 text-sm">
+                      <td className="px-6 py-4.5 font-mono font-semibold text-white text-sm">
                         {order.total.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
                       </td>
                       <td className="px-6 py-4.5 text-xs text-surface-400 font-medium">{order.paymentMethod}</td>

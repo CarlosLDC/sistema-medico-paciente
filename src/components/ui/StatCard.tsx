@@ -19,8 +19,8 @@ export default function StatCard({
   accent = 'primary',
   className,
 }: StatCardProps) {
-  const accentBg = accent === 'primary' ? 'bg-primary-500/10 text-primary-400' : 'bg-secondary-500/10 text-secondary-400';
-  const hintColor = accent === 'primary' ? 'text-primary-400' : 'text-secondary-400';
+  const accentBg = 'bg-surface-800 text-surface-300';
+  const hintColor = 'text-surface-400';
 
   return (
     <div

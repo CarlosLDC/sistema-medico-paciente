@@ -251,7 +251,7 @@ export default function DashboardView({ orders, products, onNavigate, onSelectOr
       {isExporting && (
         <div className="p-4 bg-surface-900 border border-surface-800 rounded-2xl space-y-2 animate-in fade-in duration-200">
           <div className="flex justify-between items-center text-xs">
-            <span className="text-primary-400 font-semibold flex items-center gap-2">
+            <span className="text-surface-300 font-semibold flex items-center gap-2">
               <RefreshCw className="h-3.5 w-3.5 animate-spin" />
               <span>{exportMsg}</span>
             </span>
@@ -259,7 +259,7 @@ export default function DashboardView({ orders, products, onNavigate, onSelectOr
           </div>
           <div className="h-1.5 w-full bg-surface-950 rounded-full overflow-hidden">
             <div 
-              className="h-full bg-primary-500 transition-all duration-300"
+              className="h-full bg-surface-300 transition-all duration-300"
               style={{ width: `${exportProgress}%` }}
             ></div>
           </div>
@@ -331,13 +331,13 @@ export default function DashboardView({ orders, products, onNavigate, onSelectOr
             <div className="flex items-center gap-1 text-2xs font-bold bg-surface-950 border border-surface-850 rounded-xl p-1">
               <button
                 onClick={() => setActiveMetricTab('sales')}
-                className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${activeMetricTab === 'sales' ? 'bg-primary-600 text-white shadow' : 'text-surface-400 hover:text-white'}`}
+                className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${activeMetricTab === 'sales' ? 'bg-white text-surface-950' : 'text-surface-400 hover:text-white'}`}
               >
                 Ventas
               </button>
               <button
                 onClick={() => setActiveMetricTab('recipes')}
-                className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${activeMetricTab === 'recipes' ? 'bg-primary-600 text-white shadow' : 'text-surface-400 hover:text-white'}`}
+                className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${activeMetricTab === 'recipes' ? 'bg-white text-surface-950' : 'text-surface-400 hover:text-white'}`}
               >
                 Récipes Emitidos
               </button>
@@ -402,7 +402,7 @@ export default function DashboardView({ orders, products, onNavigate, onSelectOr
                 .sort((a, b) => b.value - a.value)
                 .map((cat, idx) => {
                   const percentage = Math.round((cat.value / totalCatVal) * 100);
-                  const colors = ['bg-primary-500', 'bg-secondary-500', 'bg-primary-550', 'bg-secondary-550'];
+                  const colors = ['bg-surface-500', 'bg-surface-400', 'bg-surface-600', 'bg-surface-550'];
                   const barColor = colors[idx % colors.length];
                   
                   return (
@@ -440,7 +440,7 @@ export default function DashboardView({ orders, products, onNavigate, onSelectOr
         {/* Database header with input */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-surface-850 pb-4">
           <div className="flex items-center gap-2">
-            <Database className="h-5 w-5 text-primary-400" />
+            <Database className="h-5 w-5 text-surface-400" />
             <div>
               <h4 className="zenith-section-title">Buscador y Consultas de Base de Datos</h4>
               <p className="text-xs text-surface-400">Consulte tablas relacionales en espejo con la sucursal Farma-Humana.</p>

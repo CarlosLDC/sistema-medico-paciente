@@ -208,10 +208,10 @@ export default function OrderDetailModal({ order, onClose, onUpdateStatus }: Ord
                   <div className="flex flex-wrap gap-2.5">
                     {nextOptions.map((status) => {
                       const colors: Record<string, string> = {
-                        'En Preparación': 'bg-primary-600 hover:bg-primary-500 text-white',
-                        'Enviado': 'bg-primary-600 hover:bg-primary-500 text-white',
-                        'Entregado': 'bg-secondary-600 hover:bg-secondary-500 text-white',
-                        'Cancelado': 'bg-secondary-950 hover:bg-secondary-900 text-secondary-300 border border-secondary-500/20',
+                        'En Preparación': 'bg-surface-700 hover:bg-surface-600 text-white border border-surface-600',
+                        'Enviado': 'bg-surface-700 hover:bg-surface-600 text-white border border-surface-600',
+                        'Entregado': 'bg-white hover:bg-surface-100 text-surface-950 border border-white/90',
+                        'Cancelado': 'bg-surface-900 hover:bg-surface-800 text-surface-400 border border-surface-700',
                       };
                       return (
                         <button
@@ -246,7 +246,7 @@ export default function OrderDetailModal({ order, onClose, onUpdateStatus }: Ord
                     />
                     <button
                       onClick={submitStatusChange}
-                      className="px-4 py-2 text-xs font-semibold bg-primary-600 hover:bg-primary-500 text-white rounded-lg shadow transition-colors cursor-pointer"
+                      className="px-4 py-2 text-xs font-semibold bg-white hover:bg-surface-100 text-surface-950 rounded-lg transition-colors cursor-pointer"
                     >
                       Confirmar Cambio de Estado
                     </button>

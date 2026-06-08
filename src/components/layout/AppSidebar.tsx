@@ -34,8 +34,8 @@ export interface AppSidebarProps {
 }
 
 const brandGradient: Record<AccentVariant, string> = {
-  primary: 'bg-gradient-to-tr from-primary to-secondary shadow-primary-500/20',
-  secondary: 'bg-gradient-to-tr from-secondary to-secondary-655 shadow-secondary-500/20',
+  primary: 'bg-surface-800 border border-surface-700',
+  secondary: 'bg-surface-800 border border-surface-700',
 };
 
 export default function AppSidebar({
@@ -64,7 +64,7 @@ export default function AppSidebar({
       <div className="h-16 flex items-center gap-3 px-6 border-b border-surface-900 bg-surface-950/50 backdrop-blur-md">
         <div
           className={cn(
-            'h-9 w-9 rounded-lg flex items-center justify-center text-white shadow-lg',
+            'h-9 w-9 rounded-lg flex items-center justify-center text-white',
             brandGradient[accent]
           )}
         >

@@ -377,7 +377,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
             initials: 'SP',
             name: profileName,
             role: 'Paciente ID #8849',
-            avatarClassName: 'bg-primary-600 border-none',
+            avatarClassName: 'bg-surface-800 border border-surface-700',
           }}
           onLogout={onLogout}
         />
@@ -401,7 +401,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                 <div className="bg-surface-900/60 border border-surface-800 rounded-2xl p-5 backdrop-blur-md flex flex-col md:flex-row md:items-center justify-between gap-5 relative overflow-hidden group">
                   <div className="space-y-1.5 z-10">
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] bg-primary-500/10 text-primary-400 px-2 py-0.5 rounded font-bold uppercase tracking-wider">Última Orden de Farmacia</span>
+                      <span className="text-[10px] bg-surface-800 text-surface-300 border border-surface-700 px-2 py-0.5 rounded font-semibold uppercase tracking-wider">Última Orden de Farmacia</span>
                       <span className="text-xs font-mono font-semibold text-surface-500">ID: #ORD-9923</span>
                     </div>
                     <h3 className="text-sm font-medium text-white">Retiro de Medicamentos (Receta Activa)</h3>
@@ -416,7 +416,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                         <div className="flex items-center gap-2 relative">
                           <span className={`h-5 w-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
                             lastOrderStatus === 'Pendiente por retirar' 
-                              ? 'bg-primary-500 text-surface-950 font-bold shadow-[0_0_8px_rgba(80,233,248,0.5)]' 
+                              ? 'bg-white text-surface-950 font-semibold' 
                               : 'bg-surface-800 text-surface-500'
                           }`}>
                             {lastOrderStatus === 'Listo para retirar' || lastOrderStatus === 'Retirado' ? (
@@ -424,7 +424,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                             ) : '1'}
                           </span>
                           <span className={`text-2xs font-semibold ${
-                            lastOrderStatus === 'Pendiente por retirar' ? 'text-primary-400 font-bold' : 'text-surface-500'
+                            lastOrderStatus === 'Pendiente por retirar' ? 'text-white font-semibold' : 'text-surface-500'
                           }`}>Pendiente</span>
                         </div>
 
@@ -434,7 +434,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                         <div className="flex items-center gap-2 relative">
                           <span className={`h-5 w-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
                             lastOrderStatus === 'Listo para retirar' 
-                              ? 'bg-primary-500 text-white font-bold shadow-[0_0_8px_rgba(80,233,248,0.5)]' 
+                              ? 'bg-surface-700 text-white font-semibold' 
                               : lastOrderStatus === 'Retirado'
                               ? <CheckCircle2 className="h-4.5 w-4.5 text-secondary-400" />
                               : '2'
@@ -444,7 +444,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                             ) : '2'}
                           </span>
                           <span className={`text-2xs font-semibold ${
-                            lastOrderStatus === 'Listo para retirar' ? 'text-primary-400 font-bold' : 'text-surface-550'
+                            lastOrderStatus === 'Listo para retirar' ? 'text-white font-semibold' : 'text-surface-550'
                           }`}>Listo para Retirar</span>
                         </div>
 
@@ -454,7 +454,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                         <div className="flex items-center gap-2 relative">
                           <span className={`h-5 w-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
                             lastOrderStatus === 'Retirado' 
-                              ? 'bg-secondary-500 text-surface-950 font-bold shadow-[0_0_8px_rgba(23,145,80,0.5)]' 
+                              ? 'bg-surface-600 text-white font-semibold' 
                               : 'bg-surface-800 text-surface-500'
                           }`}>
                             3
@@ -477,10 +477,10 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
 
                   <div className={`absolute top-0 right-0 h-1 w-full bg-gradient-to-r ${
                     lastOrderStatus === 'Pendiente por retirar' 
-                      ? 'from-primary-400 to-primary-600' 
+                      ? 'from-surface-500 to-surface-700'
                       : lastOrderStatus === 'Listo para retirar'
-                      ? 'from-primary-400 to-primary-600'
-                      : 'from-secondary-400 to-secondary-500'
+                      ? 'from-surface-500 to-surface-700'
+                      : 'from-surface-600 to-surface-500'
                   }`}></div>
                 </div>
 
@@ -661,7 +661,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                         
                         <div className="border-t border-surface-800 pt-3 flex justify-between items-baseline">
                           <span className="font-medium text-white text-sm">Total Neto</span>
-                          <span className="text-lg font-semibold text-primary-400">${totals.netTotal.toFixed(2)}</span>
+                          <span className="text-lg font-semibold text-white">${totals.netTotal.toFixed(2)}</span>
                         </div>
                       </div>
                     </div>

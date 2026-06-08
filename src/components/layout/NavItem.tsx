@@ -20,18 +20,18 @@ interface NavItemProps {
 }
 
 const accentActiveClasses: Record<AccentVariant, string> = {
-  primary: 'bg-primary/10 text-white border-l-2 border-primary-500',
-  secondary: 'bg-gradient-to-r from-secondary/10 to-secondary/10 text-white border-l-2 border-secondary-500',
+  primary: 'bg-white/8 text-white border-l-2 border-white/70',
+  secondary: 'bg-white/8 text-white border-l-2 border-white/70',
 };
 
 const accentIconClasses: Record<AccentVariant, string> = {
-  primary: 'text-primary-400',
-  secondary: 'text-secondary-400',
+  primary: 'text-surface-200',
+  secondary: 'text-surface-200',
 };
 
 const accentDotClasses: Record<AccentVariant, string> = {
-  primary: 'bg-primary-500 shadow-[0_0_8px_rgba(80,233,248,0.5)]',
-  secondary: 'bg-secondary-500 shadow-[0_0_8px_rgba(23,145,80,0.5)]',
+  primary: 'bg-white/80',
+  secondary: 'bg-white/80',
 };
 
 export default function NavItem({ item, isActive, accent, onClick }: NavItemProps) {

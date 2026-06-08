@@ -107,14 +107,14 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-surface-950 p-4 relative overflow-hidden font-sans">
       {/* Decorative background glows */}
-      <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-primary-500/10 blur-[100px] pointer-events-none"></div>
-      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-96 h-96 rounded-full bg-primary-500/10 blur-[120px] pointer-events-none"></div>
+      <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-white/5 blur-[100px] pointer-events-none"></div>
+      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-96 h-96 rounded-full bg-white/[0.03] blur-[120px] pointer-events-none"></div>
 
-      <Card variant="section" className="w-full max-w-md p-8 shadow-2xl relative z-10 space-y-6 bg-surface-900/70">
+      <Card variant="section" className="w-full max-w-md p-8 shadow-2xl relative z-10 space-y-6 bg-surface-900">
         
         {/* Logo and header */}
         <div className="flex flex-col items-center text-center space-y-2">
-          <div className="h-12 w-12 rounded-xl bg-gradient-to-tr from-primary to-secondary flex items-center justify-center text-white shadow-lg shadow-primary-500/20">
+          <div className="h-12 w-12 rounded-xl bg-surface-800 border border-surface-700 flex items-center justify-center text-white">
             <Activity className="h-6 w-6" />
           </div>
           <h2 className="zenith-page-title mt-2">Zenith Portal</h2>
@@ -123,8 +123,8 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
 
         {/* Informative redirection screen if triggered */}
         {isRedirecting ? (
-          <div className="p-5 bg-primary-500/10 border border-primary-500/25 rounded-2xl space-y-4 text-center animate-in fade-in slide-in-from-bottom-2 duration-300">
-            <div className="flex justify-center text-primary-400">
+          <div className="p-5 bg-surface-800 border border-surface-700 rounded-2xl space-y-4 text-center animate-in fade-in slide-in-from-bottom-2 duration-300">
+            <div className="flex justify-center text-surface-300">
               <Info className="h-10 w-10 animate-bounce" />
             </div>
             <div className="space-y-1">

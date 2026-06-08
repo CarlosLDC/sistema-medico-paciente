@@ -121,7 +121,7 @@ export default function FinancialSettingsView() {
                 type="button"
                 onClick={() => setCommissionType('percent')}
                 className={`py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                  commissionType === 'percent' ? 'bg-primary-600 text-white shadow' : 'text-surface-500 hover:text-surface-350'
+                  commissionType === 'percent' ? 'bg-white text-surface-950' : 'text-surface-500 hover:text-surface-350'
                 }`}
               >
                 Porcentual (%)
@@ -130,7 +130,7 @@ export default function FinancialSettingsView() {
                 type="button"
                 onClick={() => setCommissionType('fixed')}
                 className={`py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                  commissionType === 'fixed' ? 'bg-primary-600 text-white shadow' : 'text-surface-500 hover:text-surface-350'
+                  commissionType === 'fixed' ? 'bg-white text-surface-950' : 'text-surface-500 hover:text-surface-350'
                 }`}
               >
                 Monto Fijo ($)
