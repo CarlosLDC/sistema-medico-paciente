@@ -11,9 +11,13 @@ import NewOrderModal from '../components/NewOrderModal';
 import { Order, Product, Customer, OrderStatus } from '../types';
 import { INITIAL_ORDERS, INITIAL_PRODUCTS, INITIAL_CUSTOMERS } from '../data/mockData';
 import { Bell, Search, Activity, User } from 'lucide-react';
+import LoginView from '../components/LoginView';
+import DoctorView from '../components/DoctorView';
+import PatientView from '../components/PatientView';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [currentUser, setCurrentUser] = useState<{ role: string; email: string } | null>(null);
   
   // Master states
   const [orders, setOrders] = useState<Order[]>([]);
@@ -27,6 +31,11 @@ export default function Home() {
 
   // Load from local storage
   useEffect(() => {
+    const localUser = localStorage.getItem('zenith_user');
+    if (localUser) {
+      setCurrentUser(JSON.parse(localUser));
+    }
+
     const localOrders = localStorage.getItem('zenith_orders');
     const localProducts = localStorage.getItem('zenith_products');
     const localCustomers = localStorage.getItem('zenith_customers');
@@ -56,6 +65,17 @@ export default function Home() {
   }, []);
 
   // Sync helpers
+  const handleLoginSuccess = (role: string, email: string) => {
+    const user = { role, email };
+    setCurrentUser(user);
+    localStorage.setItem('zenith_user', JSON.stringify(user));
+  };
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+    localStorage.removeItem('zenith_user');
+  };
+
   const saveOrders = (updatedOrders: Order[]) => {
     setOrders(updatedOrders);
     localStorage.setItem('zenith_orders', JSON.stringify(updatedOrders));
@@ -227,6 +247,18 @@ export default function Home() {
     );
   }
 
+  if (!currentUser) {
+    return <LoginView onLoginSuccess={handleLoginSuccess} />;
+  }
+
+  if (currentUser.role === 'médico') {
+    return <DoctorView doctorName="Dr. Alejandro Ríos" doctorEmail={currentUser.email} onLogout={handleLogout} />;
+  }
+
+  if (currentUser.role === 'paciente') {
+    return <PatientView patientName="Sofía Peralta" patientEmail={currentUser.email} onLogout={handleLogout} />;
+  }
+
   return (
     <div className="flex h-screen bg-slate-950 text-slate-100 overflow-hidden font-sans">
       
@@ -236,6 +268,7 @@ export default function Home() {
         setActiveTab={setActiveTab}
         pendingOrdersCount={pendingCount}
         lowStockCount={lowStockCount}
+        onLogout={handleLogout}
       />
 
       {/* Main Container */}

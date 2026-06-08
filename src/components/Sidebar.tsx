@@ -1,16 +1,17 @@
 'use client';
 
 import React from 'react';
-import { LayoutDashboard, ShoppingBag, Package, Users, Settings, Activity } from 'lucide-react';
+import { LayoutDashboard, ShoppingBag, Package, Users, Settings, Activity, LogOut } from 'lucide-react';
 
 interface SidebarProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
   pendingOrdersCount: number;
   lowStockCount: number;
+  onLogout: () => void;
 }
 
-export default function Sidebar({ activeTab, setActiveTab, pendingOrdersCount, lowStockCount }: SidebarProps) {
+export default function Sidebar({ activeTab, setActiveTab, pendingOrdersCount, lowStockCount, onLogout }: SidebarProps) {
   const menuItems = [
     { id: 'dashboard', name: 'Dashboard', icon: LayoutDashboard, badge: null },
     { id: 'orders', name: 'Pedidos', icon: ShoppingBag, badge: pendingOrdersCount > 0 ? pendingOrdersCount : null, badgeColor: 'bg-amber-500 text-black' },
@@ -73,8 +74,12 @@ export default function Sidebar({ activeTab, setActiveTab, pendingOrdersCount, l
             <p className="text-sm font-semibold text-white truncate">Carlos Mendoza</p>
             <p className="text-xs text-slate-500 truncate">Administrador</p>
           </div>
-          <button className="text-slate-500 hover:text-slate-300 transition-colors">
-            <Settings className="h-4 w-4" />
+          <button 
+            onClick={onLogout}
+            className="text-slate-500 hover:text-rose-450 transition-colors p-1.5 hover:bg-slate-800/60 rounded-lg cursor-pointer"
+            title="Cerrar Sesión"
+          >
+            <LogOut className="h-4.5 w-4.5" />
           </button>
         </div>
       </div>
