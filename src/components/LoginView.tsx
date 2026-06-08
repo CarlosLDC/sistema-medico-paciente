@@ -29,6 +29,15 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
   const [countdown, setCountdown] = useState(3);
   const [redirectUrl, setRedirectUrl] = useState('');
 
+  // Auto-fill test accounts helper
+  const handleQuickFill = (accEmail: string, accPass: string) => {
+    setEmail(accEmail);
+    setPassword(accPass);
+    setEmailError('');
+    setPasswordError('');
+    setGeneralError('');
+  };
+
   // Email validation regex
   const validateEmail = (input: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -120,7 +129,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
             <div className="space-y-1">
               <h4 className="text-sm font-bold text-white">Usuario no registrado</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Su correo pertenece a la estructura de un cliente nuevo. Le estamos redirigiendo automáticamente al sistema externo de registro de pacientes.
+                Su correo pertenece a la estructura de un client nuevo. Le estamos redirigiendo automáticamente al sistema externo de registro de pacientes.
               </p>
             </div>
             
@@ -149,7 +158,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
             
             {/* General Errors */}
             {generalError && (
-              <div className="p-3.5 bg-rose-500/10 border border-rose-500/20 rounded-xl flex items-start gap-2.5 text-xs text-rose-400">
+              <div className="p-3.5 bg-rose-500/10 border border-rose-500/20 rounded-xl flex items-start gap-2.5 text-xs text-rose-450">
                 <AlertCircle className="h-4.5 w-4.5 shrink-0 mt-0.5" />
                 <span>{generalError}</span>
               </div>
@@ -170,7 +179,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
                   }`}
                 />
               </div>
-              {emailError && <p className="text-xs text-rose-400 font-medium">{emailError}</p>}
+              {emailError && <p className="text-xs text-rose-450 font-medium">{emailError}</p>}
             </div>
 
             {/* Password Field */}
@@ -198,13 +207,13 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
                   {showPassword ? <EyeOff className="h-4.5 w-4.5" /> : <Eye className="h-4.5 w-4.5" />}
                 </button>
               </div>
-              {passwordError && <p className="text-xs text-rose-400 font-medium">{passwordError}</p>}
+              {passwordError && <p className="text-xs text-rose-450 font-medium">{passwordError}</p>}
             </div>
 
             {/* Actions */}
             <button
               type="submit"
-              className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-indigo-600/10 hover:shadow-indigo-600/25 transition-all cursor-pointer mt-4"
+              className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-indigo-650/10 hover:shadow-indigo-650/25 transition-all cursor-pointer mt-4"
             >
               Iniciar Sesión
             </button>
@@ -212,14 +221,33 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
         )}
 
         {/* Footer credentials reminder */}
-        <div className="border-t border-slate-850 pt-4 text-[10px] text-slate-500 flex flex-col space-y-1 text-center">
-          <p className="font-semibold text-slate-400">Cuentas de Prueba:</p>
-          <div className="flex flex-wrap justify-center gap-2">
-            <span>Admin: <code>admin@zenith.com</code> (123)</span>
-            <span>•</span>
-            <span>Médico: <code>medico@clinica.com</code> (123)</span>
-            <span>•</span>
-            <span>Paciente: <code>paciente@clinica.com</code> (123)</span>
+        <div className="border-t border-slate-850 pt-4 text-[10px] text-slate-500 flex flex-col space-y-2 text-center">
+          <p className="font-semibold text-slate-450">Cuentas de Prueba (Haz clic para autorellenar):</p>
+          <div className="grid grid-cols-1 gap-1.5 text-xs text-left max-w-sm mx-auto">
+            <button
+              type="button"
+              onClick={() => handleQuickFill('admin@zenith.com', 'password123')}
+              className="px-3 py-1.5 bg-slate-950/50 border border-slate-850 hover:border-slate-750 hover:bg-slate-950 rounded-xl text-slate-400 hover:text-white flex items-center justify-between transition-all cursor-pointer font-sans"
+            >
+              <span>Admin: <code className="text-indigo-400">admin@zenith.com</code></span>
+              <span className="font-mono text-2xs text-slate-500">Clave: password123</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleQuickFill('medico@clinica.com', 'medico123')}
+              className="px-3 py-1.5 bg-slate-950/50 border border-slate-850 hover:border-slate-750 hover:bg-slate-950 rounded-xl text-slate-400 hover:text-white flex items-center justify-between transition-all cursor-pointer font-sans"
+            >
+              <span>Médico: <code className="text-indigo-400">medico@clinica.com</code></span>
+              <span className="font-mono text-2xs text-slate-500">Clave: medico123</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleQuickFill('paciente@clinica.com', 'paciente123')}
+              className="px-3 py-1.5 bg-slate-950/50 border border-slate-850 hover:border-slate-750 hover:bg-slate-950 rounded-xl text-slate-400 hover:text-white flex items-center justify-between transition-all cursor-pointer font-sans"
+            >
+              <span>Paciente: <code className="text-indigo-400">paciente@clinica.com</code></span>
+              <span className="font-mono text-2xs text-slate-500">Clave: paciente123</span>
+            </button>
           </div>
         </div>
 
