@@ -121,7 +121,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
             pacientes — un panel pensado para equipos de salud que no se detienen.
           </p>
         </div>
-        <p className="relative z-10 text-sm font-medium text-login-hero-foreground/90">
+        <p className="login-view__hero-tagline relative z-10 text-sm font-medium">
           Médicos, pacientes y administración conectados.
         </p>
       </div>

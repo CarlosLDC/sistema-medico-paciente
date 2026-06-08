@@ -710,6 +710,10 @@ table th {
   color: var(--login-hero-muted);
 }
 
+.login-view__hero-tagline {
+  color: #ffffff;
+}
+
 .login-view__panel-brand .login-view__brand-tag {
   color: var(--login-muted);
 }
