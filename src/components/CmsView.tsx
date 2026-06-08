@@ -282,7 +282,7 @@ export default function CmsView() {
 
               <div className="space-y-3.5">
                 <div className="space-y-1.5">
-                  <label className="text-2xs font-bold text-surface-450 uppercase">Gama de Color Temático</label>
+                  <label className="zenith-field-label">Gama de Color Temático</label>
                   <div className="grid grid-cols-2 gap-2">
                     {[
                       { id: 'primary' as const, name: 'Turquesa', color: 'bg-primary-600' },
@@ -306,7 +306,7 @@ export default function CmsView() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-2xs font-bold text-surface-450 uppercase">Logotipo Oficial (Path)</label>
+                    <label className="zenith-field-label">Logotipo Oficial (Path)</label>
                     <input 
                       type="text" 
                       value={settings.logoUrl}
@@ -315,7 +315,7 @@ export default function CmsView() {
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-2xs font-bold text-surface-450 uppercase">Ruta del Banner Principal</label>
+                    <label className="zenith-field-label">Ruta del Banner Principal</label>
                     <input 
                       type="text" 
                       value={settings.bannerUrl}
@@ -339,7 +339,7 @@ export default function CmsView() {
             <div className="space-y-4">
               <div className="space-y-1.5">
                 <div className="flex justify-between items-center">
-                  <label className="text-2xs font-bold text-surface-450 uppercase">Términos y Condiciones de Farma-Humana</label>
+                  <label className="zenith-field-label">Términos y Condiciones de Farma-Humana</label>
                   <span className="text-[9px] text-surface-500">Requerido en el carrito del paciente</span>
                 </div>
                 <textarea
@@ -351,7 +351,7 @@ export default function CmsView() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-2xs font-bold text-surface-450 uppercase">Políticas de Privacidad de Datos</label>
+                <label className="zenith-field-label">Políticas de Privacidad de Datos</label>
                 <textarea
                   rows={4}
                   value={settings.privacyPolicy}
@@ -361,7 +361,7 @@ export default function CmsView() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-2xs font-bold text-surface-450 uppercase">Políticas de Despacho / Delivery</label>
+                <label className="zenith-field-label">Políticas de Despacho / Delivery</label>
                 <textarea
                   rows={3}
                   value={settings.deliveryPolicy}

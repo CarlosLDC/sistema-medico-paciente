@@ -167,7 +167,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
 
             {/* Email Field */}
             <div className="space-y-1.5">
-              <Label className="normal-case text-xs font-semibold text-surface-400">Correo Electrónico</Label>
+              <Label>Correo Electrónico</Label>
               <Input
                 icon={<Mail className="h-4 w-4" />}
                 type="text"
@@ -182,7 +182,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
 
             <div className="space-y-1.5">
               <div className="flex justify-between items-center">
-                <Label className="normal-case text-xs font-semibold text-surface-400">Contraseña</Label>
+                <Label>Contraseña</Label>
                 <span className="text-[10px] text-surface-500">Mín. 6 caracteres</span>
               </div>
               <div className="relative">

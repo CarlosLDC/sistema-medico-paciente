@@ -424,7 +424,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                       <Calendar className="h-5 w-5" />
                     </div>
                     <div>
-                      <span className="text-[10px] font-bold text-surface-500 uppercase">Citas Hoy</span>
+                      <span className="zenith-field-label">Citas Hoy</span>
                       <p className="text-lg font-semibold text-white mt-0.5">{appointments.length}</p>
                     </div>
                   </div>
@@ -433,7 +433,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                       <Clock className="h-5 w-5" />
                     </div>
                     <div>
-                      <span className="text-[10px] font-bold text-surface-500 uppercase">Citas Pendientes</span>
+                      <span className="zenith-field-label">Citas Pendientes</span>
                       <p className="text-lg font-semibold text-white mt-0.5">
                         {appointments.filter(a => a.status === 'Pendiente').length}
                       </p>
@@ -444,7 +444,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                       <Users className="h-5 w-5" />
                     </div>
                     <div>
-                      <span className="text-[10px] font-bold text-surface-500 uppercase">Pacientes Activos</span>
+                      <span className="zenith-field-label">Pacientes Activos</span>
                       <p className="text-lg font-semibold text-white mt-0.5">{activePatients.length}</p>
                     </div>
                   </div>
@@ -592,7 +592,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
 
                     <form onSubmit={handleManualLinkSubmit} className="w-full space-y-3 text-left">
                       <div className="space-y-1.5">
-                        <label className="text-2xs font-bold text-surface-550 uppercase">Ingresar ID Paciente Manualmente</label>
+                        <label className="zenith-field-label">Ingresar ID Paciente Manualmente</label>
                         <div className="flex gap-2">
                           <input
                             type="text"
@@ -922,7 +922,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                                   {/* Posology input with IA assistant */}
                                   <div className="space-y-1.5">
                                     <div className="flex justify-between items-center">
-                                      <span className="text-[10px] font-bold text-surface-450 uppercase">Instrucciones de Posología</span>
+                                      <span className="zenith-field-label">Instrucciones de Posología</span>
                                       
                                       <button
                                         type="button"
@@ -960,7 +960,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
 
                                   {/* Incentives / Discounts Selector */}
                                   <div className="space-y-1.5">
-                                    <span className="text-[10px] font-bold text-surface-450 uppercase flex items-center gap-1">
+                                    <span className="zenith-field-label flex items-center gap-1">
                                       <Percent className="h-3 w-3 text-secondary-455" />
                                       <span>Asignación de Incentivo / Descuento Exclusivo</span>
                                     </span>
@@ -1262,7 +1262,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
 
                 {/* Validated Credentials Card */}
                 <div className="bg-surface-900/60 border border-surface-800 rounded-3xl p-6 backdrop-blur-md space-y-5">
-                  <h3 className="text-xs font-bold text-secondary-400 uppercase tracking-widest border-b border-surface-850 pb-2">
+                  <h3 className="zenith-section-title text-xs border-b border-surface-850 pb-2">
                     Credenciales Médicas Validadas
                   </h3>
 
@@ -1275,7 +1275,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                           <BadgeCheck className="h-5 w-5 text-secondary-400" />
                         </div>
                         <div>
-                          <p className="text-[10px] font-bold text-surface-500 uppercase">Nombre Legal</p>
+                          <p className="zenith-field-label">Nombre Legal</p>
                           <p className="text-sm font-semibold text-white">{doctorName}</p>
                         </div>
                       </div>
@@ -1303,7 +1303,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                           <Award className="h-5 w-5 text-primary-400" />
                         </div>
                         <div>
-                          <p className="text-[10px] font-bold text-surface-500 uppercase">Registro Profesional</p>
+                          <p className="zenith-field-label">Registro Profesional</p>
                           <p className="text-sm font-semibold text-white">M.P. 28.490/7</p>
                         </div>
                       </div>
@@ -1342,13 +1342,13 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
 
                 {/* Banking Details Card */}
                 <div className="bg-surface-900/60 border border-surface-800 rounded-3xl p-6 backdrop-blur-md space-y-5">
-                  <h3 className="text-xs font-bold text-secondary-400 uppercase tracking-widest border-b border-surface-850 pb-2">
+                  <h3 className="zenith-section-title text-xs border-b border-surface-850 pb-2">
                     Datos Bancarios para Recepción de Comisiones
                   </h3>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-2xs font-bold text-surface-400 uppercase">Titular de la Cuenta</label>
+                      <label className="zenith-field-label">Titular de la Cuenta</label>
                       <input
                         type="text"
                         value={bankHolder}
@@ -1357,7 +1357,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-2xs font-bold text-surface-400 uppercase">Entidad Bancaria</label>
+                      <label className="zenith-field-label">Entidad Bancaria</label>
                       <input
                         type="text"
                         value={bankEntity}
@@ -1366,7 +1366,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                       />
                     </div>
                     <div className="space-y-1.5 md:col-span-2">
-                      <label className="text-2xs font-bold text-surface-400 uppercase">IBAN / Número de Cuenta</label>
+                      <label className="zenith-field-label">IBAN / Número de Cuenta</label>
                       <input
                         type="text"
                         value={bankIBAN}
@@ -1375,7 +1375,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-2xs font-bold text-surface-400 uppercase">Código BIC / SWIFT</label>
+                      <label className="zenith-field-label">Código BIC / SWIFT</label>
                       <input
                         type="text"
                         value={bankBIC}
@@ -1384,7 +1384,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-2xs font-bold text-surface-400 uppercase">Frecuencia de Acreditación</label>
+                      <label className="zenith-field-label">Frecuencia de Acreditación</label>
                       <select
                         disabled
                         className="w-full bg-surface-950/50 border border-surface-850 rounded-xl px-3.5 py-2.5 text-xs text-surface-500 cursor-not-allowed"

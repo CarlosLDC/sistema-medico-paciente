@@ -123,6 +123,10 @@
   .zenith-section-title {
     @apply text-sm text-white tracking-tight;
   }
+
+  .zenith-field-label {
+    @apply text-[9px] font-medium text-surface-500;
+  }
 }
 
 body {

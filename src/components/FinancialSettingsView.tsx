@@ -108,7 +108,7 @@ export default function FinancialSettingsView() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           <div className="space-y-1.5">
-            <label className="text-2xs font-bold text-surface-450 uppercase">Regla de Negocio / Formato</label>
+            <label className="zenith-field-label">Regla de Negocio / Formato</label>
             <div className="grid grid-cols-2 gap-2 bg-surface-950 p-1 rounded-xl border border-surface-850">
               <button
                 type="button"
@@ -132,7 +132,7 @@ export default function FinancialSettingsView() {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-2xs font-bold text-surface-450 uppercase">
+            <label className="zenith-field-label">
               {commissionType === 'percent' ? 'Comisión del Médico (%)' : 'Comisión por Transacción ($)'}
             </label>
             <div className="relative">
@@ -158,7 +158,7 @@ export default function FinancialSettingsView() {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-2xs font-bold text-surface-450 uppercase">Monto de Venta Mínimo para Comisión</label>
+            <label className="zenith-field-label">Monto de Venta Mínimo para Comisión</label>
             <div className="relative">
               <div className="absolute left-3 top-1/2 -translate-y-1/2 text-surface-550 font-bold text-xs">$</div>
               <input

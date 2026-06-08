@@ -234,7 +234,7 @@ export default function ProductsView({ products, onUpdateStock, onAddProduct }: 
 
           <ModalBody className="space-y-4">
               <div>
-                <label className="text-[10px] font-bold text-surface-500 uppercase">Nombre del Producto *</label>
+                <label className="zenith-field-label">Nombre del Producto *</label>
                 <input
                   type="text"
                   required
@@ -247,7 +247,7 @@ export default function ProductsView({ products, onUpdateStock, onAddProduct }: 
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-[10px] font-bold text-surface-500 uppercase">SKU / Código Único *</label>
+                  <label className="zenith-field-label">SKU / Código Único *</label>
                   <input
                     type="text"
                     required
@@ -258,7 +258,7 @@ export default function ProductsView({ products, onUpdateStock, onAddProduct }: 
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold text-surface-500 uppercase">Categoría</label>
+                  <label className="zenith-field-label">Categoría</label>
                   <select
                     value={newProductForm.category}
                     onChange={(e) => setNewProductForm({ ...newProductForm, category: e.target.value })}
@@ -274,7 +274,7 @@ export default function ProductsView({ products, onUpdateStock, onAddProduct }: 
 
               <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <label className="text-[10px] font-bold text-surface-500 uppercase">Precio (€) *</label>
+                  <label className="zenith-field-label">Precio (€) *</label>
                   <input
                     type="number"
                     step="0.01"
@@ -287,7 +287,7 @@ export default function ProductsView({ products, onUpdateStock, onAddProduct }: 
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold text-surface-500 uppercase">Stock Inicial *</label>
+                  <label className="zenith-field-label">Stock Inicial *</label>
                   <input
                     type="number"
                     min="0"
@@ -299,7 +299,7 @@ export default function ProductsView({ products, onUpdateStock, onAddProduct }: 
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold text-surface-500 uppercase">Stock Mínimo *</label>
+                  <label className="zenith-field-label">Stock Mínimo *</label>
                   <input
                     type="number"
                     min="0"
@@ -314,7 +314,7 @@ export default function ProductsView({ products, onUpdateStock, onAddProduct }: 
 
               {/* Image Color Gradient selector */}
               <div>
-                <label className="text-[10px] font-bold text-surface-500 uppercase">Preset de Visual (Color)</label>
+                <label className="zenith-field-label">Preset de Visual (Color)</label>
                 <div className="grid grid-cols-3 gap-2 mt-1">
                   {colorPresets.map((preset) => (
                     <button

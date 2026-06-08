@@ -318,7 +318,7 @@ export default function NewOrderModal({
             {/* Customer Picker Section */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-bold text-surface-400 uppercase tracking-wider">Cliente del Pedido</label>
+                <label className="zenith-field-label text-[10px]">Cliente del Pedido</label>
                 <button
                   type="button"
                   onClick={() => setIsCreatingNewCustomer(!isCreatingNewCustomer)}
@@ -358,7 +358,7 @@ export default function NewOrderModal({
                 /* Quick customer creation forms */
                 <div className="space-y-2.5 p-3.5 bg-surface-900 border border-surface-850 rounded-xl">
                   <div>
-                    <label className="text-[10px] font-bold text-surface-500 uppercase">Nombre Completo *</label>
+                    <label className="zenith-field-label">Nombre Completo *</label>
                     <input
                       type="text"
                       required={isCreatingNewCustomer}
@@ -370,7 +370,7 @@ export default function NewOrderModal({
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     <div>
-                      <label className="text-[10px] font-bold text-surface-500 uppercase">Email *</label>
+                      <label className="zenith-field-label">Email *</label>
                       <input
                         type="email"
                         required={isCreatingNewCustomer}
@@ -381,7 +381,7 @@ export default function NewOrderModal({
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] font-bold text-surface-500 uppercase">Teléfono</label>
+                      <label className="zenith-field-label">Teléfono</label>
                       <input
                         type="text"
                         placeholder="+34..."
@@ -393,7 +393,7 @@ export default function NewOrderModal({
                   </div>
                   <div className="grid grid-cols-3 gap-2">
                     <div className="col-span-2">
-                      <label className="text-[10px] font-bold text-surface-500 uppercase">Dirección *</label>
+                      <label className="zenith-field-label">Dirección *</label>
                       <input
                         type="text"
                         required={isCreatingNewCustomer}
@@ -404,7 +404,7 @@ export default function NewOrderModal({
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] font-bold text-surface-500 uppercase">Ciudad *</label>
+                      <label className="zenith-field-label">Ciudad *</label>
                       <input
                         type="text"
                         required={isCreatingNewCustomer}
@@ -422,7 +422,7 @@ export default function NewOrderModal({
             {/* Shipping logistics and payment */}
             <div className="space-y-3">
               <div>
-                <label className="text-xs font-bold text-surface-400 uppercase tracking-wider flex items-center gap-1.5">
+                <label className="zenith-field-label text-[10px] flex items-center gap-1.5">
                   <MapPin className="h-3.5 w-3.5" />
                   Dirección de Envío (Dejar vacío para usar predeterminada)
                 </label>
@@ -441,7 +441,7 @@ export default function NewOrderModal({
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-bold text-surface-400 uppercase tracking-wider flex items-center gap-1.5">
+                  <label className="zenith-field-label text-[10px] flex items-center gap-1.5">
                     <CreditCard className="h-3.5 w-3.5" />
                     Pago
                   </label>
@@ -456,7 +456,7 @@ export default function NewOrderModal({
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs font-bold text-surface-400 uppercase tracking-wider">
+                  <label className="zenith-field-label text-[10px]">
                     Descuento (€)
                   </label>
                   <input

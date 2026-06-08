@@ -71,7 +71,7 @@ export default function CustomersView({ customers, onAddCustomer }: CustomersVie
             <Users className="h-5 w-5" />
           </div>
           <div>
-            <span className="text-[10px] font-bold text-surface-500 uppercase">Clientes Totales</span>
+            <span className="zenith-field-label">Clientes Totales</span>
             <p className="text-lg font-semibold text-white mt-0.5">{customers.length}</p>
           </div>
         </div>
@@ -80,7 +80,7 @@ export default function CustomersView({ customers, onAddCustomer }: CustomersVie
             <DollarSign className="h-5 w-5" />
           </div>
           <div>
-            <span className="text-[10px] font-bold text-surface-500 uppercase">Gasto Medio</span>
+            <span className="zenith-field-label">Gasto Medio</span>
             <p className="text-lg font-semibold text-white mt-0.5">
               {averageSpent.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
             </p>
@@ -91,7 +91,7 @@ export default function CustomersView({ customers, onAddCustomer }: CustomersVie
             <ShoppingBag className="h-5 w-5" />
           </div>
           <div>
-            <span className="text-[10px] font-bold text-surface-500 uppercase">Mayor Comprador</span>
+            <span className="zenith-field-label">Mayor Comprador</span>
             <p className="text-sm font-bold text-white truncate max-w-[150px] mt-0.5" title={topSpender?.name}>
               {topSpender ? `${topSpender.name} (${topSpender.totalOrders} ped.)` : 'N/A'}
             </p>
@@ -197,7 +197,7 @@ export default function CustomersView({ customers, onAddCustomer }: CustomersVie
 
           <ModalBody className="space-y-4">
               <div>
-                <label className="text-[10px] font-bold text-surface-500 uppercase">Nombre Completo *</label>
+                <label className="zenith-field-label">Nombre Completo *</label>
                 <input
                   type="text"
                   required
@@ -209,7 +209,7 @@ export default function CustomersView({ customers, onAddCustomer }: CustomersVie
               </div>
 
               <div>
-                <label className="text-[10px] font-bold text-surface-500 uppercase">Correo Electrónico *</label>
+                <label className="zenith-field-label">Correo Electrónico *</label>
                 <input
                   type="email"
                   required
@@ -221,7 +221,7 @@ export default function CustomersView({ customers, onAddCustomer }: CustomersVie
               </div>
 
               <div>
-                <label className="text-[10px] font-bold text-surface-500 uppercase">Teléfono de Contacto</label>
+                <label className="zenith-field-label">Teléfono de Contacto</label>
                 <input
                   type="text"
                   placeholder="+34 600 000 000"
@@ -233,7 +233,7 @@ export default function CustomersView({ customers, onAddCustomer }: CustomersVie
 
               <div className="grid grid-cols-3 gap-3">
                 <div className="col-span-2">
-                  <label className="text-[10px] font-bold text-surface-500 uppercase">Dirección Principal *</label>
+                  <label className="zenith-field-label">Dirección Principal *</label>
                   <input
                     type="text"
                     required
@@ -244,7 +244,7 @@ export default function CustomersView({ customers, onAddCustomer }: CustomersVie
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold text-surface-500 uppercase">Ciudad *</label>
+                  <label className="zenith-field-label">Ciudad *</label>
                   <input
                     type="text"
                     required

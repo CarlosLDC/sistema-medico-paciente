@@ -797,7 +797,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                           </div>
 
                           <div className="space-y-1.5 pt-2 border-t border-surface-850">
-                            <label className="text-2xs font-bold text-surface-400 uppercase">Número de Referencia del Pago Móvil</label>
+                            <label className="zenith-field-label">Número de Referencia del Pago Móvil</label>
                             <input
                               type="text"
                               placeholder="Ej: 882103"
@@ -831,7 +831,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                           </div>
 
                           <div className="space-y-1.5 pt-2 border-t border-surface-850">
-                            <label className="text-2xs font-bold text-surface-400 uppercase">Referencia Bancaria (Número de Operación)</label>
+                            <label className="zenith-field-label">Referencia Bancaria (Número de Operación)</label>
                             <input
                               type="text"
                               placeholder="Ej: 290199482"
@@ -846,7 +846,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                       {paymentMethod === 'card' && (
                         <div className="p-4 bg-surface-950/50 border border-surface-850 rounded-xl space-y-4 text-xs">
                           <div className="space-y-1.5">
-                            <label className="text-2xs font-bold text-surface-400 uppercase">Número de Tarjeta</label>
+                            <label className="zenith-field-label">Número de Tarjeta</label>
                             <input
                               type="text"
                               placeholder="4000 1234 5678 9010"
@@ -858,7 +858,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                           
                           <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-1.5">
-                              <label className="text-2xs font-bold text-surface-400 uppercase">Expiración (MM/AA)</label>
+                              <label className="zenith-field-label">Expiración (MM/AA)</label>
                               <input
                                 type="text"
                                 placeholder="12/28"
@@ -868,7 +868,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                               />
                             </div>
                             <div className="space-y-1.5">
-                              <label className="text-2xs font-bold text-surface-400 uppercase">Código CVC</label>
+                              <label className="zenith-field-label">Código CVC</label>
                               <input
                                 type="password"
                                 placeholder="***"
@@ -1067,13 +1067,13 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                     
                     {/* Sección 1: Datos Personales */}
                     <div className="space-y-4">
-                      <h3 className="text-xs font-bold text-primary-400 uppercase tracking-widest border-b border-surface-850 pb-2">
+                      <h3 className="zenith-section-title text-xs border-b border-surface-850 pb-2">
                         Información Personal
                       </h3>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-1.5">
-                          <label className="text-2xs font-bold text-surface-400 uppercase">Nombre Completo</label>
+                          <label className="zenith-field-label">Nombre Completo</label>
                           <input
                             type="text"
                             value={profileName}
@@ -1082,7 +1082,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                           />
                         </div>
                         <div className="space-y-1.5">
-                          <label className="text-2xs font-bold text-surface-400 uppercase">Correo Electrónico (No editable)</label>
+                          <label className="zenith-field-label">Correo Electrónico (No editable)</label>
                           <input
                             type="email"
                             value={patientEmail}
@@ -1091,7 +1091,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                           />
                         </div>
                         <div className="space-y-1.5">
-                          <label className="text-2xs font-bold text-surface-400 uppercase">Teléfono de Contacto</label>
+                          <label className="zenith-field-label">Teléfono de Contacto</label>
                           <input
                             type="text"
                             value={profilePhone}
@@ -1100,7 +1100,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                           />
                         </div>
                         <div className="space-y-1.5">
-                          <label className="text-2xs font-bold text-surface-400 uppercase">Documento de Identidad (DNI/CIF)</label>
+                          <label className="zenith-field-label">Documento de Identidad (DNI/CIF)</label>
                           <input
                             type="text"
                             disabled
@@ -1113,13 +1113,13 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
 
                     {/* Sección 2: Dirección de Delivery */}
                     <div className="space-y-4">
-                      <h3 className="text-xs font-bold text-primary-400 uppercase tracking-widest border-b border-surface-850 pb-2">
+                      <h3 className="zenith-section-title text-xs border-b border-surface-850 pb-2">
                         Dirección Predeterminada de Delivery
                       </h3>
                       
                       <div className="space-y-4">
                         <div className="space-y-1.5">
-                          <label className="text-2xs font-bold text-surface-400 uppercase">Calle, Número, Piso/Puerta</label>
+                          <label className="zenith-field-label">Calle, Número, Piso/Puerta</label>
                           <input
                             type="text"
                             value={deliveryAddress}
@@ -1131,7 +1131,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
 
                         <div className="grid grid-cols-2 gap-4">
                           <div className="space-y-1.5">
-                            <label className="text-2xs font-bold text-surface-400 uppercase">Código Postal</label>
+                            <label className="zenith-field-label">Código Postal</label>
                             <input
                               type="text"
                               value={deliveryPostalCode}
@@ -1141,7 +1141,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                             />
                           </div>
                           <div className="space-y-1.5">
-                            <label className="text-2xs font-bold text-surface-400 uppercase">Ciudad</label>
+                            <label className="zenith-field-label">Ciudad</label>
                             <input
                               type="text"
                               value={deliveryCity}

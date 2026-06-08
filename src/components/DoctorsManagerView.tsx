@@ -178,16 +178,16 @@ export default function DoctorsManagerView() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="bg-surface-950 border border-surface-850 rounded-xl p-3 text-left">
-              <p className="text-[9px] font-bold text-surface-550 uppercase">Nombre Profesional</p>
+              <p className="zenith-field-label">Nombre Profesional</p>
               <p className="text-xs font-semibold text-white">{generatedCreds.name}</p>
             </div>
             <div className="bg-surface-950 border border-surface-850 rounded-xl p-3 text-left">
-              <p className="text-[9px] font-bold text-surface-550 uppercase">Usuario / E-mail</p>
+              <p className="zenith-field-label">Usuario / E-mail</p>
               <p className="text-xs font-mono font-semibold text-surface-200">{generatedCreds.user}</p>
             </div>
             <div className="bg-surface-950 border border-surface-850 rounded-xl p-3 text-left lg:col-span-2 flex justify-between items-center">
               <div>
-                <p className="text-[9px] font-bold text-surface-550 uppercase">Contraseña Temporal</p>
+                    <p className="zenith-field-label">Contraseña Temporal</p>
                 <p className="text-xs font-mono font-semibold text-white">{generatedCreds.pass}</p>
               </div>
               <span className="text-[9px] bg-surface-800 text-surface-300 border border-surface-700 px-2 py-0.5 rounded font-semibold">
@@ -215,7 +215,7 @@ export default function DoctorsManagerView() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="space-y-1">
-            <label className="text-2xs font-bold text-surface-450 uppercase">Nombres *</label>
+            <label className="zenith-field-label">Nombres *</label>
             <input
               type="text"
               required
@@ -226,7 +226,7 @@ export default function DoctorsManagerView() {
             />
           </div>
           <div className="space-y-1">
-            <label className="text-2xs font-bold text-surface-450 uppercase">Apellidos *</label>
+            <label className="zenith-field-label">Apellidos *</label>
             <input
               type="text"
               required
@@ -237,7 +237,7 @@ export default function DoctorsManagerView() {
             />
           </div>
           <div className="space-y-1">
-            <label className="text-2xs font-bold text-surface-450 uppercase">Correo Institucional *</label>
+            <label className="zenith-field-label">Correo Institucional *</label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-surface-650" />
               <input
@@ -251,7 +251,7 @@ export default function DoctorsManagerView() {
             </div>
           </div>
           <div className="space-y-1">
-            <label className="text-2xs font-bold text-surface-450 uppercase">Cédula de Identidad *</label>
+            <label className="zenith-field-label">Cédula de Identidad *</label>
             <input
               type="text"
               required
@@ -262,7 +262,7 @@ export default function DoctorsManagerView() {
             />
           </div>
           <div className="space-y-1">
-            <label className="text-2xs font-bold text-surface-450 uppercase">Colegiatura / MPPS *</label>
+            <label className="zenith-field-label">Colegiatura / MPPS *</label>
             <input
               type="text"
               required
@@ -273,7 +273,7 @@ export default function DoctorsManagerView() {
             />
           </div>
           <div className="space-y-1">
-            <label className="text-2xs font-bold text-surface-450 uppercase">Especialidad Clínica</label>
+            <label className="zenith-field-label">Especialidad Clínica</label>
             <select
               value={specialty}
               onChange={e => setSpecialty(e.target.value)}
@@ -289,7 +289,7 @@ export default function DoctorsManagerView() {
         </div>
 
         <div className="space-y-2">
-          <label className="text-2xs font-bold text-surface-455 uppercase flex justify-between">
+          <label className="zenith-field-label flex justify-between">
             <span>Soportes Probatorios (Títulos/Diplomas)</span>
             <span className="text-surface-500 font-normal">Obligatorio para verificación</span>
           </label>
