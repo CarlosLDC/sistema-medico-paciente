@@ -573,12 +573,13 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                     <p className="text-xs text-surface-400">Retira en Farmacia Central (Sanatorio Zenith) • Pasillo B, Mostrador 3</p>
                   </div>
 
-                  <div className="flex flex-col space-y-2 z-10 shrink-0">
+                  <div className="flex flex-col space-y-2 z-10 w-full min-w-0 md:shrink-0">
                     <span className="text-[10px] text-surface-500 font-bold uppercase md:text-right">Progreso de Entrega</span>
-                    <div className="flex items-center gap-3">
-                      <div className="flex items-center bg-surface-950 border border-surface-850 px-4 py-2.5 rounded-xl gap-6">
+                    <div className="overflow-x-auto -mx-5 px-5 md:mx-0 md:px-0 touch-pan-x overscroll-x-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                      <div className="flex items-center gap-3 w-max min-w-full md:min-w-0">
+                        <div className="flex items-center bg-surface-950 border border-surface-850 px-4 py-2.5 rounded-xl gap-6 shrink-0">
                         {/* Step 1: Pendiente */}
-                        <div className="flex items-center gap-2 relative">
+                        <div className="flex items-center gap-2 relative shrink-0">
                           <span className={`h-5 w-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
                             lastOrderStatus === 'Pendiente por retirar' 
                               ? 'bg-white text-surface-950 font-semibold' 
@@ -588,15 +589,15 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                               <CheckCircle2 className="h-4.5 w-4.5 text-secondary-400" />
                             ) : '1'}
                           </span>
-                          <span className={`text-2xs font-semibold ${
+                          <span className={`text-2xs font-semibold whitespace-nowrap ${
                             lastOrderStatus === 'Pendiente por retirar' ? 'text-white font-semibold' : 'text-surface-500'
                           }`}>Pendiente</span>
                         </div>
 
-                        <span className="h-0.5 w-6 bg-surface-800"></span>
+                        <span className="h-0.5 w-6 bg-surface-800 shrink-0"></span>
 
                         {/* Step 2: Listo */}
-                        <div className="flex items-center gap-2 relative">
+                        <div className="flex items-center gap-2 relative shrink-0">
                           <span className={`h-5 w-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
                             lastOrderStatus === 'Listo para retirar' 
                               ? 'bg-surface-700 text-white font-semibold' 
@@ -608,15 +609,15 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                               <CheckCircle2 className="h-4.5 w-4.5 text-secondary-400" />
                             ) : '2'}
                           </span>
-                          <span className={`text-2xs font-semibold ${
+                          <span className={`text-2xs font-semibold whitespace-nowrap ${
                             lastOrderStatus === 'Listo para retirar' ? 'text-white font-semibold' : 'text-surface-550'
                           }`}>Listo para Retirar</span>
                         </div>
 
-                        <span className="h-0.5 w-6 bg-surface-800"></span>
+                        <span className="h-0.5 w-6 bg-surface-800 shrink-0"></span>
 
                         {/* Step 3: Retirado */}
-                        <div className="flex items-center gap-2 relative">
+                        <div className="flex items-center gap-2 relative shrink-0">
                           <span className={`h-5 w-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
                             lastOrderStatus === 'Retirado' 
                               ? 'bg-surface-600 text-white font-semibold' 
@@ -624,19 +625,20 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                           }`}>
                             3
                           </span>
-                          <span className={`text-2xs font-semibold ${
+                          <span className={`text-2xs font-semibold whitespace-nowrap ${
                             lastOrderStatus === 'Retirado' ? 'text-secondary-400 font-bold' : 'text-surface-500'
                           }`}>Retirado</span>
                         </div>
-                      </div>
+                        </div>
 
-                      <button 
-                        onClick={cycleOrderStatus} 
-                        className="p-2.5 bg-surface-800 hover:bg-surface-700 text-surface-400 hover:text-white rounded-xl border border-surface-700 transition-colors cursor-pointer"
-                        title="Simular actualización del estado de entrega"
-                      >
-                        <PackageCheck className="h-4.5 w-4.5" />
-                      </button>
+                        <button 
+                          onClick={cycleOrderStatus} 
+                          className="p-2.5 bg-surface-800 hover:bg-surface-700 text-surface-400 hover:text-white rounded-xl border border-surface-700 transition-colors cursor-pointer shrink-0"
+                          title="Simular actualización del estado de entrega"
+                        >
+                          <PackageCheck className="h-4.5 w-4.5" />
+                        </button>
+                      </div>
                     </div>
                   </div>
 
