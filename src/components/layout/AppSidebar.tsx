@@ -66,11 +66,11 @@ export default function AppSidebar({
   return (
     <aside
       className={cn(
-        'w-full h-full bg-surface-950 border-r border-surface-900 flex flex-col text-surface-300',
+        'w-full h-full bg-surface-900 border-r border-surface-850 flex flex-col text-surface-300',
         className
       )}
     >
-      <div className="h-16 flex items-center gap-3 px-6 border-b border-surface-900 bg-surface-950/50 backdrop-blur-md">
+      <div className="h-16 flex items-center gap-3 px-6 border-b border-surface-850 bg-surface-900/95 backdrop-blur-md">
         <div
           className={cn(
             'h-9 w-9 rounded-lg flex items-center justify-center text-foreground',
@@ -107,7 +107,7 @@ export default function AppSidebar({
       </nav>
 
       {(profile || onLogout || preProfile) && (
-        <div className="p-4 border-t border-surface-900 bg-surface-950/20 space-y-3">
+        <div className="p-4 border-t border-surface-850 bg-surface-900/80 space-y-3">
           {preProfile}
           {profile && (
             <div className="flex items-center gap-3 p-2 rounded-xl hover:bg-surface-900/40 transition-colors duration-150">
@@ -125,9 +125,11 @@ export default function AppSidebar({
               </div>
               {onLogout && logoutVariant === 'icon' && (
                 <button
+                  type="button"
                   onClick={onLogout}
-                  className="text-surface-500 hover:text-secondary-450 transition-colors p-1.5 hover:bg-surface-800/60 rounded-lg cursor-pointer"
+                  className="zenith-logout-btn zenith-logout-btn--icon"
                   title={logoutLabel}
+                  aria-label={logoutLabel}
                 >
                   <LogOut className="h-4 w-4" />
                 </button>
@@ -135,15 +137,7 @@ export default function AppSidebar({
             </div>
           )}
           {onLogout && logoutVariant === 'full' && (
-            <button
-              onClick={onLogout}
-              className={cn(
-                'w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-semibold rounded-xl transition-all cursor-pointer',
-                accent === 'secondary'
-                  ? 'text-secondary-400 hover:text-secondary-300 hover:bg-secondary-500/10 border border-secondary-500/20'
-                  : 'text-surface-400 hover:text-surface-200 hover:bg-surface-800 border border-surface-800'
-              )}
-            >
+            <button type="button" onClick={onLogout} className="zenith-logout-btn w-full">
               <LogOut className="h-3.5 w-3.5" />
               <span>{logoutLabel}</span>
             </button>

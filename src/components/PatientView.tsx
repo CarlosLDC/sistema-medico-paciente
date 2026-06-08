@@ -1527,7 +1527,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                       <button
                         type="button"
                         onClick={onLogout}
-                        className="px-5 py-2.5 bg-secondary-500/10 hover:bg-secondary-500/20 text-secondary-400 border border-secondary-500/20 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer order-last sm:order-first"
+                        className="zenith-logout-btn order-last sm:order-first"
                       >
                         <LogOut className="h-4 w-4" />
                         <span>Cerrar Sesión</span>

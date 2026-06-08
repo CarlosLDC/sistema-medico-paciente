@@ -43,7 +43,7 @@ export default function NavItem({ item, isActive, accent, onClick }: NavItemProp
     <button
       onClick={onClick}
       className={cn(
-        'w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-all duration-200 group relative border-l-2',
+        'w-full flex items-center gap-3 px-4 py-3 rounded-[var(--radius-control)] text-sm transition-all duration-200 group relative border-l-2',
         isActive
           ? accentActiveClasses[accent]
           : 'text-surface-500 hover:text-foreground hover:bg-surface-850 border-transparent'

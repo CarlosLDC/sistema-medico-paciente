@@ -32,7 +32,7 @@ export default function ListCard({
       type={onClick ? 'button' : undefined}
       onClick={onClick}
       className={cn(
-        'w-full text-left bg-surface-900/60 border border-surface-800 rounded-xl p-4 space-y-3',
+        'zenith-card w-full text-left p-4 space-y-3',
         onClick && 'hover:bg-surface-850/30 transition-colors cursor-pointer',
         className
       )}

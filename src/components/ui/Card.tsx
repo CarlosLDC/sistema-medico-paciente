@@ -9,7 +9,7 @@ export function Card({ variant = 'default', className, children, ...props }: Car
   return (
     <div
       className={cn(
-        variant === 'section' ? 'zenith-card rounded-3xl p-6' : 'zenith-card p-6',
+        'zenith-card p-6',
         className
       )}
       {...props}

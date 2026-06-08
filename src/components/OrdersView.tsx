@@ -72,7 +72,7 @@ export default function OrdersView({ orders, onSelectOrder, onOpenNewOrder }: Or
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="dispatch-panel--red rounded-2xl border p-4 flex items-center justify-between gap-3">
+        <div className="zenith-card dispatch-panel--red p-4 flex items-center justify-between gap-3">
           <div>
             <p className="zenith-field-label flex items-center gap-1.5">
               <span className="dispatch-badge__dot dispatch-badge__dot--red" aria-hidden />
@@ -84,7 +84,7 @@ export default function OrdersView({ orders, onSelectOrder, onOpenNewOrder }: Or
           </div>
           <span className="text-[10px] font-semibold uppercase tracking-wider text-surface-500">Rojo</span>
         </div>
-        <div className="dispatch-panel--yellow rounded-2xl border p-4 flex items-center justify-between gap-3">
+        <div className="zenith-card dispatch-panel--yellow p-4 flex items-center justify-between gap-3">
           <div>
             <p className="zenith-field-label flex items-center gap-1.5">
               <span className="dispatch-badge__dot dispatch-badge__dot--yellow" aria-hidden />
@@ -96,7 +96,7 @@ export default function OrdersView({ orders, onSelectOrder, onOpenNewOrder }: Or
           </div>
           <span className="text-[10px] font-semibold uppercase tracking-wider text-surface-500">Amarillo</span>
         </div>
-        <div className="dispatch-panel--green rounded-2xl border p-4 flex items-center justify-between gap-3">
+        <div className="zenith-card dispatch-panel--green p-4 flex items-center justify-between gap-3">
           <div>
             <p className="zenith-field-label flex items-center gap-1.5">
               <span className="dispatch-badge__dot dispatch-badge__dot--green" aria-hidden />
