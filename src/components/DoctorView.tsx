@@ -677,7 +677,7 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
                             <div className="p-3 bg-secondary-500/10 border border-secondary-500/20 rounded-xl text-secondary-450 text-2xs flex items-start gap-2 animate-in zoom-in-95 duration-200">
                               <ShieldCheck className="h-4 w-4 shrink-0 mt-0.5 text-secondary-450" />
                               <p className="leading-snug">
-                                **Confirmado**: Los datos del médico e informe se transmitieron en espejo a la pantalla del paciente con éxito.
+                                <strong className="font-bold">Confirmado</strong>: Los datos del médico e informe se transmitieron en espejo a la pantalla del paciente con éxito.
                               </p>
                             </div>
                           ) : (
