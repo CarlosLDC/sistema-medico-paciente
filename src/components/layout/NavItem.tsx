@@ -49,11 +49,13 @@ export default function NavItem({ item, isActive, accent, onClick }: NavItemProp
     >
       <Icon
         className={cn(
-          'h-5 w-5 transition-transform duration-200 group-hover:scale-110',
+          'h-5 w-5 shrink-0 transition-transform duration-200 group-hover:scale-110',
           isActive ? accentIconClasses[accent] : 'text-surface-400 group-hover:text-surface-300'
         )}
       />
-      <span>{item.name}</span>
+      <span className="flex-1 min-w-0 text-left text-xs leading-snug whitespace-nowrap truncate" title={item.name}>
+        {item.name}
+      </span>
       {item.badge != null && item.badgeColor && (
         <span className={cn('ml-auto px-2 py-0.5 text-xs font-bold rounded-full', item.badgeColor)}>
           {item.badge}

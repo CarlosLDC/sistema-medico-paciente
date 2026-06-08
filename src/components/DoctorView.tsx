@@ -383,10 +383,10 @@ export default function DoctorView({ doctorName, doctorEmail, onLogout }: Doctor
             sectionLabel="Menú Principal"
             items={[
               { id: 'agenda', name: 'Agenda del Día', icon: Calendar },
-              { id: 'reception', name: 'Recepción y Escáner (M.1)', icon: QrCode },
-              { id: 'prescription', name: 'Prescribir con IA (M.2)', icon: FileText },
-              { id: 'commissions', name: 'Comisiones e Historial (M.3)', icon: TrendingUp },
-              { id: 'profile', name: 'Mi Perfil (M.4)', icon: Users },
+              { id: 'reception', name: 'Recepción y Escáner', icon: QrCode },
+              { id: 'prescription', name: 'Prescribir con IA', icon: FileText },
+              { id: 'commissions', name: 'Comisiones', icon: TrendingUp },
+              { id: 'profile', name: 'Mi Perfil', icon: Users },
             ]}
             activeId={activeTab}
             onNavigate={(id) =>

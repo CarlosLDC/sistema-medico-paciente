@@ -77,9 +77,9 @@ export default function AppSidebar({
         >
           <BrandIcon className="h-5 w-5" />
         </div>
-        <div>
-          <h1 className="text-white tracking-tight text-base leading-none">{brand.title}</h1>
-          <span className="text-[10px] text-surface-500 font-medium tracking-wider uppercase">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-white tracking-tight text-base leading-none truncate">{brand.title}</h1>
+          <span className="text-[10px] text-surface-500 font-medium tracking-wider uppercase truncate block">
             {brand.subtitle}
           </span>
         </div>
