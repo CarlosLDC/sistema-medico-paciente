@@ -56,32 +56,35 @@
 
 [data-theme="light"] {
   color-scheme: light;
-  --background: #c9d4e2;
+  --background: #ffffff;
   --foreground: #0a1220;
 
   --zenith-btn-solid-bg: #0a1220;
-  --zenith-btn-solid-fg: #eef2f7;
+  --zenith-btn-solid-fg: #ffffff;
   --zenith-btn-solid-hover: #152033;
   --zenith-btn-solid-border: #0a1220;
-  --zenith-nav-active-bg: #b8c6d8;
-  --zenith-nav-active-border: #5a6f88;
-  --zenith-nav-active-dot: #3d5166;
+  --zenith-nav-active-bg: #f1f5f9;
+  --zenith-nav-active-border: #334155;
+  --zenith-nav-active-dot: #475569;
 
-  --zenith-surface-950: #b8c6d8;
-  --zenith-surface-900: #ccd7e5;
-  --zenith-surface-855: #c4d0e0;
-  --zenith-surface-850: #bac8da;
-  --zenith-surface-805: #b0bfd3;
-  --zenith-surface-800: #a3b4ca;
-  --zenith-surface-750: #92a5bd;
-  --zenith-surface-700: #6f849c;
-  --zenith-surface-650: #5a6f86;
-  --zenith-surface-600: #465a70;
-  --zenith-surface-555: #3a4d61;
-  --zenith-surface-550: #304155;
-  --zenith-surface-500: #2a3d50;
-  --zenith-surface-455: #233446;
-  --zenith-surface-450: #1d2c3c;
+  /* Fondos: blanco y grises muy claros */
+  --zenith-surface-950: #f8fafc;
+  --zenith-surface-900: #ffffff;
+  --zenith-surface-855: #f8fafc;
+  --zenith-surface-850: #f1f5f9;
+  --zenith-surface-805: #eef2f7;
+  --zenith-surface-800: #e2e8f0;
+  --zenith-surface-750: #cbd5e1;
+  --zenith-surface-700: #94a3b8;
+
+  /* Texto, bordes activos y acentos: opacos y oscuros */
+  --zenith-surface-650: #64748b;
+  --zenith-surface-600: #475569;
+  --zenith-surface-555: #3d4f63;
+  --zenith-surface-550: #334155;
+  --zenith-surface-500: #2a3a4d;
+  --zenith-surface-455: #243445;
+  --zenith-surface-450: #1e2d3d;
   --zenith-surface-400: #172433;
   --zenith-surface-350: #121d2b;
   --zenith-surface-300: #0e1724;
@@ -89,16 +92,16 @@
   --zenith-surface-150: #070e18;
   --zenith-surface-100: #040a12;
 
-  --color-primary-300: color-mix(in srgb, var(--color-primary) 30%, #8fa3b8);
-  --color-primary-400: color-mix(in srgb, var(--color-primary) 40%, #6f879f);
-  --color-primary-450: color-mix(in srgb, var(--color-primary) 44%, #5b758f);
-  --color-primary-500: color-mix(in srgb, var(--color-primary) 50%, #45627c);
-  --color-primary-550: color-mix(in srgb, var(--color-primary) 54%, #355268);
-  --color-secondary-300: color-mix(in srgb, var(--color-secondary) 32%, #8aa899);
-  --color-secondary-400: color-mix(in srgb, var(--color-secondary) 42%, #5f8570);
-  --color-secondary-450: color-mix(in srgb, var(--color-secondary) 48%, #4d7560);
-  --color-secondary-500: color-mix(in srgb, var(--color-secondary) 58%, #35634a);
-  --color-secondary-550: color-mix(in srgb, var(--color-secondary) 62%, #2a553e);
+  --color-primary-300: color-mix(in srgb, var(--color-primary) 38%, #6b839c);
+  --color-primary-400: color-mix(in srgb, var(--color-primary) 48%, #4f677c);
+  --color-primary-450: color-mix(in srgb, var(--color-primary) 52%, #3f586d);
+  --color-primary-500: color-mix(in srgb, var(--color-primary) 58%, #2f4a5e);
+  --color-primary-550: color-mix(in srgb, var(--color-primary) 62%, #243d50);
+  --color-secondary-300: color-mix(in srgb, var(--color-secondary) 36%, #6d8f7c);
+  --color-secondary-400: color-mix(in srgb, var(--color-secondary) 48%, #4a7560);
+  --color-secondary-450: color-mix(in srgb, var(--color-secondary) 54%, #3a6650);
+  --color-secondary-500: color-mix(in srgb, var(--color-secondary) 62%, #285642);
+  --color-secondary-550: color-mix(in srgb, var(--color-secondary) 66%, #1f4a38);
 }
 
 @theme inline {
@@ -265,32 +268,38 @@ body {
 [data-theme="light"] .glass-panel {
   background: var(--zenith-surface-900);
   border-color: var(--zenith-surface-800);
-  box-shadow: 0 1px 3px rgb(10 18 32 / 0.08);
+  box-shadow: 0 1px 4px rgb(10 18 32 / 0.06);
 }
 
 [data-theme="light"] :is(
   .bg-surface-900\/40,
   .bg-surface-900\/50,
-  .bg-surface-900\/60,
-  .bg-surface-950\/20,
+  .bg-surface-900\/60
+) {
+  --tw-bg-opacity: 1;
+  background-color: var(--zenith-surface-900) !important;
+  box-shadow: inset 0 0 0 1px var(--zenith-surface-800);
+}
+
+[data-theme="light"] :is(
   .bg-surface-950\/40,
   .bg-surface-950\/50,
   .bg-surface-950\/60
 ) {
   --tw-bg-opacity: 1;
-  background-color: color-mix(in srgb, var(--color-surface-900) 94%, var(--background)) !important;
+  background-color: var(--zenith-surface-950) !important;
 }
 
 [data-theme="light"] .bg-surface-950\/20 {
-  background-color: color-mix(in srgb, var(--zenith-surface-850) 72%, var(--background)) !important;
+  background-color: var(--zenith-surface-950) !important;
 }
 
 [data-theme="light"] .zenith-page-subtitle {
-  color: var(--zenith-surface-500);
+  color: var(--zenith-surface-550);
 }
 
 [data-theme="light"] .zenith-field-label {
-  color: var(--zenith-surface-550);
+  color: var(--zenith-surface-600);
 }
 
 ::-webkit-scrollbar {
