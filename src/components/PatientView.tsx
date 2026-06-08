@@ -27,10 +27,13 @@ import {
   Info,
   QrCode,
   DollarSign,
-  ExternalLink
+  ExternalLink,
+  Pill,
+  Bell,
+  TrendingUp
 } from 'lucide-react';
 import { AppShell, AppSidebar, AppHeader } from './layout';
-import { PageHeader, Button, ListCard, Modal, ModalBody } from './ui';
+import { PageHeader, Button, ListCard, Modal, ModalBody, StatCard } from './ui';
 
 interface PatientViewProps {
   patientName: string;
@@ -98,14 +101,133 @@ interface ProposalItem {
   discountPercent: number;
 }
 
+interface TreatmentMedication {
+  id: string;
+  name: string;
+  dosage: string;
+  frequency: string;
+  scheduleTimes: string[];
+  startDate: string;
+  endDate: string;
+  doctor: string;
+  specialty: string;
+  recipeId: string;
+  totalDoses: number;
+  takenDoses: number;
+  status: 'En curso' | 'Completado' | 'Pausado';
+  instructions: string;
+}
+
+interface DoseLog {
+  id: string;
+  medicationId: string;
+  medicationName: string;
+  scheduledTime: string;
+  takenAt?: string;
+  status: 'Tomada' | 'Omitida' | 'Pendiente';
+  date: string;
+}
+
+interface TreatmentAlert {
+  id: string;
+  type: 'recordatorio' | 'control' | 'renovacion';
+  title: string;
+  message: string;
+  date: string;
+}
+
+const MOCK_TREATMENTS: TreatmentMedication[] = [
+  {
+    id: 'trt-1',
+    name: 'Ramipril 5mg',
+    dosage: '1 comprimido',
+    frequency: '1 vez al día (mañana)',
+    scheduleTimes: ['08:00'],
+    startDate: '06 Jun, 2026',
+    endDate: '06 Dic, 2026',
+    doctor: 'Dr. Alejandro Ríos',
+    specialty: 'Cardiología',
+    recipeId: 'REC-2026-904',
+    totalDoses: 28,
+    takenDoses: 14,
+    status: 'En curso',
+    instructions: 'Tomar en ayunas con un vaso de agua. Controlar presión arterial semanalmente.',
+  },
+  {
+    id: 'trt-2',
+    name: 'Aspirina 100mg',
+    dosage: '1 comprimido gastrorresistente',
+    frequency: '1 vez al día (almuerzo)',
+    scheduleTimes: ['13:00'],
+    startDate: '01 Jun, 2026',
+    endDate: '01 Dic, 2026',
+    doctor: 'Dr. Alejandro Ríos',
+    specialty: 'Cardiología',
+    recipeId: 'REC-2026-901',
+    totalDoses: 30,
+    takenDoses: 20,
+    status: 'En curso',
+    instructions: 'Tomar durante el almuerzo. No masticar el comprimido.',
+  },
+];
+
+const MOCK_DOSE_LOGS: DoseLog[] = [
+  { id: 'dose-1', medicationId: 'trt-1', medicationName: 'Ramipril 5mg', scheduledTime: '08:00', takenAt: '08:05', status: 'Tomada', date: '08 Jun, 2026' },
+  { id: 'dose-2', medicationId: 'trt-2', medicationName: 'Aspirina 100mg', scheduledTime: '13:00', status: 'Pendiente', date: '08 Jun, 2026' },
+  { id: 'dose-3', medicationId: 'trt-1', medicationName: 'Ramipril 5mg', scheduledTime: '08:00', takenAt: '08:10', status: 'Tomada', date: '07 Jun, 2026' },
+  { id: 'dose-4', medicationId: 'trt-2', medicationName: 'Aspirina 100mg', scheduledTime: '13:00', takenAt: '13:15', status: 'Tomada', date: '07 Jun, 2026' },
+  { id: 'dose-5', medicationId: 'trt-1', medicationName: 'Ramipril 5mg', scheduledTime: '08:00', status: 'Omitida', date: '06 Jun, 2026' },
+  { id: 'dose-6', medicationId: 'trt-2', medicationName: 'Aspirina 100mg', scheduledTime: '13:00', takenAt: '13:05', status: 'Tomada', date: '06 Jun, 2026' },
+];
+
+const MOCK_TREATMENT_ALERTS: TreatmentAlert[] = [
+  {
+    id: 'alert-1',
+    type: 'control',
+    title: 'Control cardiológico de seguimiento',
+    message: 'Cita de control con el Dr. Alejandro Ríos para evaluar respuesta al tratamiento antihipertensivo.',
+    date: '15 Jun, 2026',
+  },
+  {
+    id: 'alert-2',
+    type: 'recordatorio',
+    title: 'Registro de presión arterial',
+    message: 'Registrar lectura matutina de presión arterial en el cuaderno de seguimiento.',
+    date: '09 Jun, 2026',
+  },
+  {
+    id: 'alert-3',
+    type: 'renovacion',
+    title: 'Renovación de receta Ramipril',
+    message: 'La receta REC-2026-904 vence el 06 Dic, 2026. Solicite renovación con 15 días de anticipación.',
+    date: '21 Nov, 2026',
+  },
+];
+
+const WEEKLY_ADHERENCE = [
+  { day: 'Lun', percent: 100 },
+  { day: 'Mar', percent: 100 },
+  { day: 'Mié', percent: 50 },
+  { day: 'Jue', percent: 100 },
+  { day: 'Vie', percent: 100 },
+  { day: 'Sáb', percent: 100 },
+  { day: 'Dom', percent: 50 },
+];
+
 const EXAMPLE_EXTERNAL_PAYMENT_GATEWAY = 'https://pagos.humana.example/checkout';
 
 export default function PatientView({ patientName, patientEmail, onLogout }: PatientViewProps) {
-  // Navigation Tabs: 'recipes' | 'proposals' | 'payment' | 'voucher' | 'profile'
-  const [activeSubTab, setActiveSubTab] = useState<'recipes' | 'proposals' | 'payment' | 'voucher' | 'profile'>('recipes');
+  // Navigation Tabs: 'recipes' | 'treatment' | 'proposals' | 'payment' | 'voucher' | 'profile'
+  const [activeSubTab, setActiveSubTab] = useState<'recipes' | 'treatment' | 'proposals' | 'payment' | 'voucher' | 'profile'>('recipes');
 
   const [recipes] = useState<Recipe[]>(MOCK_RECIPES);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
+
+  // Treatment tracking states
+  const [treatments, setTreatments] = useState<TreatmentMedication[]>(MOCK_TREATMENTS);
+  const [doseLogs, setDoseLogs] = useState<DoseLog[]>(MOCK_DOSE_LOGS);
+  const [treatmentAlerts] = useState<TreatmentAlert[]>(MOCK_TREATMENT_ALERTS);
+  const [doseSuccessMsg, setDoseSuccessMsg] = useState('');
   
   // Last Order State
   const [lastOrderStatus, setLastOrderStatus] = useState<'Pendiente por retirar' | 'Listo para retirar' | 'Retirado'>('Listo para retirar');
@@ -180,6 +302,46 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
       paciente: patientEmail,
     });
     return `${EXAMPLE_EXTERNAL_PAYMENT_GATEWAY}?${params.toString()}`;
+  };
+
+  const activeTreatments = treatments.filter((t) => t.status === 'En curso');
+  const todayLabel = '08 Jun, 2026';
+  const todayDoses = doseLogs.filter((d) => d.date === todayLabel);
+  const pendingTodayDoses = todayDoses.filter((d) => d.status === 'Pendiente');
+  const nextPendingDose = pendingTodayDoses[0];
+
+  const getTreatmentProgress = (treatment: TreatmentMedication) =>
+    Math.round((treatment.takenDoses / treatment.totalDoses) * 100);
+
+  const weeklyAdherencePercent = Math.round(
+    WEEKLY_ADHERENCE.reduce((sum, day) => sum + day.percent, 0) / WEEKLY_ADHERENCE.length
+  );
+
+  const handleMarkDoseTaken = (doseId: string) => {
+    const dose = doseLogs.find((d) => d.id === doseId);
+    if (!dose || dose.status !== 'Pendiente') return;
+
+    const now = new Date();
+    const takenAt = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+
+    setDoseLogs((prev) =>
+      prev.map((d) =>
+        d.id === doseId ? { ...d, status: 'Tomada' as const, takenAt } : d
+      )
+    );
+    setTreatments((prev) =>
+      prev.map((t) =>
+        t.id === dose.medicationId ? { ...t, takenDoses: t.takenDoses + 1 } : t
+      )
+    );
+    setDoseSuccessMsg(`Toma de ${dose.medicationName} registrada correctamente.`);
+    setTimeout(() => setDoseSuccessMsg(''), 3000);
+  };
+
+  const getAlertIcon = (type: TreatmentAlert['type']) => {
+    if (type === 'control') return Calendar;
+    if (type === 'renovacion') return FileText;
+    return Bell;
   };
 
   // Load profile settings from localStorage if available
@@ -304,12 +466,15 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
   const activeNavId =
     activeSubTab === 'recipes' || activeSubTab === 'voucher'
       ? 'recipes'
-      : activeSubTab === 'proposals' || activeSubTab === 'payment'
-        ? 'proposals'
-        : 'profile';
+      : activeSubTab === 'treatment'
+        ? 'treatment'
+        : activeSubTab === 'proposals' || activeSubTab === 'payment'
+          ? 'proposals'
+          : 'profile';
 
   const handleNav = (id: string) => {
     if (id === 'recipes') setActiveSubTab('recipes');
+    else if (id === 'treatment') setActiveSubTab('treatment');
     else if (id === 'proposals') setActiveSubTab('proposals');
     else setActiveSubTab('profile');
   };
@@ -345,6 +510,7 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
           brand={{ icon: Activity, title: 'Mi Salud', subtitle: 'Portal de Pacientes' }}
           items={[
             { id: 'recipes', name: 'Récipes Médicos', icon: FileText },
+            { id: 'treatment', name: 'Seguimiento de Tratamiento', icon: Pill },
             { id: 'proposals', name: 'Propuestas de Compra', icon: FileSpreadsheet },
             { id: 'profile', name: 'Configuración Perfil', icon: User },
           ]}
@@ -572,6 +738,286 @@ export default function PatientView({ patientName, patientEmail, onLogout }: Pat
                         }
                       />
                     ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* P.T: TREATMENT TRACKING */}
+            {activeSubTab === 'treatment' && (
+              <div className="space-y-6 animate-in fade-in duration-300">
+                <PageHeader
+                  title="Seguimiento de Tratamiento"
+                  description="Monitoree la adherencia a sus medicamentos, registre tomas diarias y consulte alertas clínicas."
+                />
+
+                {doseSuccessMsg && (
+                  <div className="p-4 bg-secondary-500/10 border border-secondary-500/30 rounded-2xl flex items-center gap-2.5 text-secondary-450 text-xs animate-in fade-in slide-in-from-top-2 duration-300">
+                    <CheckCircle2 className="h-4.5 w-4.5 shrink-0" />
+                    <span>{doseSuccessMsg}</span>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <StatCard
+                    icon={Pill}
+                    label="Tratamientos Activos"
+                    value={activeTreatments.length}
+                    hint={<span>Vinculados a récipes vigentes</span>}
+                  />
+                  <StatCard
+                    icon={TrendingUp}
+                    label="Adherencia Semanal"
+                    value={`${weeklyAdherencePercent}%`}
+                    hint={<span>Promedio de los últimos 7 días</span>}
+                  />
+                  <StatCard
+                    icon={Clock}
+                    label="Próxima Toma"
+                    value={nextPendingDose ? `${nextPendingDose.scheduledTime}` : 'Completado'}
+                    hint={
+                      nextPendingDose ? (
+                        <span>{nextPendingDose.medicationName}</span>
+                      ) : (
+                        <span>Sin tomas pendientes hoy</span>
+                      )
+                    }
+                  />
+                  <StatCard
+                    icon={Bell}
+                    label="Alertas Pendientes"
+                    value={treatmentAlerts.length}
+                    hint={<span>Controles y recordatorios</span>}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  {/* Active treatments */}
+                  <div className="lg:col-span-2 space-y-4">
+                    <div className="bg-surface-900/60 border border-surface-800 rounded-2xl p-6 backdrop-blur-md space-y-4">
+                      <div>
+                        <h3 className="zenith-section-title">Medicamentos en Tratamiento</h3>
+                        <p className="text-xs text-surface-400">Progreso del plan terapéutico prescrito por su especialista.</p>
+                      </div>
+
+                      <div className="space-y-4">
+                        {activeTreatments.map((treatment) => {
+                          const progress = getTreatmentProgress(treatment);
+                          return (
+                            <div
+                              key={treatment.id}
+                              className="p-4 bg-surface-950/50 border border-surface-850 rounded-xl space-y-3"
+                            >
+                              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                                <div className="space-y-1">
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    <h4 className="text-sm font-bold text-white">{treatment.name}</h4>
+                                    <span className="text-[9px] bg-secondary-500/10 text-secondary-400 border border-secondary-500/25 px-1.5 py-0.5 rounded font-bold">
+                                      {treatment.status}
+                                    </span>
+                                  </div>
+                                  <p className="text-xs text-surface-400">
+                                    {treatment.dosage} • {treatment.frequency}
+                                  </p>
+                                  <p className="text-[10px] text-surface-500">
+                                    {treatment.doctor} • {treatment.specialty} • {treatment.recipeId}
+                                  </p>
+                                </div>
+                                <div className="text-right shrink-0">
+                                  <p className="text-lg font-semibold text-white tabular-nums">{progress}%</p>
+                                  <p className="text-[10px] text-surface-500">
+                                    {treatment.takenDoses}/{treatment.totalDoses} tomas
+                                  </p>
+                                </div>
+                              </div>
+
+                              <div className="h-1.5 w-full bg-surface-800 rounded-full overflow-hidden">
+                                <div
+                                  className="h-full bg-primary-500 transition-all duration-500"
+                                  style={{ width: `${progress}%` }}
+                                />
+                              </div>
+
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[10px] text-surface-450">
+                                <div>
+                                  <span className="font-semibold text-surface-500 block">Horarios</span>
+                                  <span className="text-surface-300">{treatment.scheduleTimes.join(', ')}</span>
+                                </div>
+                                <div>
+                                  <span className="font-semibold text-surface-500 block">Periodo</span>
+                                  <span className="text-surface-300">{treatment.startDate} — {treatment.endDate}</span>
+                                </div>
+                              </div>
+
+                              <p className="text-xs text-surface-400 border-t border-surface-850 pt-3">
+                                {treatment.instructions}
+                              </p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Adherence history */}
+                    <div className="bg-surface-900/60 border border-surface-800 rounded-2xl p-6 backdrop-blur-md space-y-4">
+                      <div>
+                        <h3 className="zenith-section-title">Historial de Tomas</h3>
+                        <p className="text-xs text-surface-400">Registro cronológico de adherencia al tratamiento.</p>
+                      </div>
+
+                      <div className="hidden md:block overflow-x-auto">
+                        <table className="w-full text-left text-sm border-collapse">
+                          <thead>
+                            <tr className="border-b border-surface-850 text-xs font-semibold text-surface-500 uppercase tracking-wider">
+                              <th className="pb-3">Fecha</th>
+                              <th className="pb-3">Medicamento</th>
+                              <th className="pb-3">Hora Programada</th>
+                              <th className="pb-3">Hora Real</th>
+                              <th className="pb-3">Estado</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-surface-850">
+                            {doseLogs.map((dose) => (
+                              <tr key={dose.id} className="hover:bg-surface-850/25 transition-colors">
+                                <td className="py-3 text-xs text-surface-400">{dose.date}</td>
+                                <td className="py-3 text-xs font-semibold text-surface-200">{dose.medicationName}</td>
+                                <td className="py-3 text-xs text-surface-400 font-mono">{dose.scheduledTime}</td>
+                                <td className="py-3 text-xs text-surface-400 font-mono">{dose.takenAt ?? '—'}</td>
+                                <td className="py-3">
+                                  <span className={`inline-flex px-2 py-0.5 text-2xs font-semibold border rounded-full ${
+                                    dose.status === 'Tomada'
+                                      ? 'bg-secondary-500/10 text-secondary-400 border-secondary-500/20'
+                                      : dose.status === 'Pendiente'
+                                        ? 'bg-primary-500/10 text-primary-400 border-primary-500/20'
+                                        : 'bg-secondary-500/10 text-secondary-455 border-secondary-500/20'
+                                  }`}>
+                                    {dose.status}
+                                  </span>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="md:hidden space-y-3">
+                        {doseLogs.map((dose) => (
+                          <ListCard
+                            key={dose.id}
+                            title={dose.medicationName}
+                            subtitle={dose.date}
+                            badge={
+                              <span className={`inline-flex px-2 py-0.5 text-2xs font-semibold border rounded-full ${
+                                dose.status === 'Tomada'
+                                  ? 'bg-secondary-500/10 text-secondary-400 border-secondary-500/20'
+                                  : dose.status === 'Pendiente'
+                                    ? 'bg-primary-500/10 text-primary-400 border-primary-500/20'
+                                    : 'bg-secondary-500/10 text-secondary-455 border-secondary-500/20'
+                              }`}>
+                                {dose.status}
+                              </span>
+                            }
+                            fields={[
+                              { label: 'Programada', value: dose.scheduledTime },
+                              { label: 'Tomada', value: dose.takenAt ?? '—' },
+                            ]}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right column: today's schedule, adherence chart, alerts */}
+                  <div className="space-y-6">
+                    <div className="bg-surface-900/60 border border-surface-800 rounded-2xl p-6 backdrop-blur-md space-y-4">
+                      <div>
+                        <h3 className="zenith-section-title">Agenda de Hoy</h3>
+                        <p className="text-xs text-surface-400">{todayLabel}</p>
+                      </div>
+
+                      <div className="space-y-3">
+                        {todayDoses.length === 0 ? (
+                          <p className="text-xs text-surface-500">No hay tomas programadas para hoy.</p>
+                        ) : (
+                          todayDoses.map((dose) => (
+                            <div
+                              key={dose.id}
+                              className="p-3 bg-surface-950/50 border border-surface-850 rounded-xl flex items-center justify-between gap-3"
+                            >
+                              <div className="min-w-0">
+                                <p className="text-xs font-bold text-white">{dose.medicationName}</p>
+                                <p className="text-[10px] text-surface-500 font-mono">{dose.scheduledTime}</p>
+                                {dose.takenAt && (
+                                  <p className="text-[10px] text-secondary-400 mt-0.5">Tomada a las {dose.takenAt}</p>
+                                )}
+                              </div>
+                              {dose.status === 'Pendiente' ? (
+                                <button
+                                  onClick={() => handleMarkDoseTaken(dose.id)}
+                                  className="px-3 py-1.5 text-[10px] font-bold bg-primary-600 hover:bg-primary-500 text-white rounded-lg transition-colors cursor-pointer shrink-0"
+                                >
+                                  Registrar toma
+                                </button>
+                              ) : (
+                                <CheckCircle2 className={`h-5 w-5 shrink-0 ${
+                                  dose.status === 'Tomada' ? 'text-secondary-400' : 'text-surface-600'
+                                }`} />
+                              )}
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="bg-surface-900/60 border border-surface-800 rounded-2xl p-6 backdrop-blur-md space-y-4">
+                      <div>
+                        <h3 className="zenith-section-title">Adherencia Semanal</h3>
+                        <p className="text-xs text-surface-400">Porcentaje de tomas completadas por día.</p>
+                      </div>
+
+                      <div className="flex items-end justify-between gap-2 h-28">
+                        {WEEKLY_ADHERENCE.map((day) => (
+                          <div key={day.day} className="flex-1 flex flex-col items-center gap-1.5">
+                            <div className="w-full bg-surface-800 rounded-t-md relative flex items-end h-20">
+                              <div
+                                className="w-full bg-primary-500/80 rounded-t-md transition-all"
+                                style={{ height: `${day.percent}%` }}
+                              />
+                            </div>
+                            <span className="text-[9px] text-surface-500 font-bold">{day.day}</span>
+                            <span className="text-[9px] text-surface-400 font-mono">{day.percent}%</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="bg-surface-900/60 border border-surface-800 rounded-2xl p-6 backdrop-blur-md space-y-4">
+                      <div>
+                        <h3 className="zenith-section-title">Alertas y Controles</h3>
+                        <p className="text-xs text-surface-400">Recordatorios clínicos y próximas citas de seguimiento.</p>
+                      </div>
+
+                      <div className="space-y-3">
+                        {treatmentAlerts.map((alert) => {
+                          const AlertIcon = getAlertIcon(alert.type);
+                          return (
+                            <div
+                              key={alert.id}
+                              className="p-3 bg-surface-950/50 border border-surface-850 rounded-xl space-y-1.5"
+                            >
+                              <div className="flex items-start gap-2">
+                                <AlertIcon className="h-4 w-4 text-primary-400 shrink-0 mt-0.5" />
+                                <div className="min-w-0">
+                                  <p className="text-xs font-bold text-white">{alert.title}</p>
+                                  <p className="text-[10px] text-surface-500">{alert.date}</p>
+                                </div>
+                              </div>
+                              <p className="text-xs text-surface-400 leading-relaxed">{alert.message}</p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
