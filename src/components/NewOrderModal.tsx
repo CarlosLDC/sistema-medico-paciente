@@ -318,7 +318,7 @@ export default function NewOrderModal({
             {/* Customer Picker Section */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <label className="zenith-field-label text-[10px]">Cliente del Pedido</label>
+                <label className="zenith-field-label">Cliente del Pedido</label>
                 <button
                   type="button"
                   onClick={() => setIsCreatingNewCustomer(!isCreatingNewCustomer)}
@@ -422,8 +422,8 @@ export default function NewOrderModal({
             {/* Shipping logistics and payment */}
             <div className="space-y-3">
               <div>
-                <label className="zenith-field-label text-[10px] flex items-center gap-1.5">
-                  <MapPin className="h-3.5 w-3.5" />
+                <label className="zenith-field-label flex items-center gap-1.5">
+                  <MapPin className="h-3.5 w-3.5 shrink-0" />
                   Dirección de Envío (Dejar vacío para usar predeterminada)
                 </label>
                 <input
@@ -440,23 +440,23 @@ export default function NewOrderModal({
               </div>
 
               <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="zenith-field-label text-[10px] flex items-center gap-1.5">
-                    <CreditCard className="h-3.5 w-3.5" />
+                <div className="space-y-1.5">
+                  <label className="zenith-field-label flex items-center gap-1.5 min-h-[14px]">
+                    <CreditCard className="h-3.5 w-3.5 shrink-0" />
                     Pago
                   </label>
                   <select
                     value={paymentMethod}
                     onChange={(e) => setPaymentMethod(e.target.value as 'Tarjeta' | 'Transferencia' | 'Efectivo')}
-                    className="w-full bg-surface-900 border border-surface-800 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-primary-500 mt-1.5"
+                    className="w-full bg-surface-900 border border-surface-800 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-surface-400"
                   >
                     <option value="Tarjeta">Tarjeta de Crédito</option>
                     <option value="Transferencia">Transferencia Bancaria</option>
                     <option value="Efectivo">Efectivo / Reembolso</option>
                   </select>
                 </div>
-                <div>
-                  <label className="zenith-field-label text-[10px]">
+                <div className="space-y-1.5">
+                  <label className="zenith-field-label flex items-center min-h-[14px]">
                     Descuento (€)
                   </label>
                   <input
@@ -466,7 +466,7 @@ export default function NewOrderModal({
                     placeholder="0.00"
                     value={discountAmount || ''}
                     onChange={(e) => setDiscountAmount(Math.max(parseFloat(e.target.value) || 0, 0))}
-                    className="w-full bg-surface-900 border border-surface-800 rounded-lg p-2.5 text-xs text-white placeholder-surface-500 focus:outline-none focus:border-primary-500 mt-1.5 font-mono"
+                    className="w-full bg-surface-900 border border-surface-800 rounded-lg p-2.5 text-xs text-white placeholder-surface-500 focus:outline-none focus:border-surface-400 font-mono"
                   />
                 </div>
               </div>

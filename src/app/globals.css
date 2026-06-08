@@ -125,7 +125,7 @@
   }
 
   .zenith-field-label {
-    @apply text-[9px] font-medium text-surface-500;
+    @apply text-[10px] font-medium text-surface-500;
   }
 }
 

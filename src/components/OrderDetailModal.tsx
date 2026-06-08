@@ -200,7 +200,7 @@ export default function OrderDetailModal({ order, onClose, onUpdateStatus }: Ord
             {/* Status updates control section */}
             {nextOptions.length > 0 ? (
               <div className="p-4 bg-surface-950/20 border border-surface-850 rounded-xl space-y-3">
-                <h4 className="zenith-field-label text-[10px]">
+                <h4 className="zenith-field-label">
                   Acciones de Transición de Estado
                 </h4>
                 
